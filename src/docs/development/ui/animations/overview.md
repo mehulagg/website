@@ -139,13 +139,15 @@ A `Ticker` can be started and stopped. When started,
 it returns a `Future` that will resolve when it is stopped.
 
 Each tick, the `Ticker` provides the callback with the
-duration since the first tick after it was started.
+duration since the first tick after it was started. 
 
 Because tickers always give their elapsed time relative to the first
-tick after they were started, tickers are all synchronised. If you
-start three ticks at different times between two frames, they will all
+tick after they were started; tickers are all synchronised. If you
+start three tickers at different times between two ticks, they will all
 nonetheless be synchronised with the same starting time, and will
-subsequently tick in lockstep.
+subsequently tick in lockstep. Like people at a bus-stop,
+all the tickers wait for a regularly occurring event
+(the tick) to begin moving (counting time).
 
 ### Simulations
 
@@ -258,8 +260,7 @@ itself.
 The animation controller can be given a lower and upper bound to
 animate between, and a duration.
 
-In the simple case (using `forward()`, `reverse()`, `play()`, or
-`resume()`), the animation controller simply does a linear
+In the simple case (using `forward()` or `reverse()`), the animation controller simply does a linear
 interpolation from the lower bound to the upper bound (or vice versa,
 for the reverse direction) over the given duration.
 

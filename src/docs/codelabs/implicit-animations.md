@@ -10,7 +10,7 @@ js:
     url: /assets/codelabs/js/animations_examples.js
 ---
 
-<?code-excerpt path-base="animation/implicit"?>
+<?code-excerpt path-base="../null_safety_examples/animation/implicit"?>
 
 Welcome to the implicit animations codelab, where you learn how to use Flutter
 widgets that make it easy to create animations for a specific set of properties.
@@ -59,7 +59,6 @@ consists of a [Material App] home screen containing:
 
 Click the **Run** button to run the example:
 
-<!-- Vanilla AnimatedOpacity https://gist.github.com/d7b09149ffee2f0535bb0c04d96987f5 -->
 {% include implicit-animations/fade-in-starter-code.md %}
 
 {{site.alert.important}}
@@ -142,7 +141,7 @@ the starting value for `opacity` to zero:
 
 Configure the animation to trigger when the user clicks the **Show details**
 button. To do this, change `opacity` state using the `onPressed()` handler for
-`MaterialButton`. To make the `FadeInDemo` widget become fully visible when
+`TextlButton`. To make the `FadeInDemo` widget become fully visible when
 the user clicks the **Show details** button, use the `onPressed()` handler
 to set `opacity` to 1:
 
@@ -153,7 +152,7 @@ to set `opacity` to 1:
 @@ -18,11 +18,14 @@
      return Column(children: <Widget>[
        Image.network(owl_url),
-       MaterialButton(
+       TextButton(
 -          child: Text(
 -            'Show Details',
 -            style: TextStyle(color: Colors.blueAccent),
@@ -203,7 +202,6 @@ you can start with 2 seconds:
 Here's the example with the completed changes you've made&mdash;run this
 example and click the **Show details** button to trigger the animation.
 
-<!-- AnimatedOpacity https://gist.github.com/4207fea3975b2d329e81d9c9ba84d271 -->
 {% include implicit-animations/fade-in-complete.md %}
 
 ### Putting it all together
@@ -243,7 +241,6 @@ different types (`double` and `Color`).
 
 Click the **Run** button to run the example:
 
-<!-- Vanilla Animated Container: https://gist.github.com/8501583cb789504d75317a5ba1ca6930 -->
 {% include implicit-animations/shape-shifting-starter-code.md %}
 
 
@@ -327,10 +324,10 @@ invoke the `change()` method in the `onPressed()` handler:
 ```diff
 --- container3/lib/main.dart
 +++ container4/lib/main.dart
-@@ -66,7 +66,7 @@
-                 'change',
-                 style: TextStyle(color: Colors.white),
-               ),
+@@ -62,7 +62,7 @@
+             ),
+             ElevatedButton(
+               child: Text('change'),
 -              onPressed: () => null,
 +              onPressed: () => change(),
              ),
@@ -361,7 +358,7 @@ between the old and new values:
 +                duration: _duration,
                ),
              ),
-             MaterialButton(
+             ElevatedButton(
 ```
 
 ### Shape-shifting (complete)
@@ -371,7 +368,6 @@ and click the **Change** button to trigger the animation. Notice that each time
 you click the **Change** button, the shape animates to its new values
 for `margin`, `borderRadius`, and `color`.
 
-<!-- Animated Container: https://gist.github.com/ddfbc68ec9dc28a48703d29248f5366f -->
 {% include implicit-animations/shape-shifting-complete.md %}
 
 ### Using animation curves
@@ -400,7 +396,7 @@ and watch how the animation changes when you pass the
 +                curve: Curves.easeInOutBack,
                ),
              ),
-             MaterialButton(
+             ElevatedButton(
 ```
 
 Now that you have passed `easeInOutBack` as the value for `curve` to

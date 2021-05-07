@@ -7,7 +7,33 @@ Flutter supports using shared packages contributed by other developers
 to the Flutter and Dart ecosystems. This allows quickly building
 an app without having to develop everything from scratch.
 
-Existing packages enable many use cases for example,
+{{site.alert.secondary}}
+  **What is the difference between a package
+  and a plugin?** A plugin is a _type_ of
+  package&mdash;the full designation is _plugin package_,
+  which is generally shortened to _plugin_.
+
+  **Packages**
+  : At a minimum, a Dart package is a directory
+    containing a pubspec file. Additionally,
+    a package can contain dependencies
+    (listed in the pubspec), Dart libraries, apps,
+    resources, tests, images, and examples.
+    The [pub.dev][] site lists many packages—developed by Google engineers
+    and generous members of the Flutter and Dart community—
+    that you can use in your app.
+
+  **Plugins**
+  : A plugin package is a special kind of package that makes
+    platform functionality available to the app.
+    Plugin packages can be written for Android (using Kotlin or Java),
+    iOS (using Swift or Objective-C), web, macOS, Windows, Linux,
+    or any combination thereof.
+    For example, a plugin might provide Flutter apps
+    with the ability to use a device's camera.
+{{site.alert.end}}
+
+Existing packages enable many use cases—for example,
 making network requests ([`http`][]),
 custom navigation/route handling ([`fluro`][]),
 integration with device APIs
@@ -99,7 +125,7 @@ dependencies:
 If `some_package` declares the dependencies above
 and `another_package` declares a compatible
 `url_launcher` dependency like `'5.4.6'` or
-`^5.5.0`, `pub` resolves the issue automatically.
+`^5.5.0`, pub resolves the issue automatically.
 Platform-specific dependencies on
 [Gradle modules][] and/or [CocoaPods][]
 are solved in a similar way.
@@ -202,6 +228,9 @@ run `flutter pub upgrade`
 to retrieve the highest available version of the package
 that is allowed by the version constraint specified in
 `pubspec.yaml`.
+Note that this is a different command from
+`flutter upgrade` or `flutter update-packages`,
+which both update Flutter itself.
 
 ### Dependencies on unpublished packages
 
@@ -212,6 +241,7 @@ additional dependency options are available:
 **Path dependency**
 : A Flutter app can depend on a plugin via a file system
   `path:` dependency. The path can be either relative or absolute.
+  Relative paths are evaluated relative to the directory containing `pubspec.yaml`.
   For example, to depend on a plugin `plugin1` located in a directory
   next to the app, use the following syntax:
 
@@ -234,7 +264,7 @@ additional dependency options are available:
   ```
 
 **Git dependency on a package in a folder**
-: The pub tool assumes the package is located in
+: Pub assumes the package is located in
   the root of the Git repository. If that is not
   the case, specify the location with the `path` argument.
   For example:
@@ -275,7 +305,8 @@ To use this package:
      css_colors: ^1.0.0
    ```
 
-1. Run `flutter pub get` in the terminal, or click **Packages get** in
+1. Run `flutter pub get` in the terminal,
+   or click **Packages get** in
    IntelliJ or Android Studio.
 
 1. Open `lib/main.dart` and replace its full contents with:
@@ -363,7 +394,7 @@ To use this plugin:
       Widget build(BuildContext context) {
         return Scaffold(
           body: Center(
-            child: RaisedButton(
+            child: ElevatedButton(
               onPressed: launchURL,
               child: Text('Show Flutter homepage'),
             ),
@@ -395,13 +426,13 @@ To use this plugin:
 [FlutterFire]: {{site.github}}/flutter/plugins/blob/master/FlutterFire.md
 [Gradle modules]: https://docs.gradle.org/current/userguide/declaring_dependencies.html
 [`http`]: /docs/cookbook/networking/fetch-data
-[Installing tab]: {{site.pub-pkg}}/css_colors#-installing-tab-
+[Installing tab]: {{site.pub-pkg}}/css_colors/install
 [iOS plugins]: {{site.pub}}/flutter/packages?platform=ios
 [lockfile]: {{site.dart-site}}/tools/pub/glossary#lockfile
 [Package dependencies]: {{site.dart-site}}/tools/pub/dependencies
 [package versioning guide]: {{site.dart-site}}/tools/pub/versioning
 [pub.dev]: {{site.pub}}
 [`url_launcher`]: {{site.pub-pkg}}/url_launcher
-[`url_launcher` versions]: {{site.pub-pkg}}/url_launcher#-versions-tab-
+[`url_launcher` versions]: {{site.pub-pkg}}/url_launcher/versions
 [version ranges]: {{site.dart-site}}/tools/pub/dependencies#version-constraints
 [web plugins]: {{site.pub}}/flutter/packages?platform=web

@@ -12,6 +12,8 @@ js:
     url: https://dartpad.dev/inject_embed.dart.js
 ---
 
+<?code-excerpt path-base="../null_safety_examples/cookbook/design/snackbars/"?>
+
 It can be useful to briefly inform your users when certain actions
 take place. For example, when a user swipes away a message in a list,
 you might want to inform them that the message has been deleted.
@@ -49,14 +51,15 @@ Scaffold(
 ## 2. Display a `SnackBar`
 
 With the `Scaffold` in place, display a `SnackBar`.
-First, create a `SnackBar`, then display it using the `Scaffold`.
+First, create a `SnackBar`, then display it using `ScaffoldMessenger`.
 
 <!-- skip -->
 ```dart
 final snackBar = SnackBar(content: Text('Yay! A SnackBar!'));
 
-// Find the Scaffold in the widget tree and use it to show a SnackBar.
-Scaffold.of(context).showSnackBar(snackBar);
+// Find the ScaffoldMessenger in the widget tree
+// and use it to show a SnackBar.
+ScaffoldMessenger.of(context).showSnackBar(snackBar);
 ```
 
 ## 3. Provide an optional action
@@ -91,7 +94,8 @@ final snackBar = SnackBar(
   see the [Gestures][] section of the cookbook.
 {{site.alert.end}}
 
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example
+<?code-excerpt "lib/main.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() => runApp(SnackBarDemo());
@@ -115,7 +119,7 @@ class SnackBarPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: RaisedButton(
+      child: ElevatedButton(
         onPressed: () {
           final snackBar = SnackBar(
             content: Text('Yay! A SnackBar!'),
@@ -127,9 +131,9 @@ class SnackBarPage extends StatelessWidget {
             ),
           );
 
-          // Find the Scaffold in the widget tree and use
-          // it to show a SnackBar.
-          Scaffold.of(context).showSnackBar(snackBar);
+          // Find the ScaffoldMessenger in the widget tree
+          // and use it to show a SnackBar.
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
         },
         child: Text('Show SnackBar'),
       ),

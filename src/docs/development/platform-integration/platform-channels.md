@@ -47,7 +47,7 @@ Messages are passed between the client (UI)
 and host (platform) using platform
 channels as illustrated in this diagram:
 
-![Platform channels architecture](/images/PlatformChannels.png)
+![Platform channels architecture](/images/PlatformChannels.png){:width="100%"}
 
 Messages and responses are passed asynchronously,
 to ensure the user interface remains responsive.
@@ -67,9 +67,11 @@ enable receiving method calls and sending back a
 result. These classes allow you to develop a platform plugin
 with very little 'boilerplate' code.
 
-*Note*: If desired, method calls can also be sent in the reverse direction,
-with the platform acting as client to methods implemented in Dart.
-A concrete example of this is the [`quick_actions`][] plugin.
+{{site.alert.note}}
+  If desired, method calls can also be sent in the reverse direction,
+  with the platform acting as client to methods implemented in Dart.
+  A concrete example of this is the [`quick_actions`][] plugin.
+{{site.alert.end}}
 
 ### Platform channel data types support and codecs {#codec}
 
@@ -199,7 +201,7 @@ state in a string, and a button for refreshing the value.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            RaisedButton(
+            ElevatedButton(
               child: Text('Get Battery Level'),
               onPressed: _getBatteryLevel,
             ),
@@ -653,8 +655,8 @@ information can be found on the [Pigeon pub.dev page][];
 Using [Pigeon][] eliminates the need to match strings between host and client
 for the names and datatypes of messages.  It supports: nested classes, grouping
 messages into APIs, generation of asynchronous wrapper code and sending messages
-in either direction.  The generated code is readable and guarentees there will
-be no conflicts between multiple clients of different versions.  Supported
+in either direction. The generated code is readable and guarantees there will
+be no conflicts between multiple clients of different versions. Supported
 languages are Objective-C, Java, Kotlin and Swift (via Objective-C interop).
 
 ### Pigeon example
@@ -780,12 +782,12 @@ DispatchQueue.main.async {
 
 [`BasicMessageChannel`]: {{site.api}}/flutter/services/BasicMessageChannel-class.html
 [`BinaryCodec`]: {{site.api}}/flutter/services/BinaryCodec-class.html
-[block]: https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html
+[block]: {{site.apple-dev}}/library/archive/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/WorkingwithBlocks/WorkingwithBlocks.html
 [`cloud_firestore`]: {{site.github}}/FirebaseExtended/flutterfire/blob/master/packages/cloud_firestore/cloud_firestore_platform_interface/lib/src/method_channel/utils/firestore_message_codec.dart
 [defaultTargetPlatform]: {{site.api}}/flutter/foundation/defaultTargetPlatform.html
 [developing packages]: /docs/development/packages-and-plugins/developing-packages
 [plugins]: /docs/development/packages-and-plugins/developing-packages#plugin
-[dispatch queue]: https://developer.apple.com/documentation/dispatch/dispatchqueue
+[dispatch queue]: {{site.apple-dev}}/documentation/dispatch/dispatchqueue
 [`/examples/platform_channel/`]: {{site.github}}/flutter/flutter/tree/master/examples/platform_channel
 [`/examples/platform_channel_swift/`]: {{site.github}}/flutter/flutter/tree/master/examples/platform_channel_swift
 [federated plugin]: /docs/development/packages-and-plugins/developing-packages#federated-plugins
@@ -799,9 +801,9 @@ DispatchQueue.main.async {
 [section on threading]: #channels-and-platform-threading
 [`StandardMessageCodec`]: {{site.api}}/flutter/services/StandardMessageCodec-class.html
 [`StringCodec`]: {{site.api}}/flutter/services/StringCodec-class.html
-[the main thread]: https://developer.apple.com/documentation/uikit?language=objc
-[the UI thread]: https://developer.android.com/guide/components/processes-and-threads#Threads
+[the main thread]: {{site.apple-dev}}/documentation/uikit?language=objc
+[the UI thread]: {{site.android-dev}}/guide/components/processes-and-threads#Threads
 [using packages]: /docs/development/packages-and-plugins/using-packages
-[Pigeon]: https://pub.dev/packages/pigeon
-[Pigeon pub.dev page]: https://pub.dev/packages/pigeon
+[Pigeon]: {{site.pub-pkg}}/pigeon
+[Pigeon pub.dev page]: {{site.pub-pkg}}/pigeon
 [sending structured typesafe messages]: #pigeon

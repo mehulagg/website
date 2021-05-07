@@ -51,23 +51,27 @@ Alternatively, you can also use IntelliJ:
 
 ## Install the Flutter and Dart plugins
 
-To install these:
+The installation instructions vary by platform.
+
+### Mac
+
+Use the following instructions for macos:
 
   1. Start Android Studio.
-  1. Open plugin preferences (**Configure > Plugins** as of
+  1. Open plugin preferences (**Preferences > Plugins** as of
      v3.6.3.0 or later).
   1. Select the Flutter plugin and
      click **Install**.
   1. Click **Yes** when prompted to install the Dart plugin.
   1. Click **Restart** when prompted.
 
-{{site.alert.note}}
-  Prior to v3.6.3.0, access plugin preferences as follows:
-   1. Open plugin preferences (**Preferences > Plugins** on macOS,
-      **File > Settings > Plugins** on Windows & Linux).
+### Linux or Windows
+
+Use the following instructions for Linux or WIndows:
+
+   1. Open plugin preferences (**File > Settings > Plugins**).
    1. Select **Marketplace**,  select the Flutter plugin and click
       **Install**.
-{{site.alert.end}}
 
 </div>
 <div class="tab-pane" id="vscode" role="tabpanel" aria-labelledby="vscode-tab" markdown="1">
@@ -108,11 +112,6 @@ For information on how to install and use the package, see the [lsp-dart documen
 </div>
 </div>{% comment %} End: Tab panes. {% endcomment -%}
 
-## Next step
-
-Take Flutter for a test drive: create a first project, run it, and experience
-"hot reload".
-
 
 
 [Android Studio]: {{site.android-dev}}/studio
@@ -122,4 +121,3 @@ Take Flutter for a test drive: create a first project, run it, and experience
 [VS Code]: https://code.visualstudio.com/
 [Emacs]: https://www.gnu.org/software/emacs/download.html
 [lsp-dart documentation]: https://emacs-lsp.github.io/lsp-dart/
-

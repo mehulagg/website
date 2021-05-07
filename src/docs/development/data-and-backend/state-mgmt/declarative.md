@@ -20,7 +20,7 @@ it. Flutter is fast enough to do that, even on every frame if needed.
 Flutter is _declarative_. This means that Flutter builds its user interface to
 reflect the current state of your app:
 
-{% asset development/data-and-backend/state-mgmt/ui-equals-function-of-state alt="A mathematical formula of UI = f(state). 'UI' is the layout on the screen. 'f' is your build methods. 'state' is the application state." %}
+{% asset development/data-and-backend/state-mgmt/ui-equals-function-of-state width="100%" alt="A mathematical formula of UI = f(state). 'UI' is the layout on the screen. 'f' is your build methods. 'state' is the application state." %}
 
 {% comment %}
 Source drawing for the png above: : https://docs.google.com/drawings/d/1RDcR5LyFtzhpmiT5-UupXBeos2Ban5cUTU0-JujS3Os/edit?usp=sharing
@@ -34,7 +34,7 @@ There is no imperative changing of the UI itself
 and the UI rebuilds from scratch.
 
 Read more about the declarative approach to UI programming
-[in the get started guide][].
+in the [get started guide][].
 
 The declarative style of UI programming has many benefits.
 Remarkably, there is only one code path for any state of the UI.
@@ -46,4 +46,4 @@ this style of programming might not seem as intuitive as the
 imperative style. This is why this section is here. Read on.
 
 
-[in the get started guide]: /docs/get-started/flutter-for/declarative
+[get started guide]: /docs/get-started/flutter-for/declarative

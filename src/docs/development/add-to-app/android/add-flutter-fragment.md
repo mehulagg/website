@@ -424,7 +424,7 @@ can't be interleaved in the middle of an Android `View` hierarchy.
 A `SurfaceView` must either be the bottommost `View` in the hierarchy,
 or the topmost `View` in the hierarchy.
 Additionally, on Android versions before Android N,
-`SurfaceView`s can't be animated becuase their layout and rendering
+`SurfaceView`s can't be animated because their layout and rendering
 aren't synchronized with the rest of the `View` hierarchy.
 If either of these use cases are requirements for your app,
 then you need to use `TextureView` instead of `SurfaceView`.
@@ -467,7 +467,7 @@ renders its UI to a `TextureView`.
 
 By default, `FlutterFragment` renders with an opaque background,
 using a `SurfaceView`. (See "Control `FlutterFragment`'s render
-mode.") That background is black for any pixels that aren'ts
+mode.") That background is black for any pixels that aren't
  painted by Flutter. Rendering with an opaque background is
 the preferred rendering mode for performance reasons.
 Flutter rendering with transparency on Android negatively
@@ -524,7 +524,7 @@ val flutterFragment = FlutterFragment.withCachedEngine("my_engine_id")
 ```
 {% endsamplecode %}
 
-## The relationship beween `FlutterFragment` and its `Activity`
+## The relationship between `FlutterFragment` and its `Activity`
 
 Some apps choose to use `Fragment`s as entire Android screens.
 In these apps, it would be reasonable for a `Fragment` to

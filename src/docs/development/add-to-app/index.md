@@ -20,17 +20,22 @@ As of Flutter v1.12, add-to-app is supported for the basic scenario of
 integrating one full-screen Flutter instance at a time per app.
 It currently has the _**following limitations**_:
 
-* Running multiple Flutter instances or running in partial screen
-  views may have undefined behavior.
-* Using Flutter in background mode is still a WIP.
 * Packing multiple Flutter libraries into an
   application isn't supported.
 * Plugins used in add-to-app on Android should migrate
-  to the [new Android plugin APIs][], based on [`FlutterPlugin`].
-  Plugins that don't support `FlutterPlugin` may have unexpected
+  to the [new Android plugin APIs][Android plugin APIs], based on [`FlutterPlugin`].
+* Plugins that don't support `FlutterPlugin` might have unexpected
   behaviors if they make assumptions that are untenable in add-to-app
   (such as assuming that a Flutter `Activity` is always present).
 * As of v1.17, the Flutter module only supports AndroidX applications on Android.
+
+As of Flutter v1.26, add-to-app experimentally supports adding multiple
+instances of Flutter engines, screens, or views into your app. This can
+help integration scenarios such as a hybrid navigation stack with mixed
+native and Flutter screens, or a page with multiple partial-screen Flutter
+views. Having multiple Flutter instances allows each instance to maintain
+independent application and UI state while using minimal
+memory resources. See more in the [multiple Flutters][] page.
 
 ## Supported features
 
@@ -128,7 +133,7 @@ see our API usage guides at the following links:
 
 
 [add-to-app GitHub Samples repository]: {{site.github}}/flutter/samples/tree/master/add_to_app
-[Android Archive (AAR)]: https://developer.android.com/studio/projects/android-library
+[Android Archive (AAR)]: {{site.android-dev}}/studio/projects/android-library
 [Android plugin APIs]: /docs/development/packages-and-plugins/plugin-api-migration
 [Flutter plugins]: {{site.pub}}/flutter
 [`FlutterActivity`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterActivity.html
@@ -138,6 +143,7 @@ see our API usage guides at the following links:
 [`FlutterFragment`]: {{site.api}}/javadoc/io/flutter/embedding/android/FlutterFragment.html
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
 [`FlutterViewController`]: {{site.api}}/objcdoc/Classes/FlutterViewController.html
-[iOS Framework]: https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html
+[iOS Framework]: {{site.apple-dev}}/library/archive/documentation/MacOSX/Conceptual/BPFrameworks/Concepts/WhatAreFrameworks.html
 [maintained by the Flutter team]: {{site.github}}/flutter/plugins/tree/master/packages
 [migrated to the V2 plugins APIs]: /docs/development/packages-and-plugins/plugin-api-migration
+[multiple Flutters]: /docs/development/add-to-app/multiple-flutters

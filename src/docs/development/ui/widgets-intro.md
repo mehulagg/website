@@ -1,7 +1,12 @@
 ---
 title: Introduction to widgets
 description: Learn about Flutter's widgets.
+js:
+  - defer: true
+    url: https://dartpad.dev/inject_embed.dart.js
 ---
+
+<?code-excerpt path-base="../null_safety_examples/ui/widgets_intro/"?>
 
 {% assign api = site.api | append: '/flutter' -%}
 
@@ -26,7 +31,8 @@ tree to transition from one state to the next.
 The minimal Flutter app simply calls the [`runApp()`][]
 function with a widget:
 
-```dart
+<?code-excerpt "lib/main.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-310px:split-60:ga_id-starting_code:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() {
@@ -50,6 +56,8 @@ which means the text "Hello, world" ends up centered on screen.
 The text direction needs to be specified in this instance;
 when the `MaterialApp` widget is used,
 this is taken care of for you, as demonstrated later.
+A `SafeArea` widget is also used to properly pad the text
+so it appears below the display on the top of the screen.
 
 When writing an app, you'll commonly author new widgets that
 are subclasses of either [`StatelessWidget`][] or [`StatefulWidget`][],
@@ -92,11 +100,12 @@ of which the following are commonly used:
 
 Below are some simple widgets that combine these and other widgets:
 
-```dart
+<?code-excerpt "lib/main_myappbar.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
 import 'package:flutter/material.dart';
 
 class MyAppBar extends StatelessWidget {
-  MyAppBar({this.title});
+  MyAppBar({required this.title});
 
   // Fields in a Widget subclass are always marked "final".
 
@@ -117,7 +126,8 @@ class MyAppBar extends StatelessWidget {
             tooltip: 'Navigation menu',
             onPressed: null, // null disables the button
           ),
-          // Expanded expands its child to fill the available space.
+          // Expanded expands its child
+          // to fill the available space.
           Expanded(
             child: title,
           ),
@@ -135,7 +145,8 @@ class MyAppBar extends StatelessWidget {
 class MyScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Material is a conceptual piece of paper on which the UI appears.
+    // Material is a conceptual piece
+    // of paper on which the UI appears.
     return Material(
       // Column is a vertical, linear layout.
       child: Column(
@@ -143,7 +154,9 @@ class MyScaffold extends StatelessWidget {
           MyAppBar(
             title: Text(
               'Example title',
-              style: Theme.of(context).primaryTextTheme.headline6,
+              style: Theme.of(context) //
+                  .primaryTextTheme
+                  .headline6,
             ),
           ),
           Expanded(
@@ -160,14 +173,17 @@ class MyScaffold extends StatelessWidget {
 void main() {
   runApp(MaterialApp(
     title: 'My app', // used by the OS task switcher
-    home: MyScaffold(),
+    home: SafeArea(
+      child: MyScaffold(),
+    ),
   ));
 }
 ```
 
 Be sure to have a `uses-material-design: true` entry in the `flutter`
 section of your `pubspec.yaml` file. It allows you to use the predefined
-set of [Material icons][].
+set of [Material icons][]. It's generally a good idea to include this line
+if you are using the Materials library.
 
 ```yaml
 name: my_app
@@ -212,7 +228,8 @@ also known as "routes". The `Navigator` lets you transition smoothly
 between screens of your application. Using the [`MaterialApp`][]
 widget is entirely optional but a good practice.
 
-```dart
+<?code-excerpt "lib/main_tutorial.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() {
@@ -225,7 +242,8 @@ void main() {
 class TutorialHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Scaffold is a layout for the major Material Components.
+    // Scaffold is a layout for
+    // the major Material Components.
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -258,7 +276,7 @@ class TutorialHome extends StatelessWidget {
 
 Now that the code has switched from `MyAppBar` and `MyScaffold` to the
 [`AppBar`][] and [`Scaffold`][] widgets, and from `material.dart`,
-the app is starting to look at bit more Material.
+the app is starting to look a bit more Material.
 For example, the app bar has a shadow and the title text inherits the
 correct styling automatically. A floating action button is also added.
 
@@ -288,7 +306,10 @@ Most applications include some form of user interaction with the system.
 The first step in building an interactive application is to detect
 input gestures. See how that works by creating a simple button:
 
-```dart
+<?code-excerpt "lib/main_mybutton.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+import 'package:flutter/material.dart';
+
 class MyButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -297,7 +318,7 @@ class MyButton extends StatelessWidget {
         print('MyButton was tapped!');
       },
       child: Container(
-        height: 36.0,
+        height: 50.0,
         padding: const EdgeInsets.all(8.0),
         margin: const EdgeInsets.symmetric(horizontal: 8.0),
         decoration: BoxDecoration(
@@ -311,6 +332,18 @@ class MyButton extends StatelessWidget {
     );
   }
 }
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: MyButton(),
+        ),
+      ),
+    ),
+  );
+}
 ```
 
 The [`GestureDetector`][] widget doesn't have a visual
@@ -323,7 +356,7 @@ including taps, drags, and scales.
 
 Many widgets use a [`GestureDetector`][] to provide
 optional callbacks for other widgets. For example, the
-[`IconButton`][], [`RaisedButton`][], and
+[`IconButton`][], [`ElevatedButton`][], and
 [`FloatingActionButton`][] widgets have [`onPressed()`][]
 callbacks that are triggered when the user taps the widget.
 
@@ -342,14 +375,18 @@ to react in more interesting ways to user input&mdash;applications
 typically carry some state. Flutter uses `StatefulWidgets` to capture
 this idea. `StatefulWidgets` are special widgets that know how to generate
 `State` objects, which are then used to hold state.
-Consider this basic example, using the [`RaisedButton`][] mentioned earlier:
+Consider this basic example, using the [`ElevatedButton`][] mentioned earlier:
 
-```dart
+<?code-excerpt "lib/main_counter.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+import 'package:flutter/material.dart';
+
 class Counter extends StatefulWidget {
-  // This class is the configuration for the state. It holds the
-  // values (in this case nothing) provided by the parent and used
-  // by the build  method of the State. Fields in a Widget
-  // subclass are always marked "final".
+  // This class is the configuration for the state.
+  // It holds the values (in this case nothing) provided
+  // by the parent and used by the build  method of the
+  // State. Fields in a Widget subclass are always marked
+  // "final".
 
   @override
   _CounterState createState() => _CounterState();
@@ -360,12 +397,13 @@ class _CounterState extends State<Counter> {
 
   void _increment() {
     setState(() {
-      // This call to setState tells the Flutter framework that
-      // something has changed in this State, which causes it to rerun
-      // the build method below so that the display can reflect the
-      // updated values. If you change _counter without calling
-      // setState(), then the build method won't be called again,
-      // and so nothing would appear to happen.
+      // This call to setState tells the Flutter framework
+      // that something has changed in this State, which
+      // causes it to rerun the build method below so that
+      // the display can reflect the updated values. If you
+      // change _counter without calling setState(), then
+      // the build method won't be called again, and so
+      // nothing would appear to happen.
       _counter++;
     });
   }
@@ -374,20 +412,34 @@ class _CounterState extends State<Counter> {
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called,
     // for instance, as done by the _increment method above.
-    // The Flutter framework has been optimized to make rerunning
-    // build methods fast, so that you can just rebuild anything that
-    // needs updating rather than having to individually change
-    // instances of widgets.
+    // The Flutter framework has been optimized to make
+    // rerunning build methods fast, so that you can just
+    // rebuild anything that needs updating rather than
+    // having to individually changes instances of widgets.
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        RaisedButton(
+        ElevatedButton(
           onPressed: _increment,
           child: Text('Increment'),
         ),
+        SizedBox(width: 16),
         Text('Count: $_counter'),
       ],
     );
   }
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Counter(),
+        ),
+      ),
+    ),
+  );
 }
 ```
 
@@ -414,9 +466,12 @@ The common parent that redirects this flow is the `State`.
 The following slightly more complex example shows how
 this works in practice:
 
-```dart
+<?code-excerpt "lib/main_counterdisplay.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+import 'package:flutter/material.dart';
+
 class CounterDisplay extends StatelessWidget {
-  CounterDisplay({this.count});
+  CounterDisplay({required this.count});
 
   final int count;
 
@@ -427,13 +482,13 @@ class CounterDisplay extends StatelessWidget {
 }
 
 class CounterIncrementor extends StatelessWidget {
-  CounterIncrementor({this.onPressed});
+  CounterIncrementor({required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(
+    return ElevatedButton(
       onPressed: onPressed,
       child: Text('Increment'),
     );
@@ -456,11 +511,27 @@ class _CounterState extends State<Counter> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(children: <Widget>[
-      CounterIncrementor(onPressed: _increment),
-      CounterDisplay(count: _counter),
-    ]);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        CounterIncrementor(onPressed: _increment),
+        SizedBox(width: 16),
+        CounterDisplay(count: _counter),
+      ],
+    );
   }
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: Counter(),
+        ),
+      ),
+    ),
+  );
 }
 ```
 
@@ -485,32 +556,40 @@ products offered for sale, and maintains a shopping cart for
 intended purchases. Start by defining the presentation class,
 `ShoppingListItem`:
 
-```dart
+<?code-excerpt "lib/main_shoppingitem.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+import 'package:flutter/material.dart';
+
 class Product {
-  const Product({this.name});
+  const Product({required this.name});
   final String name;
 }
 
 typedef void CartChangedCallback(Product product, bool inCart);
 
 class ShoppingListItem extends StatelessWidget {
-  ShoppingListItem({this.product, this.inCart, this.onCartChanged})
-      : super(key: ObjectKey(product));
+  ShoppingListItem({
+    required this.product,
+    required this.inCart,
+    required this.onCartChanged,
+  }) : super(key: ObjectKey(product));
 
   final Product product;
   final bool inCart;
   final CartChangedCallback onCartChanged;
 
   Color _getColor(BuildContext context) {
-    // The theme depends on the BuildContext because different parts
-    // of the tree can have different themes.
+    // The theme depends on the BuildContext because different
+    // parts of the tree can have different themes.
     // The BuildContext indicates where the build is
     // taking place and therefore which theme to use.
 
-    return inCart ? Colors.black54 : Theme.of(context).primaryColor;
+    return inCart //
+        ? Colors.black54
+        : Theme.of(context).primaryColor;
   }
 
-  TextStyle _getTextStyle(BuildContext context) {
+  TextStyle? _getTextStyle(BuildContext context) {
     if (!inCart) return null;
 
     return TextStyle(
@@ -532,6 +611,22 @@ class ShoppingListItem extends StatelessWidget {
       title: Text(product.name, style: _getTextStyle(context)),
     );
   }
+}
+
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: Center(
+          child: ShoppingListItem(
+            product: Product(name: 'Chips'),
+            inCart: true,
+            onCartChanged: (product, inCart) {},
+          ),
+        ),
+      ),
+    ),
+  );
 }
 ```
 
@@ -564,18 +659,73 @@ built widgets and applies only the differences to the underlying
 
 Here's an example parent widget that stores mutable state:
 
-<!-- skip -->
-```dart
+<?code-excerpt "lib/main_shoppinglist.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-false:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+import 'package:flutter/material.dart';
+
+class Product {
+  const Product({required this.name});
+  final String name;
+}
+
+typedef void CartChangedCallback(Product product, bool inCart);
+
+class ShoppingListItem extends StatelessWidget {
+  ShoppingListItem({
+    required this.product,
+    required this.inCart,
+    required this.onCartChanged,
+  }) : super(key: ObjectKey(product));
+
+  final Product product;
+  final bool inCart;
+  final CartChangedCallback onCartChanged;
+
+  Color _getColor(BuildContext context) {
+    // The theme depends on the BuildContext because different
+    // parts of the tree can have different themes.
+    // The BuildContext indicates where the build is
+    // taking place and therefore which theme to use.
+
+    return inCart //
+        ? Colors.black54
+        : Theme.of(context).primaryColor;
+  }
+
+  TextStyle? _getTextStyle(BuildContext context) {
+    if (!inCart) return null;
+
+    return TextStyle(
+      color: Colors.black54,
+      decoration: TextDecoration.lineThrough,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        onCartChanged(product, inCart);
+      },
+      leading: CircleAvatar(
+        backgroundColor: _getColor(context),
+        child: Text(product.name[0]),
+      ),
+      title: Text(product.name, style: _getTextStyle(context)),
+    );
+  }
+}
+
 class ShoppingList extends StatefulWidget {
-  ShoppingList({Key key, this.products}) : super(key: key);
+  ShoppingList({Key? key, required this.products}) : super(key: key);
 
   final List<Product> products;
 
-  // The framework calls createState the first time a widget
-  // appears at a given location in the tree.
+  // The framework calls createState the first time
+  // a widget appears at a given location in the tree.
   // If the parent rebuilds and uses the same type of
-  // widget (with the same key), the framework re-uses the State object
-  // instead of creating a new State object.
+  // widget (with the same key), the framework re-uses
+  // the State object instead of creating a new State object.
 
   @override
   _ShoppingListState createState() => _ShoppingListState();
@@ -586,8 +736,9 @@ class _ShoppingListState extends State<ShoppingList> {
 
   void _handleCartChanged(Product product, bool inCart) {
     setState(() {
-      // When a user changes what's in the cart, you need to change
-      // _shoppingCart inside a setState call to trigger a rebuild.
+      // When a user changes what's in the cart, you need
+      // to change _shoppingCart inside a setState call to
+      // trigger a rebuild.
       // The framework then calls build, below,
       // which updates the visual appearance of the app.
 
@@ -764,10 +915,10 @@ For more information, see the [`GlobalKey`][] API.
 [Material icons]: https://design.google.com/icons/
 [`MaterialApp`]: {{api}}/material/MaterialApp-class.html
 [`Navigator`]: {{api}}/widgets/Navigator-class.html
-[`onPressed()`]: {{api}}/material/RaisedButton-class.html#onPressed
+[`onPressed()`]: {{api}}/material/ElevatedButton-class.html#onPressed
 [`onTap()`]: {{api}}/widgets/GestureDetector-class.html#onTap
 [`Positioned`]: {{api}}/widgets/Positioned-class.html
-[`RaisedButton`]: {{api}}/material/RaisedButton-class.html
+[`ElevatedButton`]: {{api}}/material/ElevatedButton-class.html
 [React]: https://reactjs.org
 [`RenderObject`]: {{api}}/rendering/RenderObject-class.html
 [`Row`]: {{api}}/widgets/Row-class.html

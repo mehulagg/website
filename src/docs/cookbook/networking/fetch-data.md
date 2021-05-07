@@ -2,11 +2,11 @@
 title: Fetch data from the internet
 description: How to fetch data over the internet using the http package.
 prev:
-  title: Send data to a new screen
-  path: /docs/cookbook/navigation/passing-data
+  title: Delete data on the internet
+  path: /docs/cookbook/networking/delete-data
 next:
-  title: Send data to the internet
-  path: /docs/cookbook/networking/send-data
+  title: Make authenticated requests
+  path: /docs/cookbook/networking/authenticated-requests
 ---
 
 Fetching data from the internet is necessary for most apps.
@@ -42,6 +42,15 @@ Import the http package.
 import 'package:http/http.dart' as http;
 ```
 
+Additionally, in your AndroidManifest.xml file, 
+add the Internet permission.
+
+<!-- skip -->
+```xml
+<!-- Required to fetch data from the internet. -->
+<uses-permission android:name="android.permission.INTERNET" />
+```
+
 ## 2. Make a network request
 
 This recipe covers how to fetch a sample album from the
@@ -50,7 +59,7 @@ This recipe covers how to fetch a sample album from the
 <!-- skip -->
 ```dart
 Future<http.Response> fetchAlbum() {
-  return http.get('https://jsonplaceholder.typicode.com/albums/1');
+  return http.get(Uri.https('jsonplaceholder.typicode.com', 'albums/1'));
 }
 ```
 
@@ -86,7 +95,7 @@ class Album {
   final int id;
   final String title;
 
-  Album({this.userId, this.id, this.title});
+  Album({@required this.userId, @required this.id, @required this.title});
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
@@ -117,13 +126,15 @@ function to return a `Future<Album>`:
 
 <!-- skip -->
 ```dart
+import 'dart:convert';
+
 Future<Album> fetchAlbum() async {
-  final response = await http.get('https://jsonplaceholder.typicode.com/albums/1');
+  final response = await http.get(Uri.https('jsonplaceholder.typicode.com', 'albums/1'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -137,7 +148,7 @@ Now you've got a function that fetches an album from the internet.
 
 ## 4. Fetch the data
 
-Call the `fetch()` method in either the
+Call the `fetchAlbum()` method in either the
 [`initState()`][] or [`didChangeDependencies()`][]
 methods.
 
@@ -150,7 +161,7 @@ See [`State`][] for more details.
 <!-- skip -->
 ```dart
 class _MyAppState extends State<MyApp> {
-  Future<Album> futureAlbum;
+  late Future<Album> futureAlbum;
 
   @override
   void initState() {
@@ -179,10 +190,14 @@ You must provide two parameters:
 
 Note that `snapshot.hasData` only returns `true`
 when the snapshot contains a non-null data value.
-This is why the `fetchAlbum` function should throw an exception
+
+Because `fetchAlbum` can only return non-null values,
+the function should throw an exception
 even in the case of a "404 Not Found" server response.
-If `fetchAlbum` returns `null`
-then the spinner displays indefinitely.
+Throwing an exception sets the `snapshot.hasError` to `true`
+which can be used to display an error message.
+
+Otherwise, the spinner will be displayed.
 
 <!-- skip -->
 ```dart
@@ -190,7 +205,7 @@ FutureBuilder<Album>(
   future: futureAlbum,
   builder: (context, snapshot) {
     if (snapshot.hasData) {
-      return Text(snapshot.data.title);
+      return Text(snapshot.data!.title);
     } else if (snapshot.hasError) {
       return Text("${snapshot.error}");
     }
@@ -222,6 +237,7 @@ see the following recipes:
 
 ## Complete example
 
+<!-- skip -->
 ```dart
 import 'dart:async';
 import 'dart:convert';
@@ -231,12 +247,12 @@ import 'package:http/http.dart' as http;
 
 Future<Album> fetchAlbum() async {
   final response =
-      await http.get('https://jsonplaceholder.typicode.com/albums/1');
+      await http.get(Uri.https('jsonplaceholder.typicode.com', 'albums/1'));
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -249,7 +265,7 @@ class Album {
   final int id;
   final String title;
 
-  Album({this.userId, this.id, this.title});
+  Album({@required this.userId, @required this.id, @required this.title});
 
   factory Album.fromJson(Map<String, dynamic> json) {
     return Album(
@@ -270,7 +286,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  Future<Album> futureAlbum;
+  late Future<Album> futureAlbum;
 
   @override
   void initState() {
@@ -294,7 +310,7 @@ class _MyAppState extends State<MyApp> {
             future: futureAlbum,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                return Text(snapshot.data.title);
+                return Text(snapshot.data!.title);
               } else if (snapshot.hasError) {
                 return Text("${snapshot.error}");
               }
@@ -317,7 +333,7 @@ class _MyAppState extends State<MyApp> {
 [JSONPlaceholder]: https://jsonplaceholder.typicode.com/
 [`http`]: {{site.pub-pkg}}/http
 [`http.get()`]: {{site.pub-api}}/http/latest/http/get.html
-[`http` package]: {{site.pub-pkg}}/http#-installing-tab-
+[`http` package]: {{site.pub-pkg}}/http/install
 [`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
 [Introduction to unit testing]: /docs/cookbook/testing/unit/introduction
 [`initState()`]: {{site.api}}/flutter/widgets/State/initState.html

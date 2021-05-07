@@ -2,8 +2,8 @@
 title: Retrieve the value of a text field
 description: How to retrieve text from a text field.
 prev:
-  title: Handle changes to a text field
-  path: /docs/cookbook/forms/text-field-changes
+  title: Create an expandable FAB
+  path: /docs/cookbook/effects/expandable-fab
 next:
   title: Focus and text fields
   path: /docs/cookbook/forms/focus
@@ -11,6 +11,14 @@ js:
   - defer: true
     url: https://dartpad.dev/inject_embed.dart.js
 ---
+
+<?code-excerpt path-base="../null_safety_examples/cookbook/forms/retreive_input"?>
+
+{% comment %}
+prev:
+  title: Handle changes to a text field
+  path: /docs/cookbook/forms/text-field-changes
+{% endcomment %}
 
 In this recipe,
 learn how to retrieve the text a user has entered into a text field
@@ -32,7 +40,7 @@ and supply it to a `TextField` or `TextFormField`.
   used by the object.
 {{site.alert.end}}
 
-<!-- skip -->
+<?code-excerpt "lib/starter.dart (Starter)" remove="return Container();"?>
 ```dart
 // Define a custom Form widget.
 class MyCustomForm extends StatefulWidget {
@@ -89,7 +97,7 @@ FloatingActionButton(
   // When the user presses the button, show an alert dialog containing the
   // text that the user has entered into the text field.
   onPressed: () {
-    return showDialog(
+    showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -107,7 +115,8 @@ FloatingActionButton(
 
 ## Interactive example
 
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example
+<?code-excerpt "lib/main.dart"?>
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -158,7 +167,7 @@ class _MyCustomFormState extends State<MyCustomForm> {
         // When the user presses the button, show an alert dialog containing
         // the text that the user has entered into the text field.
         onPressed: () {
-          return showDialog(
+          showDialog(
             context: context,
             builder: (context) {
               return AlertDialog(

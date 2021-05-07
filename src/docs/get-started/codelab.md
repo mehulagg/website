@@ -82,18 +82,7 @@ The animated GIF shows how the app works at the completion of part 1.
   * A browser (Chrome is required for debugging)
 {{site.alert.end}}
 
-If you want to compile your app to run on the web,
-you must enable this feature (which is currently in beta).
-To enable web support, use the following instructions:
-
-```terminal
-$ flutter channel beta
-$ flutter upgrade
-$ flutter config --enable-web
-```
-
-You need only run the config command once.
-After you enable web support, every Flutter app you
+Every Flutter app you
 create also compiles for the web. In your IDE under
 the **devices** pulldown, or at the command line
 using `flutter devices`, you should now see **Chrome**
@@ -109,7 +98,7 @@ and [Write your first Flutter app on the web][codelab-web].
 
 ## Step 1: Create the starter Flutter app
 
-<?code-excerpt path-base="codelabs/startup_namer/step1_base"?>
+<?code-excerpt path-base="codelabs/startup_namer_null_safety/step1_base"?>
 
 Create a simple, templated Flutter app, using the instructions in
 [Getting Started with your first Flutter app][].
@@ -190,13 +179,18 @@ where the Dart code lives.
   [Material][] is a visual design language
   that is standard on mobile and the web.
   Flutter offers a rich set of Material widgets.
+  It's a good idea to have a `uses-material-design: true` entry
+  in the `flutter` section of your `pubspec.yaml` file. 
+  This will allow you to use more features of Material,
+  such as their set of predefined [Icons][].
+
 * The `main()` method uses arrow (`=>`) notation.
   Use arrow notation for one-line functions or methods.
 * The app extends `StatelessWidget`, which makes the app itself a
   widget. In Flutter, almost everything is a widget, including
   alignment, padding, and layout.
 * The `Scaffold` widget, from the Material library,
-  provides a default app bar, title, and a body property that
+  provides a default app bar, and a body property that
   holds the widget tree for the home screen. The widget subtree
   can be quite complex.
 * A widget’s main job is to provide a `build()` method
@@ -219,17 +213,17 @@ as well as many other open source packages, on [pub.dev][].
     for a Flutter app. In `pubspec.yaml`, add `english_words`
     (3.1.5 or higher) to the dependencies list:
 
-    <?code-excerpt path-base="codelabs/startup_namer"?>
+    <?code-excerpt path-base="codelabs/startup_namer_null_safety"?>
     <?code-excerpt "{step1_base,step2_use_package}/pubspec.yaml" diff-u="4" from="dependencies" to="english"?>
     ```diff
     --- step1_base/pubspec.yaml
     +++ step2_use_package/pubspec.yaml
-    @@ -5,4 +5,5 @@
+    @@ -8,4 +8,5 @@
      dependencies:
        flutter:
          sdk: flutter
-       cupertino_icons: ^0.1.2
-    +  english_words: ^3.1.5
+       cupertino_icons: ^1.0.2
+    +  english_words: ^4.0.0-0
     ```
 
  2. While viewing the `pubspec.yaml` file in Android Studio's editor view,
@@ -248,7 +242,7 @@ as well as many other open source packages, on [pub.dev][].
 
  3. In `lib/main.dart`, import the new package:
 
-    <?code-excerpt path-base="codelabs/startup_namer/step2_use_package"?>
+    <?code-excerpt path-base="codelabs/startup_namer_null_safety/step2_use_package"?>
     <?code-excerpt "lib/main.dart" title retain="/^import/" replace="/import.*?english.*/[!$&!]/g" indent-by="2"?>
     ```dart
       import 'package:flutter/material.dart';
@@ -262,7 +256,7 @@ as well as many other open source packages, on [pub.dev][].
  4. Use the English words package to generate the text instead of
     using the string "Hello World":
 
-    <?code-excerpt path-base="codelabs/startup_namer"?>
+    <?code-excerpt path-base="codelabs/startup_namer_null_safety"?>
     <?code-excerpt "{step1_base,step2_use_package}/lib/main.dart" from="class"?>
     ```diff
     --- step1_base/lib/main.dart
@@ -313,12 +307,12 @@ If you want to try some of Flutter's debugging tools,
 check out the [DevTools][] suite of debugging and profiling tools.
 If needed, use the code at the following links to get back on track.
 
-* [pubspec.yaml]({{code-url}}/startup_namer/step2_use_package/pubspec.yaml)
-* [lib/main.dart]({{code-url}}/startup_namer/step2_use_package/lib/main.dart)
+* [pubspec.yaml]({{code-url}}/startup_namer_null_safety/step2_use_package/pubspec.yaml)
+* [lib/main.dart]({{code-url}}/startup_namer_null_safety/step2_use_package/lib/main.dart)
 
 ## Step 3: Add a Stateful widget
 
-<?code-excerpt path-base="codelabs/startup_namer/step3_stateful_widget"?>
+<?code-excerpt path-base="codelabs/startup_namer_null_safety/step3_stateful_widget"?>
 
 State<em>less</em> widgets are immutable, meaning that their
 properties can’t change&mdash;all values are final.
@@ -394,17 +388,12 @@ class _RandomWordsState extends State<RandomWords> {
     [!}!]
   }
   ```
-
-  After adding the state class, the IDE complains that
-  the class is missing a build method. Next, you'll add a basic
-  build method that generates the word pairs by moving the
-  word generation code from `MyApp` to `_RandomWordsState`.
 </li>
 
 <li markdown="1"> Remove the word generation code from `MyApp`
   by making the changes shown in the following diff:
 
-  <?code-excerpt path-base="codelabs/startup_namer"?>
+  <?code-excerpt path-base="codelabs/startup_namer_null_safety"?>
   <?code-excerpt "{step2_use_package,step3_stateful_widget}/lib/main.dart" to="}"?>
   ```diff
   --- step2_use_package/lib/main.dart
@@ -451,11 +440,11 @@ If you want to try some of Flutter's debugging tools,
 check out the [DevTools][] suite of debugging and profiling tools.
 If needed, use the code at the following link to get back on track.
 
-* [lib/main.dart]({{code-url}}/startup_namer/step3_stateful_widget/lib/main.dart)
+* [lib/main.dart]({{code-url}}/startup_namer_null_safety/step3_stateful_widget/lib/main.dart)
 
 ## Step 4: Create an infinite scrolling ListView
 
-<?code-excerpt path-base="codelabs/startup_namer/step4_infinite_list"?>
+<?code-excerpt path-base="codelabs/startup_namer_null_safety/step4_infinite_list"?>
 
 In this step, you'll expand `_RandomWordsState` to generate
 and display a list of word pairings. As the user scrolls the list
@@ -563,7 +552,7 @@ lazily, on demand.
  5. In the `MyApp` class, update the `build()` method by changing the title,
     and changing the home to be a `RandomWords` widget:
 
-    <?code-excerpt path-base="codelabs/startup_namer"?>
+    <?code-excerpt path-base="codelabs/startup_namer_null_safety"?>
     <?code-excerpt "{step3_stateful_widget,step4_infinite_list}/lib/main.dart" diff-u="4" from="class MyApp" to="}"?>
     ```diff
     --- step3_stateful_widget/lib/main.dart
@@ -603,7 +592,7 @@ If you want to try some of Flutter's debugging tools,
 check out the [DevTools][] suite of debugging and profiling tools.
 If needed, use the code at the following link to get back on track.
 
-* [lib/main.dart]({{code-url}}/startup_namer/step4_infinite_list/lib/main.dart)
+* [lib/main.dart]({{code-url}}/startup_namer_null_safety/step4_infinite_list/lib/main.dart)
 
 {% include run-profile.md %}
 
@@ -650,6 +639,7 @@ where you add the following functionality:
 [Google Developers Codelabs]: {{site.codelabs}}
 [hot reload]: /docs/get-started/test-drive
 [in the way your IDE describes]: /docs/get-started/test-drive
+[Icons]: https://design.google.com/icons/
 [iOS]: install/macos#deploy-to-ios-devices
 [iOS simulator]: install/macos#set-up-the-ios-simulator
 [Material]: {{site.material}}/guidelines

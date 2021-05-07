@@ -50,6 +50,8 @@ Font style, size, and other text attributes that CSS
 handles with the font and color properties are individual
 properties of a [`TextStyle`][] child of a [`Text`][] widget.
 
+For text-align property in CSS that is used for aligning text, there is a textAlign property of a [`Text`][] widget.
+
 In both HTML and Flutter, child elements or widgets are anchored at
 the top left, by default.
 
@@ -64,6 +66,7 @@ the top left, by default.
       width: 320px;
       height: 240px;
       [[highlight]]font: 900 24px Georgia;[[/highlight]]
+      [[highlight]]text-align: center;[[/highlight]]
     }
 {% endprettify %}
 </div>
@@ -72,6 +75,7 @@ the top left, by default.
   var container = Container( // grey box
     child: Text(
       "Lorem ipsum",
+      [[highlight]]textAlign: TextAlign.center,[[/highlight]]
       style: [[highlight]]TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.w900,
@@ -87,8 +91,11 @@ the top left, by default.
 
 ### Setting background color
 
-In Flutter, you set the background color using a
-[`Container`][]’s `decoration` property.
+In Flutter, you set the background color using the 
+`color` property or the `decoration` property of a [`Container`][]. However, you cannot
+supply both, since it would potentially result in the decoration drawing over
+the background color. The `color` property should be preferred when the background is a simple color.
+For other cases, such as gradients or images, use the `decoration` property.
 
 The CSS examples use the hex color equivalents to the Material color palette.
 
@@ -104,6 +111,20 @@ The CSS examples use the hex color equivalents to the Material color palette.
       height: 240px;
       font: 900 24px Roboto;
     }
+{% endprettify %}
+</div>
+
+<div class="righthighlight">
+{% prettify dart %}
+  var container = Container( // grey box
+    child: Text(
+      "Lorem ipsum",
+      style: bold24Roboto,
+    ),
+    width: 320,
+    height: 240,
+    [[highlight]]color: Colors.grey[300],[[/highlight]]
+  );
 {% endprettify %}
 </div>
 
@@ -560,7 +581,7 @@ The following examples show how to make and customize shapes.
 To round the corners of a rectangular shape,
 use the `borderRadius` property of a [`BoxDecoration`][] object.
 Create a new [`BorderRadius`][]
-object that specifies the radii for rounding each corner.
+object that specifies the radius for rounding each corner.
 
 <div class="lefthighlight">
 {% prettify css %}

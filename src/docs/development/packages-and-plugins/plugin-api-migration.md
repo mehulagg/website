@@ -49,7 +49,7 @@ The following instructions outline the steps for supporting the new API:
    The easiest thing to do (if possible) is move the logic from
    `registerWith()` into a private method that both
    `registerWith()` and `onAttachedToEngine()` can call.
-   Either `registerWith()` or `onAttachToEngine()` will be called,
+   Either `registerWith()` or `onAttachedToEngine()` will be called,
    not both.
    <br><br>
    In addition, you should document all non-overridden public members
@@ -138,7 +138,7 @@ The following instructions outline the steps for supporting the new API:
     This sets the example app to use the v2 embedding.
 
 1. (Optional) If you created an `EmbeddingV1Activity`
-   in the previoous step, add the `EmbeddingV1Activity` to the
+   in the previous step, add the `EmbeddingV1Activity` to the
    `<plugin_name>/example/android/app/src/main/AndroidManifest.xml` file.
    For example:
 
@@ -241,7 +241,7 @@ but aren't required.
     ```yaml
     environment:
       sdk: ">=2.0.0-dev.28.0 <3.0.0"
-      flutter: ">=1.12.13+hotfix.6 <2.0.0"
+      flutter: ">=1.12.13+hotfix.6"
     ```
 
 1. Create a simple test in `<plugin_name>/test/<plugin_name>_e2e.dart`.
@@ -369,7 +369,7 @@ a non-UI configuration.
 [`ActivityAware`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/activity/ActivityAware.html
 [Basic plugin]: #basic-plugin
 [battery package]: {{site.github}}/flutter/plugins/tree/master/packages/battery
-[Flutter plugins]: {{site.pub}}/flutter.dev/packages
+[Flutter plugins]: {{site.pub}}/flutter/packages
 [`FlutterPlugin`]: {{site.api}}/javadoc/io/flutter/embedding/engine/plugins/FlutterPlugin.html
 [`PluginRegistry.Registrar`]: {{site.api}}/javadoc/io/flutter/plugin/common/PluginRegistry.Registrar.html
 [`PluginRegistry.Registrar.activity()`]: {{site.api}}/javadoc/io/flutter/plugin/common/PluginRegistry.Registrar.html#activity--

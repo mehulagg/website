@@ -7,36 +7,33 @@
   but if you've downloaded the Dart SDK separately,
   make sure that the Flutter version of `dart` is
   first in your path, as the two versions might not be compatible.
-  The following command (on macOS, linux, and chrome OS),
-  tells you whether the `flutter` and `dart` commands
-  originate from the same `bin` directory and are therefore
-  compatible. (Some versions of Windows
-  support a similar `where` command.)
+  The following command tells you whether the `flutter` and `dart`
+  commands originate from the same `bin` directory and are
+  therefore compatible.
 
-  ```sh
-  $ which flutter; which dart
-  <path-to-flutter-sdk>/flutter-sdk/bin/flutter
+  ```terminal
+  $ which flutter dart
+  /path-to-flutter-sdk/bin/flutter
   /usr/local/bin/dart
   ```
 
   As shown above, the two commands don't come from
   the same `bin` directory. Update your path to use
-  commands from `<path-to-flutter-sdk>/bin` before 
+  commands from `/path-to-flutter-sdk/bin` before
   commands from `/usr/local/bin` (in this case).
   After updating your shell for the change to take effect,
-  running the `which` or `where` command again
+  running the `which` command again
   should show that the `flutter` and `dart` commands
   now come from the same directory.
 
-  ```sh
-  $ which flutter; which dart
-  <path-to-flutter-sdk>/flutter-sdk/bin/flutter
-  <path-to-flutter-sdk>/flutter-sdk/bin/dart
+  ```terminal
+  $ which flutter dart
+  /path-to-flutter-sdk/bin/flutter
+  /path-to-flutter-sdk/bin/dart
   ```
 
   To learn more about the `dart` command, run `dart -h`
-  from the command line, or see the [`dart` tool][] page
-  on dart.dev.
+  from the command line, or see the [dart tool][] page.
 {{site.alert.end}}
 
-[`dart` tool]: {{site.dart-site}}/tools/dart-vm
+[dart tool]: {{site.dart-site}}/tools/dart-vm

@@ -54,7 +54,7 @@ class FirstRoute extends StatelessWidget {
         title: Text('First Route'),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text('Open route'),
           onPressed: () {
             // Navigate to second route when tapped.
@@ -73,7 +73,7 @@ class SecondRoute extends StatelessWidget {
         title: Text("Second Route"),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             // Navigate back to first route when tapped.
           },
@@ -128,7 +128,7 @@ onPressed: () {
 
 ## Interactive example
 
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() {
@@ -146,7 +146,7 @@ class FirstRoute extends StatelessWidget {
         title: Text('First Route'),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           child: Text('Open route'),
           onPressed: () {
             Navigator.push(
@@ -168,7 +168,7 @@ class SecondRoute extends StatelessWidget {
         title: Text("Second Route"),
       ),
       body: Center(
-        child: RaisedButton(
+        child: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
           },

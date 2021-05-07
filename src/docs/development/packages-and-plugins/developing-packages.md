@@ -138,7 +138,7 @@ The API is connected to the platform-specific implementation(s) using a
 
 ### Federated plugins
 
-Federated plugins are a a way of splitting support for different platforms into
+Federated plugins are a way of splitting support for different platforms into
 separate packages. So, a federated plugin can use one package for iOS, another
 for Android, another for web, and yet another for a car (as an example of an IoT
 device). Among other benefits, this approach allows a domain expert to extend an
@@ -164,10 +164,40 @@ A federated plugin requires the following packages:
   support the app-facing package. Having a single package
   that defines this interface ensures that all platform
   packages implement the same functionality in a uniform way.
+
+#### Endorsed federated plugin
+
+Ideally, when adding a platform implementation to
+a federated plugin, you will coordinate with the package
+author to include your implementation.
+In this way, the original author _endorses_ your
+implementation.
+
+For example, say you write a `foobar_windows`
+implementation for the (imaginary) `foobar` plugin. 
+In an endorsed plugin, the original `foobar` author
+adds your Windows implementation as a dependency
+in the pubspec for the app-facing package.
+Then, when a developer includes the `foobar` plugin
+in their Flutter app, the Windows implementation,
+as well as the other endorsed implementations,
+are automatically available to the app.
+
+#### Non-endorsed federated plugin
+
+If you can't, for whatever reason, get your implementation
+added by the original plugin author, then your plugin
+is _not_ endorsed. A developer can still use your
+implementation, but must manually add the plugin
+to the app's pubspec file. So, the developer
+must include both the `foobar` dependency _and_
+the `foobar_windows` dependency in order to achieve
+full functionality.
   
-For more information on federated plugins, why they are useful, and how they are
-implemented, see the Medium article by Harry Terkelsen, [How To Write a Flutter
-Web Plugin, Part 2][].
+For more information on federated plugins,
+why they are useful, and how they are
+implemented, see the Medium article by Harry Terkelsen,
+[How To Write a Flutter Web Plugin, Part 2][].
 
 ### Specifying a plugin's supported platforms {#plugin-platforms}
 
@@ -189,7 +219,7 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
   # Flutter versions prior to 1.12 did not support the
   # flutter.plugin.platforms map.
-  flutter: ">=1.12.0 <2.0.0"
+  flutter: ">=1.12.0"
 ```
 
 When adding plugin implementations for more platforms, the `platforms` map
@@ -215,13 +245,17 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
   # Flutter versions prior to 1.12 did not support the
   # flutter.plugin.platforms map.
-  flutter: ">=1.12.0 <2.0.0"
+  flutter: ">=1.12.0"
 ```
 
 ### Step 1: Create the package
 
 To create a plugin package, use the `--template=plugin`
 flag with `flutter create`.
+
+As of Flutter 1.20.0, Use the `--platforms=` option followed by a comma separated list to 
+specify the platforms that the plugin supports. Available platforms are: `android`, `ios`, `web`, `linux`, `macos`, and `windows`.
+If no platforms are specified, the resulting project doesn't support any platforms.
 
 Use the `--org` option to specify your organization,
 using reverse domain name notation. This value is used
@@ -232,16 +266,16 @@ Use the `-a` option to specify the language for android or the `-i` option to
 specify the language for ios. Please choose **one** of the following:
 
 ```terminal
-$ flutter create --org com.example --template=plugin -a kotlin hello
+$ flutter create --org com.example --template=plugin --platforms=android,ios -a kotlin hello
 ```
 ```terminal
-$ flutter create --org com.example --template=plugin -a java hello
+$ flutter create --org com.example --template=plugin --platforms=android,ios -a java hello
 ```
 ```terminal
-$ flutter create --org com.example --template=plugin -i objc hello
+$ flutter create --org com.example --template=plugin --platforms=android,ios -i objc hello
 ```
 ```terminal
-$ flutter create --org com.example --template=plugin -i swift hello
+$ flutter create --org com.example --template=plugin --platforms=android,ios -i swift hello
 ```
 
 This creates a plugin project in the `hello` folder
@@ -268,10 +302,10 @@ you can specify the iOS language using `-i` and the
 Android language using `-a`. For example:
 
 ```terminal
-$ flutter create --template=plugin -i objc hello
+$ flutter create --template=plugin --platforms=android,ios -i objc hello
 ```
 ```terminal
-$ flutter create --template=plugin -a java hello
+$ flutter create --template=plugin --platforms=android,ios -a java hello
 ```
 
 ### Step 2: Implement the package {#edit-plugin-package}
@@ -290,17 +324,12 @@ Locate the file `lib/hello.dart`.
 
 We recommend you edit the Android code using Android Studio.
 
-Before editing the Android platform code in Android Studio,
-first make sure that the code has been built at least once
-(in other words, run the example app from your IDE/editor,
-or in a terminal execute `cd hello/example; flutter build apk`).
-
 Then use the following steps:
 
 1. Launch Android Studio.
-1. Select **Import project** in the
-   **Welcome to Android Studio** dialog,
-   or select **File > New > Import Project...** from the menu,
+1. Select **Open an existing Android Studio Project** 
+   in the **Welcome to Android Studio** dialog,
+   or select **File > Open** from the menu,
    and select the `hello/example/android/build.gradle` file.
 1. In the **Gradle Sync** dialog, select **OK**.
 1. In the **Android Gradle Plugin Update** dialog,
@@ -341,6 +370,19 @@ the platform-specific implementations.
 This is done using a [platform channel][],
 or through the interfaces defined in a platform
 interface package.
+
+### Add support for platforms in an existing plugin project
+
+To add support for specific platforms to an existing plugin project, run `flutter create` with
+the `--template=plugin` flag again in the project directory.
+For example, to add web support in an existing plugin, run:
+
+```terminal
+$ flutter create --template=plugin --platforms=web .
+```
+
+If this command displays a message about updating the `pubspec.yaml` file,
+follow the provided instructions.
 
 ### Testing your plugin
 
@@ -549,6 +591,9 @@ You can now `import io.flutter.plugins.urllauncher.UrlLauncherPlugin`
 and access the `UrlLauncherPlugin`
 class in the source code at `hello/android/src`.
 
+For more information on `build.gradle` files, see the
+[Gradle Documentation][] on build scripts.
+
 ### iOS
 
 The following example sets a dependency for
@@ -563,6 +608,9 @@ You can now `#import "UrlLauncherPlugin.h"` and
 access the `UrlLauncherPlugin` class in the source code
 at `hello/ios/Classes`.
 
+For additional details on `.podspec` files, see the
+[CocoaPods Documentation][] on them.
+
 ### Web
 
 All web dependencies are handled by the `pubspec.yaml`
@@ -575,6 +623,7 @@ file like any other Dart package.
 PENDING
 {% endcomment %}
 
+[CocoaPods Documentation]: https://guides.cocoapods.org/syntax/podspec.html
 [Dart library package]: {{site.dart-site}}/guides/libraries/create-library-packages
 [`device_info`]: {{site.pub-api}}/device_info/latest
 [Effective Dart Documentation]: {{site.dart-site}}/guides/language/effective-dart/documentation
@@ -583,9 +632,10 @@ PENDING
 [Flutter editor]: /docs/get-started/editor
 [Flutter Favorites]: {{site.pub}}/flutter/favorites
 [Flutter Favorites program]: /docs/development/packages-and-plugins/favorites
+[Gradle Documentation]: https://docs.gradle.org/current/userguide/tutorial_using_tasks.html
 [How to Write a Flutter Web Plugin, Part 1]: {{site.medium}}/flutter/how-to-write-a-flutter-web-plugin-5e26c689ea1
 [How To Write a Flutter Web Plugin, Part 2]: {{site.medium}}/flutter/how-to-write-a-flutter-web-plugin-part-2-afdddb69ece6
-[issue #33302]: https://github.com/flutter/flutter/issues/33302
+[issue #33302]: {{site.github}}/flutter/flutter/issues/33302
 [`LICENSE`]: #adding-licenses-to-the-license-file
 [`path`]: {{site.pub}}/packages/path
 [platform channel]: /docs/development/platform-integration/platform-channels

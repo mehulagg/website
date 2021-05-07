@@ -7,6 +7,11 @@ The more features your app has, the harder it is to test manually.
 Automated tests help ensure that your app performs correctly before
 you publish it, while retaining your feature and bug fix velocity.
 
+{{site.alert.note}}
+  For hands-on practice of testing Flutter apps, see the
+  [How to test a Flutter app][] codelab.
+{{site.alert.end}}
+
 Automated testing falls into a few categories:
 
 * A [_unit test_](#unit-tests) tests a single function, method, or class.
@@ -40,6 +45,9 @@ External dependencies of the unit under test are generally
 Unit tests generally don't read from or write
 to disk, render to screen, or receive user actions from
 outside the process running the test.
+For more information regarding unit tests, 
+you can view the following recipes 
+or run `flutter test --help` in your terminal.
 
 ### Recipes
 
@@ -76,6 +84,9 @@ such as iOS Simulator or Android Emulator.
 The app under test is typically isolated
 from the test driver code to avoid skewing the results.
 
+For more information on how to write integration tests, see the [integration
+testing page][].
+
 ### Recipes
 
 {% include testing_toc.md type='integration' %}
@@ -102,7 +113,9 @@ integration services, see the following:
 [Codemagic CI/CD for Flutter]: https://blog.codemagic.io/getting-started-with-codemagic/
 [Continuous delivery using fastlane with Flutter]: /docs/deployment/cd#fastlane
 [Flutter CI/CD with Bitrise]: https://devcenter.bitrise.io/getting-started/getting-started-with-flutter-apps/
+[How to test a Flutter app]: {{site.codelabs}}/codelabs/flutter-app-testing
 [mocked out]: /cookbook/testing/mocking
 [Test Flutter apps on Appcircle]: https://appcircle.io/blog/guide-to-automated-mobile-ci-cd-for-flutter-projects-with-appcircle/#testing-the-flutter-app
 [Test Flutter apps on Cirrus]: https://cirrus-ci.org/examples/#flutter
 [Test Flutter apps on Travis]: {{site.flutter-medium}}/test-flutter-apps-on-travis-3fd5142ecd8c
+[integration testing page]: /docs/testing/integration-tests

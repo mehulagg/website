@@ -5,8 +5,8 @@ prev:
   title: Send data to the internet
   path: /docs/cookbook/networking/send-data
 next:
-  title: Delete data on the internet
-  path: /docs/cookbook/networking/delete-data
+  title: Work with WebSockets
+  path: /docs/cookbook/networking/web-sockets
 ---
 
 Updating data over the internet is necessary for most apps.
@@ -50,7 +50,7 @@ This recipe covers how to update an album title to the
 ```dart
 Future<http.Response> updateAlbum(String title) {
   return http.put(
-    'https://jsonplaceholder.typicode.com/albums/1',
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -126,7 +126,7 @@ function to return a `Future<Album>`:
 ```dart
 Future<Album> updateAlbum(String title) async {
   final http.Response response = await http.put(
-    'https://jsonplaceholder.typicode.com/albums',
+    Uri.parse('https://jsonplaceholder.typicode.com/albums'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -137,7 +137,7 @@ Future<Album> updateAlbum(String title) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 UPDATED response,
     // then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 UPDATED response,
     // then throw an exception.
@@ -157,12 +157,13 @@ For a complete example, see the [Fetch data][] recipe.
 <!-- skip -->
 ```dart
 Future<Album> fetchAlbum() async {
-  final response =
-      await http.get('https://jsonplaceholder.typicode.com/albums/1');
+  final response = await http.get(
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+  );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response, then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -177,12 +178,12 @@ the data from the internet.
 
 ## 5. Update the existing title from user input
 
-Create a `TextField` to enter a title and a `RaisedButton`
+Create a `TextField` to enter a title and a `ElevatedButton`
 to update the data on server.
 Also define a `TextEditingController` to
 read the user input from a `TextField`.
 
-When the `RaisedButton` is pressed,
+When the `ElevatedButton` is pressed,
 the `_futureAlbum` is set to the value returned by
 `updateAlbum()` method.
 
@@ -198,7 +199,7 @@ Column(
         decoration: InputDecoration(hintText: 'Enter Title'),
       ),
     ),
-    RaisedButton(
+    ElevatedButton(
       child: Text('Update Data'),
       onPressed: () {
         setState(() {
@@ -261,13 +262,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 Future<Album> fetchAlbum() async {
-  final response =
-      await http.get('https://jsonplaceholder.typicode.com/albums/1');
+  final response = await http.get(
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
+  );
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -277,7 +279,7 @@ Future<Album> fetchAlbum() async {
 
 Future<Album> updateAlbum(String title) async {
   final http.Response response = await http.put(
-    'https://jsonplaceholder.typicode.com/albums/1',
+    Uri.parse('https://jsonplaceholder.typicode.com/albums/1'),
     headers: <String, String>{
       'Content-Type': 'application/json; charset=UTF-8',
     },
@@ -289,7 +291,7 @@ Future<Album> updateAlbum(String title) async {
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    return Album.fromJson(json.decode(response.body));
+    return Album.fromJson(jsonDecode(response.body));
   } else {
     // If the server did not return a 200 OK response,
     // then throw an exception.
@@ -361,7 +363,7 @@ class _MyAppState extends State<MyApp> {
                         controller: _controller,
                         decoration: InputDecoration(hintText: 'Enter Title'),
                       ),
-                      RaisedButton(
+                      ElevatedButton(
                         child: Text('Update Data'),
                         onPressed: () {
                           setState(() {
@@ -394,11 +396,10 @@ class _MyAppState extends State<MyApp> {
 [JSONPlaceholder]: https://jsonplaceholder.typicode.com/
 [`http`]: {{site.pub-pkg}}/http
 [`http.put()`]: {{site.pub-api}}/http/latest/http/put.html
-[`http` package]: {{site.pub}}/packages/http#-installing-tab-
+[`http` package]: {{site.pub}}/packages/http/install
 [`InheritedWidget`]: {{site.api}}/flutter/widgets/InheritedWidget-class.html
 [Introduction to unit testing]: /docs/cookbook/testing/unit/introduction
 [`initState()`]: {{site.api}}/flutter/widgets/State/initState.html
 [JSON and serialization]: /docs/development/data-and-backend/json
 [Mock dependencies using Mockito]: /docs/cookbook/testing/unit/mocking
 [`State`]: {{site.api}}/flutter/widgets/State-class.html
-

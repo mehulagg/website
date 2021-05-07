@@ -109,7 +109,7 @@ $ flutter doctor
 
 It's okay if the Android toolchain, Android Studio,
 and the Xcode tools are not installed,
-since our app is intended for the web only.
+since the app is intended for the web only.
 If you later want this app to work on mobile,
 you will need to do additional installation and setup.
 </li>
@@ -137,7 +137,8 @@ and the web server when you want to test on other browsers.
 <li markdown="1">The starting app is displayed in the following DartPad.
 
 <!-- skip -->
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-starting_code
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
+{$ begin main.dart $}
 import 'package:flutter/material.dart';
 
 void main() => runApp(SignUpApp());
@@ -214,9 +215,15 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(hintText: 'Username'),
             ),
           ),
-          FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+                return states.contains(MaterialState.disabled) ? null : Colors.white;
+              }),
+              backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+                return states.contains(MaterialState.disabled) ? null : Colors.blue;
+              }),
+            ),
             onPressed: null,
             child: Text('Sign up'),
           ),
@@ -225,7 +232,11 @@ class _SignUpFormState extends State<SignUpForm> {
     );
   }
 }
-
+{$ end main.dart $}
+{$ begin test.dart $}
+// Avoid warning on "double _formProgress = 0;"
+// ignore_for_file: prefer_final_fields
+{$ end test.dart $}
 ```
 
 {{site.alert.important}}
@@ -272,7 +283,7 @@ From your IDE, editor, or at the command line,
   Flutter also offers the Cupertino widget library,
   which implements the current iOS design language.
   Or you can create your own custom widget library.
-* In Flutter, most everything is a [Widget][].
+* In Flutter, almost everything is a [Widget][].
   Even the app itself is a widget.
   The app’s UI can be described as a widget tree.
 
@@ -321,14 +332,14 @@ and create a method to display it.
 `_SignUpFormState` class. This is the part of the code
 that builds the SignUp button.
 Notice how the button is defined:
-It’s a `FlatButton` with a blue background,
+It’s a `TextButton` with a blue background,
 white text that says **Sign up** and, when pressed,
 does nothing.
 </li>
 
 <li markdown="1">Update the `onPressed` property.<br>
 Change the `onPressed` property to call the (non-existent)
-method that will display the welcome screen. 
+method that will display the welcome screen.
 
 Change `onPressed: null` to the following:
 
@@ -416,13 +427,13 @@ In the `_SignUpFormState` class, add a new method called
 ...
 void _updateFormProgress() {
   var progress = 0.0;
-  var controllers = [
+  final controllers = [
     _firstNameTextController,
     _lastNameTextController,
     _usernameTextController
   ];
 
-  for (var controller in controllers) {
+  for (final controller in controllers) {
     if (controller.value.text.isNotEmpty) {
       progress += 1 / controllers.length;
     }
@@ -450,7 +461,7 @@ Add the code below marked as NEW:
 ```dart
 ...
 return Form(
-  onChanged: _updateFormProgress, // NEW
+  onChanged: _updateFormProgress,  // NEW
   child: Column(
 ...
 ```
@@ -465,9 +476,15 @@ screen only when the form is completely filled in:
 <!-- skip -->
 ```dart
 ...
-FlatButton(
-  color: Colors.blue,
-  textColor: Colors.white,
+TextButton(
+  style: ButtonStyle(
+    foregroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      return states.contains(MaterialState.disabled) ? null : Colors.white;
+    }),
+    backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+      return states.contains(MaterialState.disabled) ? null : Colors.blue;
+    }),
+  ),
   onPressed: _formProgress == 1 ? _showWelcomeScreen : null, // UPDATED
   child: Text('Sign up'),
 ),
@@ -501,8 +518,9 @@ but becomes enabled when all three text fields contain
   and is updated in the `_updateFormProgress` method.
   When all three fields are filled in, `_formProgress` is set to 1.0.
   When `_formProgress` is set to 1.0, the `onPressed` callback is set to the
-  `_showWelcomeScreen` method. The button is enabled when it's `onPressed`
-  argument is non-null.
+  `_showWelcomeScreen` method. Now that its `onPressed` argument is non-null, the button is enabled.
+  Like most Material Design buttons in Flutter,
+  [TextButton][]s are disabled by default if their `onPressed` and `onLongPress` callbacks are null.
 * Notice that the `_updateFormProgress` passes a function to `setState()`.
   This is called an anonymous
   function and has the following syntax:
@@ -518,8 +536,8 @@ but becomes enabled when all three text fields contain
   ```dart
   onPressed: _formProgress == 1 ? _showWelcomeScreen : null,
   ```
-  This is a Dart conditional assignment and has the syntax: 
-  `condition ? expression1 : expression2`. 
+  This is a Dart conditional assignment and has the syntax:
+  `condition ? expression1 : expression2`.
   If the expression `_formProgress == 1` is true, the entire expression results
   in the value on the left hand side of the `:`, which is the
   `_showWelcomeScreen` method in this case.
@@ -629,7 +647,7 @@ scroll down to where `progress` is updated:
 
 <!-- skip -->
 ```dart
-    for (var controller in controllers) {
+    for (final controller in controllers) {
       if (controller.value.text.isNotEmpty) {
         progress += 1 / controllers.length;
       }
@@ -675,10 +693,10 @@ area. The animation has the following behavior:
 * When the app starts,
   a tiny red bar appears across the top of the sign in area.
 * When one text field contains text,
-  the red bar turns orange and animates one-third
+  the red bar turns orange and animates 0.15
   of the way across the sign in area.
 * When two text fields contain text,
-  the orange bar turns yellow and animates two-thirds
+  the orange bar turns yellow and animates half
   of the way across the sign in area.
 * When all three text fields contain text,
   the orange bar turns green and animates all the
@@ -706,16 +724,16 @@ class AnimatedProgressIndicator extends StatefulWidget {
 
 class _AnimatedProgressIndicatorState extends State<AnimatedProgressIndicator>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Color> _colorAnimation;
-  Animation<double> _curveAnimation;
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+  late Animation<double> _curveAnimation;
 
   void initState() {
     super.initState();
     _controller = AnimationController(
         duration: Duration(milliseconds: 1200), vsync: this);
 
-    var colorTween = TweenSequence([
+    final colorTween = TweenSequence([
       TweenSequenceItem(
         tween: ColorTween(begin: Colors.red, end: Colors.orange),
         weight: 1,
@@ -734,6 +752,7 @@ class _AnimatedProgressIndicatorState extends State<AnimatedProgressIndicator>
     _curveAnimation = _controller.drive(CurveTween(curve: Curves.easeIn));
   }
 
+  @override
   void didUpdateWidget(oldWidget) {
     super.didUpdateWidget(oldWidget);
     _controller.animateTo(widget.value);
@@ -746,12 +765,16 @@ class _AnimatedProgressIndicatorState extends State<AnimatedProgressIndicator>
       builder: (context, child) => LinearProgressIndicator(
         value: _curveAnimation.value,
         valueColor: _colorAnimation,
-        backgroundColor: _colorAnimation.value.withOpacity(0.4),
+        backgroundColor: _colorAnimation.value?.withOpacity(0.4),
       ),
     );
   }
 }
 ```
+
+The [`didUpdateWidget`][] function updates
+the `AnimatedProgressIndicatorState` whenever
+`AnimatedProgressIndicator` changes.
 </li>
 
 <li markdown="1">Use the new `AnimatedProgressIndicator`.<br>
@@ -771,7 +794,7 @@ with this new `AnimatedProgressIndicator`:
 ```
 
 This widget uses an `AnimatedBuilder` to animate the
-progress indicator to the latest value. 
+progress indicator to the latest value.
 </li>
 
 <li markdown="1">Run the app.<br>
@@ -784,7 +807,7 @@ the animation works, and that clicking the
 ### Complete sample
 
 <!-- skip -->
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-starting_code
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-starting_code:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() => runApp(SignUpApp());
@@ -843,13 +866,13 @@ class _SignUpFormState extends State<SignUpForm> {
 
   void _updateFormProgress() {
     var progress = 0.0;
-    var controllers = [
+    final controllers = [
       _firstNameTextController,
       _lastNameTextController,
       _usernameTextController
     ];
 
-    for (var controller in controllers) {
+    for (final controller in controllers) {
       if (controller.value.text.isNotEmpty) {
         progress += 1 / controllers.length;
       }
@@ -894,9 +917,15 @@ class _SignUpFormState extends State<SignUpForm> {
               decoration: InputDecoration(hintText: 'Username'),
             ),
           ),
-          FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
+          TextButton(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+                return states.contains(MaterialState.disabled) ? null : Colors.white;
+              }),
+              backgroundColor: MaterialStateProperty.resolveWith((Set<MaterialState> states) {
+                return states.contains(MaterialState.disabled) ? null : Colors.blue;
+              }),
+            ),
             onPressed: _formProgress == 1 ? _showWelcomeScreen : null,
             child: Text('Sign up'),
           ),
@@ -910,7 +939,7 @@ class AnimatedProgressIndicator extends StatefulWidget {
   final double value;
 
   AnimatedProgressIndicator({
-    @required this.value,
+    required this.value,
   });
 
   @override
@@ -921,16 +950,16 @@ class AnimatedProgressIndicator extends StatefulWidget {
 
 class _AnimatedProgressIndicatorState extends State<AnimatedProgressIndicator>
     with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Color> _colorAnimation;
-  Animation<double> _curveAnimation;
+  late AnimationController _controller;
+  late Animation<Color?> _colorAnimation;
+  late Animation<double> _curveAnimation;
 
   void initState() {
     super.initState();
     _controller = AnimationController(
         duration: Duration(milliseconds: 1200), vsync: this);
 
-    var colorTween = TweenSequence([
+    final colorTween = TweenSequence([
       TweenSequenceItem(
         tween: ColorTween(begin: Colors.red, end: Colors.orange),
         weight: 1,
@@ -961,7 +990,7 @@ class _AnimatedProgressIndicatorState extends State<AnimatedProgressIndicator>
       builder: (context, child) => LinearProgressIndicator(
         value: _curveAnimation.value,
         valueColor: _colorAnimation,
-        backgroundColor: _colorAnimation.value.withOpacity(0.4),
+        backgroundColor: _colorAnimation.value?.withOpacity(0.4),
       ),
     );
   }
@@ -1009,6 +1038,7 @@ Dart DevTools, or Flutter animations, see the following:
 [DevTools documentation]: /docs/development/tools/devtools
 [DevTools installed]: /docs/development/tools/devtools/overview#how-do-i-install-devtools
 [DartPad troubleshooting page]: {{site.dart-site}}/tools/dartpad/troubleshoot
+[`didUpdateWidget`]: {{site.api}}/flutter/widgets/State/didUpdateWidget.html
 [editor]: /docs/get-started/editor
 [Effective Dart Style Guide]: {{site.dart-site}}/guides/language/effective-dart/style#dont-use-a-leading-underscore-for-identifiers-that-arent-private
 [Flutter cookbook]: /docs/cookbook
@@ -1016,6 +1046,7 @@ Dart DevTools, or Flutter animations, see the following:
 [Implicit animations]: /docs/codelabs/implicit-animations
 [Introduction to declarative UI]: /docs/get-started/flutter-for/declarative
 [Material Design]: https://material.io/design/introduction/#
+[TextButton]: {{site.api}}/flutter/material/TextButton-class.html
 [VS Code]: /docs/development/tools/devtools/vscode
 [Web samples]: {{site.github}}/flutter/samples/tree/master/web
 [Widget]: {{site.api}}/flutter/widgets/Widget-class.html

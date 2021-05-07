@@ -86,15 +86,8 @@ Verify the most important settings.
 In the **Identity** section:
 
 `Display Name`
-: Runner
+: The display name of your app.
 
-{{site.alert.note}}
-  Flutter versions prior to 1.18.0-10.0.pre
-  do not support changing the display name
-  to anything other than `Runner`. For more
-  information, see [Issue 41793][].
-{{site.alert.end}}
-  
 `Bundle Identifier`
 : The App ID you registered on App Store Connect.
 
@@ -111,9 +104,9 @@ In the **Signing & Capabilities** section:
   account. If required, select **Add Account...**,
   then update this setting.
 
-In the **Deployment Info** section:
+In the **Build Settings** section:
 
-`Deployment Target:`
+`iOS Deployment Target`
 : The minimum iOS version that your app supports.
   Flutter supports iOS 8.0 and later. If your app includes
   Objective-C or Swift code that makes use of APIs that
@@ -127,10 +120,10 @@ the following:
 For a detailed overview of app signing, see
 [Create, export, and delete signing certificates][appsigning].
 
-## Updating the app's name
-
-In the main view sidebar, select the `Info.plist` file.
-Rename the **Bundle name** field.
+## Updating the app's deployment version
+If you changed `Deployment Target` in your Xcode project,
+open `ios/Flutter/AppframeworkInfo.plist` in your Flutter app
+and update the `MinimumOSVersion` value to match.
 
 ## Updating the app's version number
 
@@ -177,19 +170,9 @@ At this point, you might consider [obfuscating your Dart code][]
 to make it more difficult to reverse engineer. Obfuscating
 your code involves adding a couple flags to your build command.
 
-On the command line, follow these steps in your application directory:
-
-1. Run `flutter build ios` to create a release build
-   (`flutter build` defaults to `--release`).
-1. To ensure that Xcode refreshes the release mode configuration,
-   close and re-open your Xcode workspace.
-   For Xcode 8.3 and later, this step is not required.
-
 In Xcode, configure the app version and build:
 
 1. In Xcode, open `Runner.xcworkspace` in your app's `ios` folder.
-1. Select **Product > Scheme > Runner**.
-1. Select **Product > Destination > Generic iOS Device**.
 1. Select **Runner** in the Xcode project navigator, then select the
    **Runner** target in the settings view sidebar.
 1. In the Identity section, update the **Version** to the user-facing
@@ -200,16 +183,50 @@ In Xcode, configure the app version and build:
 
 Finally, create a build archive and upload it to App Store Connect:
 
-1. Select **Product > Archive** to produce a build archive.
-1. In the sidebar of the Xcode Organizer window, select your iOS app,
-   then select the build archive you just produced.
-1. Click the **Validate App** button. If any issues are reported,
-   address them and produce another build. You can reuse the same
-   build ID until you upload an archive.
-1. After the archive has been successfully validated, click
-   **Distribute App**. You can follow the status of your build in the
-   Activities tab of your app's details page on
-   [App Store Connect][appstoreconnect_login].
+<ol markdown="1">
+<li markdown="1">
+
+Run `flutter build ipa` to produce a build archive.
+
+{{site.alert.note}}
+  On versions of Flutter where `flutter build ipa`
+  is unavailable, open Xcode and select **Product > Archive**.
+  In the sidebar of the Xcode Organizer window, select your iOS app,
+  then select the build archive you just produced.
+{{site.alert.end}}
+
+</li>
+<li markdown="1">
+
+Open `build/ios/archive/MyApp.xcarchive` in Xcode.
+
+</li>
+<li markdown="1">
+
+Click the **Validate App** button. If any issues are reported,
+address them and produce another build. You can reuse the same
+build ID until you upload an archive.
+
+</li>
+<li markdown="1">
+
+After the archive has been successfully validated, click
+**Distribute App**. You can follow the status of your build in the
+Activities tab of your app's details page on
+[App Store Connect][appstoreconnect_login].
+
+{{site.alert.note}}
+  When you export your app at the end of **Distribute App**,
+  Xcode will create a directory containing
+  an IPA of your app and an `ExportOptions.plist` file.
+  You can create new IPAs with the same options without launching
+  Xcode by running
+  `flutter build ipa --export-options-plist=path/to/ExportOptions.plist`.
+  See `xcodebuild -h` for details about the keys in this property list.
+{{site.alert.end}}
+
+</li>
+</ol>
 
 You should receive an email within 30 minutes notifying you that
 your build has been validated and is available to release to testers
@@ -283,6 +300,5 @@ detailed overview of the process of releasing an app to the App Store.
 [distributionguide_submit]: https://help.apple.com/xcode/mac/current/#/dev067853c94
 [distributionguide_testflight]: https://help.apple.com/xcode/mac/current/#/dev2539d985f
 [distributionguide_upload]: https://help.apple.com/xcode/mac/current/#/dev442d7f2ca
-[Issue 41793]: {{site.github}}/flutter/flutter/issues/41793
 [obfuscating your Dart code]: /docs/deployment/obfuscate
 [TestFlight]: https://developer.apple.com/testflight/

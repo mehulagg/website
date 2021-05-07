@@ -21,9 +21,7 @@ To work with images from a URL, use the
 
 <!-- skip -->
 ```dart
-Image.network(
-  'https://picsum.photos/250?image=9',
-)
+Image.network('https://picsum.photos/250?image=9')
 ```
 
 ## Bonus: animated gifs
@@ -33,9 +31,7 @@ It supports animated gifs.
 
 <!-- skip -->
 ```dart
-Image.network(
-  'https://github.com/flutter/plugins/raw/master/packages/video_player/video_player/doc/demo_ipod.gif?raw=true',
-);
+Image.network('https://github.com/flutter/plugins/raw/master/packages/video_player/video_player/doc/demo_ipod.gif?raw=true');
 ```
 
 ## Placeholders and caching
@@ -50,7 +46,7 @@ the following recipes:
 
 ## Interactive example
 
-```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example
+```run-dartpad:theme-light:mode-flutter:run-true:width-100%:height-600px:split-60:ga_id-interactive_example:null_safety-true
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -66,9 +62,7 @@ class MyApp extends StatelessWidget {
         appBar: AppBar(
           title: Text(title),
         ),
-        body: Image.network(
-          'https://picsum.photos/250?image=9',
-        ),
+        body: Image.network('https://picsum.photos/250?image=9'),
       ),
     );
   }

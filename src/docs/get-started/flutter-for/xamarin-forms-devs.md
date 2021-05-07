@@ -3,33 +3,38 @@ title: Flutter for Xamarin.Forms developers
 description: Learn how to apply Xamarin.Forms developer knowledge when building Flutter apps.
 ---
 
-This document is meant for Xamarin.Forms developers looking to apply their
-existing knowledge to build mobile apps with Flutter. If you understand
-the fundamentals of the Xamarin.Forms framework, then you can use this
+This document is meant for Xamarin.Forms developers looking
+to apply their existing knowledge to build mobile apps with
+Flutter. If you understand the fundamentals of the
+Xamarin.Forms framework, then you can use this
 document as a jump start to Flutter development.
 
-Your Android and iOS knowledge and skill set are valuable when building with
-Flutter, because Flutter relies on the native operating system configurations,
-similar to how you would configure your native Xamarin.Forms projects.
-The Flutter Frameworks is also similar to how you create a single UI,
+Your Android and iOS knowledge and skill set are valuable
+when building with Flutter, because Flutter relies on
+the native operating system configurations,
+similar to how you would configure your native
+Xamarin.Forms projects. The Flutter Frameworks
+is also similar to how you create a single UI,
 that is used on multiple platforms.
 
-This document can be used as a cookbook by jumping around and finding questions
+This document can be used as a cookbook by
+jumping around and finding questions
 that are most relevant to your needs.
 
 ## Project setup
 
 ### How does the app start?
 
-For each platform in Xamarin.Forms, you call the `LoadApplication` method,
+For each platform in Xamarin.Forms,
+you call the `LoadApplication` method,
 which creates a new application and starts your app.
 
 ```csharp
 LoadApplication(App());
 ```
 
-In Flutter, the default main entry point is `main` where you load your
-Flutter app.
+In Flutter, the default main entry point is
+`main` where you load your Flutter app.
 
 <!-- skip -->
 ```dart
@@ -38,8 +43,8 @@ void main() {
 }
 ```
 
-In Xamarin.Forms, you assign a `Page` to the `MainPage` property in the
-`Application` class.
+In Xamarin.Forms, you assign a `Page` to the
+`MainPage` property in the `Application` class.
 
 ```csharp
 public class App: Application
@@ -79,18 +84,23 @@ class MyApp extends StatelessWidget {
 Xamarin.Forms has many different types of pages;
 `ContentPage` is the most common.  In Flutter,
 you specify an application widget that holds your root page.
-You can use a [MaterialApp][] widget,
+You can use a [`MaterialApp`][] widget,
 which supports [Material Design][], or you can use a
-[CupertinoApp][] widget, which supports an iOS-style app,
-or you can use the lower level [WidgetsApp][],
+[`CupertinoApp`][] widget, which supports an iOS-style app,
+or you can use the lower level [`WidgetsApp`][],
 which you can customize in any way you want.
 
-The following code defines the home page, a stateful widget. In Flutter,
-all widgets are immutable, but two types of widgets are supported:
-stateful and stateless. Examples of a stateless widget are titles,
-icons, or images.
+[`CupertinoApp`]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
+[`MaterialApp`]: {{site.api}}/flutter/material/MaterialApp-class.html
+[`WidgetsApp`]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 
-The following example uses MaterialApp,
+The following code defines the home page, a stateful widget.
+In Flutter, all widgets are immutable,
+but two types of widgets are supported:
+stateful and stateless. Examples of a stateless widget
+are titles, icons, or images.
+
+The following example uses `MaterialApp`,
 which holds its root page in the `home` property.
 
 <!-- skip -->
@@ -353,10 +363,12 @@ Widget build(BuildContext context) {
       title: Text("Sample App"),
     ),
     body: Center(
-      child: MaterialButton(
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          padding: EdgeInsets.only(left: 20.0, right: 30.0),
+        ),
         onPressed: () {},
         child: Text('Hello'),
-        padding: EdgeInsets.only(left: 10.0, right: 10.0),
       ),
     ),
   );
@@ -515,6 +527,7 @@ class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
     curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
   }
@@ -630,8 +643,8 @@ It is somewhat similar to implementing a custom control based off a
 custom logic.
 
 For example, how do you build a `CustomButton` that takes a label in
-the constructor? Create a CustomButton that composes a `RaisedButton`
-with a label, rather than by extending `RaisedButton`:
+the constructor? Create a CustomButton that composes a `ElevatedButton`
+with a label, rather than by extending `ElevatedButton`:
 
 <!-- skip -->
 ```dart
@@ -642,7 +655,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(onPressed: () {}, child: Text(label));
+    return ElevatedButton(onPressed: () {}, child: Text(label));
   }
 }
 ```
@@ -766,7 +779,7 @@ loadData() async {
   String dataURL = "https://jsonplaceholder.typicode.com/posts";
   http.Response response = await http.get(dataURL);
   setState(() {
-    widgets = json.decode(response.body);
+    widgets = jsonDecode(response.body);
   });
 }
 ```
@@ -814,7 +827,6 @@ class _SampleAppPageState extends State<SampleAppPage> {
   @override
   void initState() {
     super.initState();
-
     loadData();
   }
 
@@ -842,7 +854,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -874,7 +886,7 @@ loadData() async {
   String dataURL = "https://jsonplaceholder.typicode.com/posts";
   http.Response response = await http.get(dataURL);
   setState(() {
-    widgets = json.decode(response.body);
+    widgets = jsonDecode(response.body);
   });
 }
 ```
@@ -928,7 +940,7 @@ static dataLoader(SendPort sendPort) async {
     String dataURL = data;
     http.Response response = await http.get(dataURL);
     // Lots of JSON to parse
-    replyTo.send(json.decode(response.body));
+    replyTo.send(jsonDecode(response.body));
   }
 }
 
@@ -1062,7 +1074,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
       String dataURL = data;
       http.Response response = await http.get(dataURL);
       // Lots of JSON to parse
-      replyTo.send(json.decode(response.body));
+      replyTo.send(jsonDecode(response.body));
     }
   }
 
@@ -1102,7 +1114,7 @@ import 'package:http/http.dart' as http;
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -1206,7 +1218,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -1354,14 +1366,17 @@ MaterialApp(
 )
 ```
 
-The delegates contain the actual localized values, while the `supportedLocales`
-defines which locales the app supports. The above example uses a `MaterialApp`,
+The delegates contain the actual localized values,
+while the `supportedLocales` defines which locales
+the app supports. The above example uses a `MaterialApp`,
 so it has both a `GlobalWidgetsLocalizations` for the base
-widgets localized values, and a `MaterialWidgetsLocalizations` for the Material
-widgets localizations. If you use `WidgetsApp` for your app, you don't
+widgets localized values, and a `MaterialWidgetsLocalizations`
+for the Material widgets localizations.
+If you use `WidgetsApp` for your app, you don't
 need the latter. Note that these two delegates contain "default"
-values, but you'll need to provide one or more delegates for your own app's
-localizable copy, if you want those to be localized too.
+values, but you'll need to provide one or more delegates
+for your own app's localizable copy,
+if you want those to be localized too.
 
 When initialized, the `WidgetsApp` (or `MaterialApp`)
 creates a [`Localizations`][] widget for you,
@@ -1583,14 +1598,14 @@ tied to this event. Alternatively you would use the
 `TapGestureRecognizer`. In Flutter there are two very similar ways:
 
  1. If the widget supports event detection, pass a function to it and
-    handle it in the function. For example, the RaisedButton has an
+    handle it in the function. For example, the ElevatedButton has an
     `onPressed` parameter:
 
     <!-- skip -->
     ```dart
     @override
     Widget build(BuildContext context) {
-      return RaisedButton(
+      return ElevatedButton(
           onPressed: () {
             print("click");
           },
@@ -1706,6 +1721,7 @@ CurvedAnimation curve;
 
 @override
 void initState() {
+  super.initState();
   controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
   curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 }
@@ -1744,7 +1760,7 @@ In a Xamarin.Forms `ListView`,
 you create a `ViewCell` and possibly a `DataTemplateSelector`
 and pass it into the `ListView`, which renders each row with
 what your `DataTemplateSelector` or `ViewCell` returns.
-However, you often have have to make sure you turn on Cell Recycling
+However, you often have to make sure you turn on Cell Recycling
 otherwise you will run into memory issues and slow scrolling speeds.
 
 Due to Flutter's immutable widget pattern, you pass a list of
@@ -1918,7 +1934,7 @@ class SampleAppPage extends StatefulWidget {
 }
 
 class _SampleAppPageState extends State<SampleAppPage> {
-  List widgets = [];
+  List<Widget> widgets = [];
 
   @override
   void initState() {
@@ -1946,7 +1962,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
       onTap: () {
         setState(() {
           widgets = List.from(widgets);
-          widgets.add(getRow(widgets.length + 1));
+          widgets.add(getRow(widgets.length));
           print('row $i');
         });
       },
@@ -1991,7 +2007,7 @@ class SampleAppPage extends StatefulWidget {
 }
 
 class _SampleAppPageState extends State<SampleAppPage> {
-  List widgets = [];
+  List<Widget> widgets = [];
 
   @override
   void initState() {
@@ -2021,7 +2037,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
           child: Text("Row $i")),
       onTap: () {
         setState(() {
-          widgets.add(getRow(widgets.length + 1));
+          widgets.add(getRow(widgets.length));
           print('row $i');
         });
       },
@@ -2377,9 +2393,10 @@ In Flutter you declare themes in the top level widget.
 
 To take full advantage of Material Components in your app,
 you can declare a top level widget `MaterialApp` as the entry
-point to your application. MaterialApp is a convenience widget
+point to your application. `MaterialApp` is a convenience widget
 that wraps a number of widgets that are commonly required for
-applications implementing Material Design. It builds upon a WidgetsApp by
+applications implementing Material Design.
+It builds upon a `WidgetsApp` by
 adding Material-specific functionality.
 
 You can also use a `WidgetsApp` as your app widget,
@@ -2412,7 +2429,7 @@ class SampleApp extends StatelessWidget {
 
 ### How do I access shared preferences or UserDefaults?
 
-Xamarin.Forms developers will likely be familar with the
+Xamarin.Forms developers will likely be familiar with the
 `Xam.Plugins.Settings` plugin.
 
 In Flutter, access equivalent functionality using the
@@ -2457,14 +2474,13 @@ For more information on using the Firebase Cloud Messaging API, see the
 [Animation & Motion widgets]: /docs/development/ui/widgets/animation
 [Animations overview]: /docs/development/ui/animations
 [Animations tutorial]: /docs/development/ui/animations/tutorial
-[Apple's iOS design language]: https://developer.apple.com/design/resources/
-[arb]: {{site.github}}/google/i18n/app-resource-bundle
+[Apple's iOS design language]: {{site.apple-dev}}/design/resources/
+[arb]: {{site.github}}/google/app-resource-bundle
 [Async UI]: #async-ui
 [`cloud_firestore`]: {{site.pub}}/packages/cloud_firestore
-[composing]: /docs/resources/technical-overview#everythings-a-widget
+[composing]: /docs/resources/architectural-overview#composition
 [Cupertino widgets]: /docs/development/ui/widgets/cupertino
-[CupertinoApp]: {{site.api}}/flutter/cupertino/CupertinoApp-class.html
-[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/Window/devicePixelRatio.html
+[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html
 [developing packages and plugins]: /docs/development/packages-and-plugins/developing-packages
 [DevTools]: /docs/development/tools/devtools/overview
 [existing plugin]: {{site.pub}}/flutter
@@ -2474,7 +2490,7 @@ For more information on using the Firebase Cloud Messaging API, see the
 [`firebase_database`]: {{site.pub}}/packages/firebase_database
 [`firebase_messaging`]: {{site.pub}}/packages/firebase_messaging
 [`firebase_storage`]: {{site.pub}}/packages/firebase_storage
-[Firebase_Messaging]: {{site.github}}/flutter/plugins/tree/master/packages/firebase_messaging
+[Firebase_Messaging]: {{site.pub}}/packages/firebase_messaging
 [first party plugins]: {{site.pub}}/flutter/packages?q=firebase
 [Flutter cookbook]: /docs/cookbook
 [`flutter_facebook_login`]: {{site.pub}}/packages/flutter_facebook_login
@@ -2490,7 +2506,6 @@ For more information on using the Firebase Cloud Messaging API, see the
 [Material Components]: /docs/development/ui/widgets/material
 [Material Design]: {{site.material}}/design
 [Material Design guidelines]: {{site.material}}/design
-[MaterialApp]: {{site.api}}/flutter/material/MaterialApp-class.html
 [`Opacity` widget]: {{site.api}}/flutter/widgets/Opacity-class.html
 [optimized for all platforms]: {{site.material}}/design/platform-guidance/cross-platform-adaptation.html#cross-platform-guidelines
 [platform channels]: /docs/development/platform-integration/platform-channels
@@ -2502,11 +2517,9 @@ For more information on using the Firebase Cloud Messaging API, see the
 [`sqflite`]: {{site.pub}}/packages/sqflite
 [`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
 [`url_launcher`]: {{site.pub}}/packages/url_launcher
-[widget]: /docs/resources/technical-overview#everythings-a-widget
+[widget]: /docs/resources/architectural-overview#widgets
 [widget catalog]: /docs/development/ui/widgets/layout
-[WidgetsApp]: {{site.api}}/flutter/widgets/WidgetsApp-class.html
 [`Window.locale`]: {{site.api}}/flutter/dart-ui/Window/locale.html
 [Write your first Flutter app, part 1]: {{site.codelabs}}/codelabs/first-flutter-app-pt1
 [Write your first Flutter app, part 2]: {{site.codelabs}}/codelabs/first-flutter-app-pt2
 [write your own]: /docs/development/packages-and-plugins/developing-packages
-

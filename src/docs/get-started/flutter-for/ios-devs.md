@@ -3,9 +3,10 @@ title: Flutter for iOS developers
 description: Learn how to apply iOS developer knowledge when building Flutter apps.
 ---
 
-This document is for iOS developers looking to apply their existing iOS
-knowledge to build mobile apps with Flutter. If you understand the
-fundamentals of the iOS framework then you can use this document as a
+This document is for iOS developers looking to apply
+their existing iOS knowledge to build mobile apps with Flutter.
+If you understand the fundamentals of the iOS framework
+then you can use this document as a
 way to get started learning Flutter development.
 
 {{site.alert.note}}
@@ -346,6 +347,7 @@ class _MyFadeTest extends State<MyFadeTest> with TickerProviderStateMixin {
 
   @override
   void initState() {
+    super.initState();
     controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
     curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
   }
@@ -403,11 +405,42 @@ To learn how to implement a signature painter in Flutter, see Collin's answer on
 
 <!-- skip -->
 ```dart
+import 'package:flutter/material.dart';
+
+void main() => runApp(MaterialApp(home: DemoApp()));
+
+class DemoApp extends StatelessWidget {
+  Widget build(BuildContext context) => Scaffold(body: Signature());
+}
+
+class Signature extends StatefulWidget {
+  SignatureState createState() => SignatureState();
+}
+
+class SignatureState extends State<Signature> {
+  List<Offset> _points = <Offset>[];
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onPanUpdate: (DragUpdateDetails details) {
+        setState(() {
+          RenderBox referenceBox = context.findRenderObject();
+          Offset localPosition =
+              referenceBox.globalToLocal(details.globalPosition);
+          _points = List.from(_points)..add(localPosition);
+        });
+      },
+      onPanEnd: (DragEndDetails details) => _points.add(null),
+      child: CustomPaint(
+        painter: SignaturePainter(_points),
+        size: Size.infinite,
+      ),
+    );
+  }
+}
+
 class SignaturePainter extends CustomPainter {
   SignaturePainter(this.points);
-
   final List<Offset> points;
-
   void paint(Canvas canvas, Size size) {
     var paint = Paint()
       ..color = Colors.black
@@ -420,30 +453,6 @@ class SignaturePainter extends CustomPainter {
   }
 
   bool shouldRepaint(SignaturePainter other) => other.points != points;
-}
-
-class Signature extends StatefulWidget {
-  SignatureState createState() => SignatureState();
-}
-
-class SignatureState extends State<Signature> {
-
-  List<Offset> _points = <Offset>[];
-
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onPanUpdate: (DragUpdateDetails details) {
-        setState(() {
-          RenderBox referenceBox = context.findRenderObject();
-          Offset localPosition =
-          referenceBox.globalToLocal(details.globalPosition);
-          _points = List.from(_points)..add(localPosition);
-        });
-      },
-      onPanEnd: (DragEndDetails details) => _points.add(null),
-      child: CustomPaint(painter: SignaturePainter(_points), size: Size.infinite),
-    );
-  }
 }
 ```
 
@@ -463,7 +472,7 @@ Flutter, build a custom widget by
 
 For example, how do you build a `CustomButton` that takes a label in
 the constructor? Create a CustomButton that composes a
-`RaisedButton` with a label, rather than by extending `RaisedButton`:
+`ElevatedButton` with a label, rather than by extending `ElevatedButton`:
 
 <!-- skip -->
 ```dart
@@ -474,7 +483,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return RaisedButton(onPressed: () {}, child: Text(label));
+    return ElevatedButton(onPressed: () {}, child: Text(label));
   }
 }
 ```
@@ -609,7 +618,7 @@ loadData() async {
   String dataURL = "https://jsonplaceholder.typicode.com/posts";
   http.Response response = await http.get(dataURL);
   setState(() {
-    widgets = json.decode(response.body);
+    widgets = jsonDecode(response.body);
   });
 }
 ```
@@ -659,7 +668,6 @@ class _SampleAppPageState extends State<SampleAppPage> {
   @override
   void initState() {
     super.initState();
-
     loadData();
   }
 
@@ -687,7 +695,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -717,7 +725,7 @@ loadData() async {
   String dataURL = "https://jsonplaceholder.typicode.com/posts";
   http.Response response = await http.get(dataURL);
   setState(() {
-    widgets = json.decode(response.body);
+    widgets = jsonDecode(response.body);
   });
 }
 ```
@@ -776,7 +784,7 @@ static dataLoader(SendPort sendPort) async {
     String dataURL = data;
     http.Response response = await http.get(dataURL);
     // Lots of JSON to parse
-    replyTo.send(json.decode(response.body));
+    replyTo.send(jsonDecode(response.body));
   }
 }
 
@@ -912,7 +920,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
       String dataURL = data;
       http.Response response = await http.get(dataURL);
       // Lots of JSON to parse
-      replyTo.send(json.decode(response.body));
+      replyTo.send(jsonDecode(response.body));
     }
   }
 
@@ -953,7 +961,7 @@ import 'package:http/http.dart' as http;
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -1056,7 +1064,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
     String dataURL = "https://jsonplaceholder.typicode.com/posts";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = jsonDecode(response.body);
     });
   }
 }
@@ -1297,7 +1305,7 @@ The observable lifecycle events are:
   The iOS platform has no equivalent event.
 
 For more details on the meaning of these states, see
-[`AppLifecycleStatus` documentation][].
+[`AppLifecycleState` documentation][].
 
 ## Layouts
 
@@ -1477,7 +1485,7 @@ class SampleAppPage extends StatefulWidget {
 }
 
 class _SampleAppPageState extends State<SampleAppPage> {
-  List widgets = [];
+  List<Widget> widgets = [];
 
   @override
   void initState() {
@@ -1506,7 +1514,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
       onTap: () {
         setState(() {
           widgets = List.from(widgets);
-          widgets.add(getRow(widgets.length + 1));
+          widgets.add(getRow(widgets.length));
           print('row $i');
         });
       },
@@ -1550,7 +1558,7 @@ class SampleAppPage extends StatefulWidget {
 }
 
 class _SampleAppPageState extends State<SampleAppPage> {
-  List widgets = [];
+  List<Widget> widgets = [];
 
   @override
   void initState() {
@@ -1583,7 +1591,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
       ),
       onTap: () {
         setState(() {
-          widgets.add(getRow(widgets.length + 1));
+          widgets.add(getRow(widgets.length));
           print('row $i');
         });
       },
@@ -1592,7 +1600,7 @@ class _SampleAppPageState extends State<SampleAppPage> {
 }
 ```
 
-Instead of creating a "ListView", create a `ListView.builder` that
+Instead of creating a `ListView`, create a `ListView.builder` that
 takes two key parameters: the initial length of the list,
 and an `ItemBuilder` function.
 
@@ -1641,13 +1649,13 @@ In Flutter, there are two ways of adding touch listeners:
 
  1. If the widget supports event detection, pass a function to it,
     and handle the event in the function. For example, the
-    `RaisedButton` widget has an `onPressed` parameter:
+    `ElevatedButton` widget has an `onPressed` parameter:
 
     <!-- skip -->
     ```dart
     @override
     Widget build(BuildContext context) {
-      return RaisedButton(
+      return ElevatedButton(
         onPressed: () {
           print("click");
         },
@@ -1756,6 +1764,7 @@ CurvedAnimation curve;
 
 @override
 void initState() {
+  super.initState();
   controller = AnimationController(duration: const Duration(milliseconds: 2000), vsync: this);
   curve = CurvedAnimation(parent: controller, curve: Curves.easeIn);
 }
@@ -2189,17 +2198,17 @@ plugin documentation.
 [Animations overview]: /docs/development/ui/animations
 [Animations tutorial]: /docs/development/ui/animations/tutorial
 [Apple's iOS design language]: https://developer.apple.com/design/resources
-[`AppLifecycleStatus` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState-class.html
+[`AppLifecycleState` documentation]: {{site.api}}/flutter/dart-ui/AppLifecycleState-class.html
 [arb]: {{site.github}}/googlei18n/app-resource-bundle
 [`AssetBundle`]: {{site.api}}/flutter/services/AssetBundle-class.html
 [`cloud_firestore`]: {{site.pub-pkg}}/cloud_firestore
-[composing]: /docs/resources/technical-overview#everythings-a-widget
+[composing]: /docs/resources/architectural-overview#composition
 [Cupertino library]: {{site.api}}/flutter/cupertino/cupertino-library.html
 [Cupertino widgets]: /docs/development/ui/widgets/cupertino
 [developing packages and plugins]: /docs/development/packages-and-plugins/developing-packages
-[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/Window/devicePixelRatio.html
+[`devicePixelRatio`]: {{site.api}}/flutter/dart-ui/FlutterView/devicePixelRatio.html
 [DevTools]: /docs/development/tools/devtools
-[existing plugin]: ({{site.pub}}/flutter
+[existing plugin]: {{site.pub}}/flutter
 [`firebase_admob`]: {{site.pub-pkg}}/firebase_admob
 [`firebase_analytics`]: {{site.pub-pkg}}/firebase_analytics
 [`firebase_auth`]: {{site.pub-pkg}}/firebase_auth
@@ -2234,7 +2243,7 @@ plugin documentation.
 [SQFlite]: {{site.pub-pkg}}/sqflite
 [`TextEditingController`]: {{site.api}}/flutter/widgets/TextEditingController-class.html
 [`url_launcher`]: {{site.pub-pkg}}/url_launcher
-[widget]: /docs/resources/technical-overview#everythings-a-widget
+[widget]: /docs/resources/architectural-overview#widgets
 [widget catalog]: /docs/development/ui/widgets/layout
 [`Window.locale`]: {{site.api}}/flutter/dart-ui/Window/locale.html
 [write your own]: /docs/development/packages-and-plugins/developing-packages

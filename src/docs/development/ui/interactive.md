@@ -5,7 +5,7 @@ short-title: Adding interactivity
 diff2html: true
 ---
 
-{% capture examples -%} {{site.repo.this}}/tree/{{site.branch}}/examples {%- endcapture -%}
+{% capture examples -%} {{site.repo.this}}/tree/{{site.branch}}/null_safety_examples {%- endcapture -%}
 
 {{site.alert.secondary}}
   <h4 class="no_toc">What you’ll learn</h4>
@@ -151,8 +151,7 @@ In this example, `createState()` returns an
 instance of `_FavoriteWidgetState`,
 which you'll implement in the next step.
 
-<!-- skip -->
-<?code-excerpt path-base="layout/lakes/interactive"?>
+<?code-excerpt path-base="../null_safety_examples/layout/lakes/interactive"?>
 <?code-excerpt "lib/main.dart (FavoriteWidget)" title?>
 ```dart
 class FavoriteWidget extends StatefulWidget {
@@ -178,7 +177,6 @@ red star, indicating that the lake has "favorite" status,
 along with 41 likes. These values are stored in the
 `_isFavorited` and `_favoriteCount` fields:
 
-<!-- skip -->
 <?code-excerpt "lib/main.dart (_FavoriteWidgetState fields)" replace="/(bool|int) .*/[!$&!]/g" title?>
 ```dart
 class _FavoriteWidgetState extends State<FavoriteWidget> {
@@ -195,7 +193,6 @@ because it has an `onPressed` property that defines
 the callback function (`_toggleFavorite`) for handling a tap.
 You'll define the callback function next.
 
-<!-- skip -->
 <?code-excerpt "lib/main.dart (_FavoriteWidgetState build)" replace="/build|icon.*|onPressed.*|child: Text.*/[!$&!]/g" title?>
 ```dart
 class _FavoriteWidgetState extends State<FavoriteWidget> {
@@ -208,6 +205,8 @@ class _FavoriteWidgetState extends State<FavoriteWidget> {
         Container(
           padding: EdgeInsets.all(0),
           child: IconButton(
+            padding: EdgeInsets.all(0),
+            alignment: Alignment.centerRight,
             [!icon: (_isFavorited ? Icon(Icons.star) : Icon(Icons.star_border)),!]
             color: Colors.red[500],
             [!onPressed: _toggleFavorite,!]
@@ -243,7 +242,6 @@ UI between these two states:
 * A `star` icon and the number 41
 * A `star_border` icon and the number 40
 
-<!-- skip -->
 <?code-excerpt "lib/main.dart (_toggleFavorite)"?>
 ```dart
 void _toggleFavorite() {
@@ -267,8 +265,7 @@ the app's `build()` method. First, locate the code that
 creates the `Icon` and `Text`, and delete it.
 In the same location, create the stateful widget:
 
-<!-- skip -->
-<?code-excerpt path-base=""?>
+<?code-excerpt path-base="../null_safety_examples/"?>
 <?code-excerpt "layout/lakes/{step6,interactive}/lib/main.dart" remove="*3*" from="class MyApp" to="}"?>
 ```diff
 --- layout/lakes/step6/lib/main.dart
@@ -396,14 +393,18 @@ The `_TapboxAState` class:
   `setState()` function to update the UI.
 * Implements all interactive behavior for the widget.
 
-<!-- skip -->
+<?code-excerpt path-base="../null_safety_examples/development/ui/interactive/"?>
+
+<?code-excerpt "lib/self_managed.dart"?>
 ```dart
+import 'package:flutter/material.dart';
+
 // TapboxA manages its own state.
 
 //------------------------- TapboxA ----------------------------------
 
 class TapboxA extends StatefulWidget {
-  TapboxA({Key key}) : super(key: key);
+  TapboxA({Key? key}) : super(key: key);
 
   @override
   _TapboxAState createState() => _TapboxAState();
@@ -488,11 +489,14 @@ The TapboxB class:
 * Extends StatelessWidget because all state is handled by its parent.
 * When a tap is detected, it notifies the parent.
 
-<!-- skip -->
+<?code-excerpt "lib/parent_managed.dart"?>
 ```dart
+import 'package:flutter/material.dart';
+
 // ParentWidget manages the state for TapboxB.
 
 //------------------------ ParentWidget --------------------------------
+
 
 class ParentWidget extends StatefulWidget {
   @override
@@ -522,7 +526,7 @@ class _ParentWidgetState extends State<ParentWidget> {
 //------------------------- TapboxB ----------------------------------
 
 class TapboxB extends StatelessWidget {
-  TapboxB({Key key, this.active: false, @required this.onChanged})
+  TapboxB({Key? key, this.active: false, required this.onChanged})
       : super(key: key);
 
   final bool active;
@@ -552,18 +556,6 @@ class TapboxB extends StatelessWidget {
   }
 }
 ```
-
-{{site.alert.tip}}
-  When creating API, consider using the `@required` annotation for any
-  parameters that your code relies on. To use `@required`, import the
-  [`foundation` library][] (which re-exports Dart's
-  [`meta.dart`][] library):
-
-  <!-- skip -->
-  ```dart
-  import 'package:flutter/foundation.dart';
-  ```
-{{site.alert.end}}
 
 <hr>
 
@@ -602,8 +594,10 @@ The `_TapboxCState` object:
 * On a tap event, passes that state change to the parent widget to take
   appropriate action using the [`widget`][] property.
 
-<!-- skip -->
+<?code-excerpt "lib/mixed.dart"?>
 ```dart
+import 'package:flutter/material.dart';
+
 //---------------------------- ParentWidget ----------------------------
 
 class ParentWidget extends StatefulWidget {
@@ -634,8 +628,11 @@ class _ParentWidgetState extends State<ParentWidget> {
 //----------------------------- TapboxC ------------------------------
 
 class TapboxC extends StatefulWidget {
-  TapboxC({Key key, this.active: false, @required this.onChanged})
-      : super(key: key);
+  TapboxC({
+    Key? key,
+    this.active: false,
+    required this.onChanged,
+  }) : super(key: key);
 
   final bool active;
   final ValueChanged<bool> onChanged;
@@ -684,11 +681,10 @@ class _TapboxCState extends State<TapboxC> {
         width: 200.0,
         height: 200.0,
         decoration: BoxDecoration(
-          color:
-              widget.active ? Colors.lightGreen[700] : Colors.grey[600],
+          color: widget.active ? Colors.lightGreen[700] : Colors.grey[600],
           border: _highlight
               ? Border.all(
-                  color: Colors.teal[700],
+                  color: Colors.teal[700]!,
                   width: 10.0,
                 )
               : null,
@@ -739,11 +735,11 @@ the prefabricated widgets. Here's a partial list:
 
 * [`Checkbox`][]
 * [`DropdownButton`][]
-* [`FlatButton`][]
+* [`TextButton`][]
 * [`FloatingActionButton`][]
 * [`IconButton`][]
 * [`Radio`][]
-* [`RaisedButton`][]
+* [`ElevatedButton`][]
 * [`Slider`][]
 * [`Switch`][]
 * [`TextField`][]
@@ -779,7 +775,7 @@ Flutter Gallery [running app][], [repo][]
 [Dart language tour]: {{site.dart-site}}/guides/language/language-tour
 [Debugging Flutter apps]: /docs/testing/debugging
 [`DropdownButton`]: {{site.api}}/flutter/material/DropdownButton-class.html
-[`FlatButton`]: {{site.api}}/flutter/material/FlatButton-class.html
+[`TextButton`]: {{site.api}}/flutter/material/TextButton-class.html
 [`FloatingActionButton`]: {{site.api}}/flutter/material/FloatingActionButton-class.html
 [Flutter API documentation]: {{site.api}}
 [Flutter cookbook]: /docs/cookbook
@@ -810,9 +806,9 @@ Flutter Gallery [running app][], [repo][]
 [`meta.dart`]: {{site.pub}}/packages/meta
 [`pubspec.yaml`]: {{examples}}/layout/lakes/step6/pubspec.yaml
 [`Radio`]: {{site.api}}/flutter/material/Radio-class.html
-[`RaisedButton`]: {{site.api}}/flutter/material/RaisedButton-class.html
-[repo]: {{site.repo.flutter}}/tree/master/dev/integration_tests/flutter_gallery
-[running app]: https://flutter.github.io/gallery/#/
+[`ElevatedButton`]: {{site.api}}/flutter/material/ElevatedButton-class.html
+[repo]: {{site.github}}/flutter/gallery
+[running app]: https://gallery.flutter.dev
 [set up]: /docs/get-started/install
 [`SizedBox`]: {{site.api}}/flutter/widgets/SizedBox-class.html
 [`Slider`]: {{site.api}}/flutter/material/Slider-class.html
@@ -823,4 +819,3 @@ Flutter Gallery [running app][], [repo][]
 [`TextField`]: {{site.api}}/flutter/material/TextField-class.html
 [`Text`]: {{site.api}}/flutter/widgets/Text-class.html
 [`widget`]: {{site.api}}/flutter/widgets/State/widget.html
-
