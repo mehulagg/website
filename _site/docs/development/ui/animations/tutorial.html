@@ -1,0 +1,3662 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Animations tutorial  - Flutter </title>
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <!-- Google Optimize -->
+  <script src="https://www.googleoptimize.com/optimize.js?id=GTM-MPZP6R8"></script>
+  <!-- End Google Optimize -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-ND4LWWZ');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <meta name="description" content="A tutorial showing how to build explicit animations in Flutter.">
+  <meta name="keywords" content=" ">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flutterdev">
+
+  <meta property="og:title" content="Animations tutorial">
+  <meta property="og:url" content="https://flutter.dev/docs/development/ui/animations/tutorial">
+  <meta property="og:description" content="A tutorial showing how to build explicit animations in Flutter.">
+  
+  <meta property="og:image" content="https://flutter.dev/images/flutter-logo-sharing.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:300,400,500|Roboto+Mono:400,700|Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/main-5179236d2a521f0d8c964446a1eaa9bee448793c298286381d5cbdc3f6776229.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+  <script src="/assets/main-3d1fe020941b4eb18d313f0eb6a8ff9fd170a0b3ed6913d333d804fec0136545.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/dart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>$(document).ready(function() {
+  var diff2htmlUi = new Diff2HtmlUI();
+  diff2htmlUi.highlightCode(".d2h-wrapper");
+});</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67589403-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <meta name="google-site-verification" content="HFqxhSbf9YA_0rBglNLzDiWnrHiK_w4cqDh2YD2GEY4" />
+  <meta name="google-site-verification" content="Zom-prnFykfYycmI_nzRWYx5r6Z9OwR-yEsgElRz_Ug" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="overlay-under-drawer"></div>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-md justify-content-start justify-content-md-between">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="material-icons">menu</i>
+    </button>
+
+    <a class="navbar-brand" href="/">
+      <img alt="Flutter logo" height="37" width="129" class="align-middle" src="/assets/flutter-lockup-1caf6476beed76adec3c477586da54de6b552b2f42108ec5bc68dc63bae2df75.png">
+    </a>
+
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+      <div class="site-header__sheet-bg" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></div>
+      <div class="site-header__sheet">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/docs">Docs</a>
+          </li>
+          <div class="site-sidebar site-sidebar--header d-md-none">
+            <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+          </div>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/showcase">Showcase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/community">Community</a>
+          </li>
+        </ul>
+        <form action="/search/" class="site-header__search form-inline">
+          <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="site-header__social navbar-nav flex-row">
+      <a class="nav-item nav-link" href="https://twitter.com/flutterdev" aria-label="Twittter"><i class="fab fa-twitter fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://www.youtube.com/flutterdev" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://github.com/flutter" aria-label="Github"><i class="fab fa-github fa-lg"></i></a>
+    </div>
+    <a class="site-header__cta btn btn-primary" href="/docs/get-started/install/">Get started</a>
+    </nav>
+</header>
+<!---->
+  
+  <div class="site-banner site-banner--default" role="alert">
+    Flutter's I/O schedule is live. <a href="http://goo.gle/io21-flutter-agenda-4">Learn more</a>.
+  </div>
+<div class="container-fluid position-relative">
+  <div class="row flex-xl-nowrap">
+    <div class="fixed-col site-sidebar site-sidebar--fixed col-12 col-md-3 col-xl-2 d-none d-md-block" data-fixed-column>
+      <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+    </div>
+    <div
+  id="site-toc--side"
+  class="site-toc site-toc--side fixed-col col-xl-2 order-3"
+  data-fixed-column
+>
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    </header>
+  <ul class="section-nav nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#essential-animation-concepts-and-classes">Essential animation concepts and classes</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#animationdouble">Animation&lt;double&gt;</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#curvedanimation">Curved­Animation</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#animationcontroller">Animation­Controller</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#tween">Tween</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#tweenanimate">Tween.animate</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#animation-notifications">Animation notifications</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#animation-examples">Animation examples</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#rendering-animations">Rendering animations</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#simplifying-with-animatedwidget">Simplifying with Animated­Widget</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#monitoring-the-progress-of-the-animation">Monitoring the progress of the animation</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#refactoring-with-animatedbuilder">Refactoring with AnimatedBuilder</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#simultaneous-animations">Simultaneous animations</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#next-steps">Next steps</a></li>
+</ul>
+</div>
+<main class="site-content col-12 col-md-9 offset-md-3 col-xl-8 offset-xl-2 col-xxl-8 offset-xxl-2" role="main">
+      <div class="container">
+        
+        
+        <header class="site-content__title">
+          <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/flutter/website/tree/master/src/docs/development/ui/animations/tutorial.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="fas fa-file-alt fa-sm"></i>
+  </a>
+  <a href="https://github.com/flutter/website/issues/new?title='Animations tutorial' page issue&body=
+Page URL: https://flutter.dev/docs/development/ui/animations/tutorial.html%0D%0A
+Page source: https://github.com/flutter/website/tree/master/src/docs/development/ui/animations/tutorial.md%0D%0A
+%0D%0A
+Found a typo? You can fix it yourself by going to the page source and clicking the pencil icon. Or finish creating this issue.%0D%0A
+%0D%0A
+Description of issue:" class="btn no-automatic-external" title="Report an issue with this page"
+    target="_blank" rel="noopener">
+    <i class="fas fa-bug fa-sm"></i>
+  </a>
+</div>
+
+          <h1>Animations tutorial</h1>
+          
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs" property="item" typeof="WebPage"><span property="name">Docs</span>
+      </a>
+      <meta property="position" content="1" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development" property="item" typeof="WebPage"><span property="name">Development</span>
+      </a>
+      <meta property="position" content="2" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development/ui" property="item" typeof="WebPage"><span property="name">UI</span>
+      </a>
+      <meta property="position" content="3" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development/ui/animations" property="item" typeof="WebPage"><span property="name">Animations</span>
+      </a>
+      <meta property="position" content="4" />
+    </li>
+  <li class="breadcrumb-item active"
+      property="itemListElement" typeof="ListItem" aria-current="page"><a href="/docs/development/ui/animations/tutorial.html" property="item" typeof="WebPage"><span property="name">Tutorial</span>
+      </a>
+      <meta property="position" content="5" />
+    </li>
+  
+  </ol>
+</nav>
+          </header>
+        <div
+  id="site-toc--inline"
+  class="site-toc site-toc--inline "
+  
+>
+  <header class="site-toc__title">
+    Contents
+    </header>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#essential-animation-concepts-and-classes">Essential animation concepts and classes</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#animationdouble">Animation&lt;double&gt;</a></li>
+<li class="toc-entry toc-h3"><a href="#curvedanimation">Curved­Animation</a></li>
+<li class="toc-entry toc-h3"><a href="#animationcontroller">Animation­Controller</a></li>
+<li class="toc-entry toc-h3"><a href="#tween">Tween</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#tweenanimate">Tween.animate</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#animation-notifications">Animation notifications</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#animation-examples">Animation examples</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#rendering-animations">Rendering animations</a></li>
+<li class="toc-entry toc-h3"><a href="#simplifying-with-animatedwidget">Simplifying with Animated­Widget</a></li>
+<li class="toc-entry toc-h3"><a href="#monitoring-the-progress-of-the-animation">Monitoring the progress of the animation</a></li>
+<li class="toc-entry toc-h3"><a href="#refactoring-with-animatedbuilder">Refactoring with AnimatedBuilder</a></li>
+<li class="toc-entry toc-h3"><a href="#simultaneous-animations">Simultaneous animations</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#next-steps">Next steps</a></li>
+</ul>
+</div>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What you’ll learn</h4>
+
+  <ul>
+    <li>How to use the fundamental classes from the
+animation library to add animation to a widget.</li>
+    <li>When to use <code class="language-plaintext highlighter-rouge">AnimatedWidget</code> vs. <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code>.</li>
+  </ul>
+</aside>
+
+<p>This tutorial shows you how to build explicit animations in Flutter.
+After introducing some of the essential concepts, classes,
+and methods in the animation library, it walks you through 5
+animation examples. The examples build on each other,
+introducing you to different aspects of the animation library.</p>
+
+<p>The Flutter SDK also provides built-in explicit animations,
+such as <a href="https://api.flutter.dev/flutter/widgets/FadeTransition-class.html"><code class="language-plaintext highlighter-rouge">FadeTransition</code></a>, <a href="https://api.flutter.dev/flutter/widgets/SizeTransition-class.html"><code class="language-plaintext highlighter-rouge">SizeTransition</code></a>,
+and <a href="https://api.flutter.dev/flutter/widgets/SlideTransition-class.html"><code class="language-plaintext highlighter-rouge">SlideTransition</code></a>. These simple animations are
+triggered by setting a beginning and ending point.
+They are simpler to implement
+than custom explicit animations, which are described here.</p>
+
+<p><a name="concepts"></a></p>
+<h2 id="essential-animation-concepts-and-classes">
+<a class="anchor" href="#essential-animation-concepts-and-classes" aria-hidden="true"><span class="octicon octicon-link"></span></a>Essential animation concepts and classes</h2>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>
+<a href="https://api.flutter.dev/flutter/animation/Animation-class.html"><code class="language-plaintext highlighter-rouge">Animation</code></a>, a core class in Flutter’s animation library,
+interpolates the values used to guide an animation.</li>
+    <li>An <code class="language-plaintext highlighter-rouge">Animation</code> object knows the current state of an animation
+(for example, whether it’s started, stopped,
+or moving forward or in reverse),
+but doesn’t know anything about what appears onscreen.</li>
+    <li>An <a href="https://api.flutter.dev/flutter/animation/AnimationController-class.html"><code class="language-plaintext highlighter-rouge">AnimationController</code></a> manages the <code class="language-plaintext highlighter-rouge">Animation</code>.</li>
+    <li>A <a href="https://api.flutter.dev/flutter/animation/CurvedAnimation-class.html"><code class="language-plaintext highlighter-rouge">CurvedAnimation</code></a> defines progression as a non-linear curve.</li>
+    <li>A <a href="https://api.flutter.dev/flutter/animation/Tween-class.html"><code class="language-plaintext highlighter-rouge">Tween</code></a> interpolates between the range of data as used by the
+object being animated.
+For example, a <code class="language-plaintext highlighter-rouge">Tween</code> might define an interpolation
+from red to blue, or from 0 to 255.</li>
+    <li>Use <code class="language-plaintext highlighter-rouge">Listener</code>s and <code class="language-plaintext highlighter-rouge">StatusListener</code>s to monitor
+animation state changes.</li>
+  </ul>
+</aside>
+
+<p>The animation system in Flutter is based on typed
+<a href="https://api.flutter.dev/flutter/animation/Animation-class.html"><code class="language-plaintext highlighter-rouge">Animation</code></a> objects. Widgets can either incorporate
+these animations in their build functions directly by
+reading their current value and listening to their state
+changes or they can use the animations as the basis of
+more elaborate animations that they pass along to
+other widgets.</p>
+
+<p><a name="animation-class"></a></p>
+<h3 id="animationdouble">
+<a class="anchor" href="#animationdouble" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animation<wbr></wbr>&lt;double&gt;</h3>
+
+<p>In Flutter, an <code class="language-plaintext highlighter-rouge">Animation</code> object knows nothing about what
+is onscreen. An <code class="language-plaintext highlighter-rouge">Animation</code> is an abstract class that
+understands its current value and its state (completed or dismissed).
+One of the more commonly used animation types is <code class="language-plaintext highlighter-rouge">Animation&lt;double&gt;</code>.</p>
+
+<p>An <code class="language-plaintext highlighter-rouge">Animation</code> object sequentially generates
+interpolated numbers between two values over a certain duration.
+The output of an <code class="language-plaintext highlighter-rouge">Animation</code> object might be linear,
+a curve, a step function, or any other mapping you can devise.
+Depending on how the <code class="language-plaintext highlighter-rouge">Animation</code> object is controlled,
+it could run in reverse, or even switch directions in the
+middle.</p>
+
+<p>Animations can also interpolate types other than double, such as
+<code class="language-plaintext highlighter-rouge">Animation&lt;Color&gt;</code> or <code class="language-plaintext highlighter-rouge">Animation&lt;Size&gt;</code>.</p>
+
+<p>An <code class="language-plaintext highlighter-rouge">Animation</code> object has state. Its current value is
+always available in the <code class="language-plaintext highlighter-rouge">.value</code> member.</p>
+
+<p>An <code class="language-plaintext highlighter-rouge">Animation</code> object knows nothing about rendering or
+<code class="language-plaintext highlighter-rouge">build()</code> functions.</p>
+
+<h3 id="curvedanimation">
+<a class="anchor" href="#curvedanimation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Curved­Animation</h3>
+
+<p>A <a href="https://api.flutter.dev/flutter/animation/CurvedAnimation-class.html"><code class="language-plaintext highlighter-rouge">CurvedAnimation</code></a> defines the animation’s progress
+as a non-linear curve.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">animation = CurvedAnimation(parent: controller, curve: Curves.easeIn);</pre></div>
+</div>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  The <a href="https://api.flutter.dev/flutter/animation/Curves-class.html"><code class="language-plaintext highlighter-rouge">Curves</code></a> class defines many commonly used curves,
+  or you can create your own. For example:</p>
+  <pre class="prettyprint lang-dart">import 'dart:math';
+
+class ShakeCurve extends Curve {
+  @override
+  double transform(double t) =&gt; sin(t * pi * 2);
+}</pre>
+
+  <p>Browse the <a href="https://api.flutter.dev/flutter/animation/Curves-class.html"><code class="language-plaintext highlighter-rouge">Curves</code></a> documentation for a complete listing
+  (with visual previews) of the <code class="language-plaintext highlighter-rouge">Curves</code> constants that ship with Flutter.</p>
+</aside>
+
+<p><code class="language-plaintext highlighter-rouge">CurvedAnimation</code> and <code class="language-plaintext highlighter-rouge">AnimationController</code> (described in the next section)
+are both of type <code class="language-plaintext highlighter-rouge">Animation&lt;double&gt;</code>, so you can pass them interchangeably.
+The <code class="language-plaintext highlighter-rouge">CurvedAnimation</code> wraps the object it’s modifying—you
+don’t subclass <code class="language-plaintext highlighter-rouge">AnimationController</code> to implement a curve.</p>
+
+<h3 id="animationcontroller">
+<a class="anchor" href="#animationcontroller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animation­Controller</h3>
+
+<p><a href="https://api.flutter.dev/flutter/animation/AnimationController-class.html"><code class="language-plaintext highlighter-rouge">AnimationController</code></a> is a special <code class="language-plaintext highlighter-rouge">Animation</code>
+object that generates a new value whenever the hardware
+is ready for a new frame. By default,
+an <code class="language-plaintext highlighter-rouge">AnimationController</code> linearly produces the numbers
+from 0.0 to 1.0 during a given duration.
+For example, this code creates an <code class="language-plaintext highlighter-rouge">Animation</code> object,
+but does not start it running:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">controller =
+    AnimationController(duration: const Duration(seconds: 2), vsync: this);</pre></div>
+</div>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code> derives from <code class="language-plaintext highlighter-rouge">Animation&lt;double&gt;</code>, so it can be used
+wherever an <code class="language-plaintext highlighter-rouge">Animation</code> object is needed. However, the <code class="language-plaintext highlighter-rouge">AnimationController</code>
+has additional methods to control the animation. For example, you start
+an animation with the <code class="language-plaintext highlighter-rouge">.forward()</code> method. The generation of numbers is
+tied to the screen refresh, so typically 60 numbers are generated per
+second. After each number is generated, each <code class="language-plaintext highlighter-rouge">Animation</code> object calls the
+attached <code class="language-plaintext highlighter-rouge">Listener</code> objects. To create a custom display list for each
+child, see <a href="https://api.flutter.dev/flutter/widgets/RepaintBoundary-class.html"><code class="language-plaintext highlighter-rouge">RepaintBoundary</code></a>.</p>
+
+<p>When creating an <code class="language-plaintext highlighter-rouge">AnimationController</code>, you pass it a <code class="language-plaintext highlighter-rouge">vsync</code> argument.
+The presence of <code class="language-plaintext highlighter-rouge">vsync</code> prevents offscreen animations from consuming
+unnecessary resources.
+You can use your stateful object as the vsync by adding
+<code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code> to the class definition.
+You can see an example of this in <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate1">animate1</a> on GitHub.</p>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  In some cases, a position might exceed the <code class="language-plaintext highlighter-rouge">AnimationController</code>’s
+  0.0-1.0 range. For example, the <code class="language-plaintext highlighter-rouge">fling()</code> function
+  allows you to provide velocity, force, and position
+  (via the Force object). The position can be anything and
+  so can be outside of the 0.0 to 1.0 range.</p>
+
+  <p>A <code class="language-plaintext highlighter-rouge">CurvedAnimation</code> can also exceed the 0.0 to 1.0 range,
+  even if the <code class="language-plaintext highlighter-rouge">AnimationController</code> doesn’t.
+  Depending on the curve selected, the output of
+  the <code class="language-plaintext highlighter-rouge">CurvedAnimation</code> can have a wider range than the input.
+  For example, elastic curves such as <code class="language-plaintext highlighter-rouge">Curves.elasticIn</code>
+  significantly overshoots or undershoots the default range.</p>
+</aside>
+
+<h3 id="tween">
+<a class="anchor" href="#tween" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tween</h3>
+
+<p>By default, the <code class="language-plaintext highlighter-rouge">AnimationController</code> object ranges from 0.0 to 1.0.
+If you need a different range or a different data type, you can use a
+<a href="https://api.flutter.dev/flutter/animation/Tween-class.html"><code class="language-plaintext highlighter-rouge">Tween</code></a> to configure an animation to interpolate to a
+different range or data type. For example, the
+following <code class="language-plaintext highlighter-rouge">Tween</code> goes from -200.0 to 0.0:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">tween = Tween&lt;double&gt;(begin: -200, end: 0);</pre></div>
+</div>
+
+<p>A <code class="language-plaintext highlighter-rouge">Tween</code> is a stateless object that takes only <code class="language-plaintext highlighter-rouge">begin</code> and <code class="language-plaintext highlighter-rouge">end</code>.
+The sole job of a <code class="language-plaintext highlighter-rouge">Tween</code> is to define a mapping from an
+input range to an output range. The input range is commonly
+0.0 to 1.0, but that’s not a requirement.</p>
+
+<p>A <code class="language-plaintext highlighter-rouge">Tween</code> inherits from <code class="language-plaintext highlighter-rouge">Animatable&lt;T&gt;</code>, not from <code class="language-plaintext highlighter-rouge">Animation&lt;T&gt;</code>.
+An <code class="language-plaintext highlighter-rouge">Animatable</code>, like <code class="language-plaintext highlighter-rouge">Animation</code>, doesn’t have to output double.
+For example, <code class="language-plaintext highlighter-rouge">ColorTween</code> specifies a progression between two colors.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">colorTween = ColorTween(begin: Colors.transparent, end: Colors.black54);</pre></div>
+</div>
+
+<p>A <code class="language-plaintext highlighter-rouge">Tween</code> object does not store any state. Instead, it provides the
+<code class="language-plaintext highlighter-rouge">evaluate(Animation&lt;double&gt; animation)</code> method that
+applies the mapping function to the current value of the animation.
+The current value of the <code class="language-plaintext highlighter-rouge">Animation</code> object can be found in the
+<code class="language-plaintext highlighter-rouge">.value</code> method. The evaluate function also performs some housekeeping,
+such as ensuring that begin and end are returned when the
+animation values are 0.0 and 1.0, respectively.</p>
+
+<h4 id="tweenanimate">
+<a class="anchor" href="#tweenanimate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tween.animate</h4>
+
+<p>To use a <code class="language-plaintext highlighter-rouge">Tween</code> object, call <code class="language-plaintext highlighter-rouge">animate()</code> on the <code class="language-plaintext highlighter-rouge">Tween</code>,
+passing in the controller object. For example,
+the following code generates the
+integer values from 0 to 255 over the course of 500 ms.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">AnimationController controller = AnimationController(
+    duration: const Duration(milliseconds: 500), vsync: this);
+Animation&lt;int&gt; alpha = IntTween(begin: 0, end: 255).animate(controller);</pre></div>
+</div>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  The <code class="language-plaintext highlighter-rouge">animate()</code> method returns an <a href="https://api.flutter.dev/flutter/animation/Animation-class.html"><code class="language-plaintext highlighter-rouge">Animation</code></a>,
+  not an <a href="https://api.flutter.dev/flutter/animation/Animatable-class.html"><code class="language-plaintext highlighter-rouge">Animatable</code></a>.</p>
+</aside>
+
+<p>The following example shows a controller, a curve, and a <code class="language-plaintext highlighter-rouge">Tween</code>:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">AnimationController controller = AnimationController(
+    duration: const Duration(milliseconds: 500), vsync: this);
+final Animation&lt;double&gt; curve =
+    CurvedAnimation(parent: controller, curve: Curves.easeOut);
+Animation&lt;int&gt; alpha = IntTween(begin: 0, end: 255).animate(curve);</pre></div>
+</div>
+
+<h3 id="animation-notifications">
+<a class="anchor" href="#animation-notifications" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animation notifications</h3>
+
+<p>An <a href="https://api.flutter.dev/flutter/animation/Animation-class.html"><code class="language-plaintext highlighter-rouge">Animation</code></a> object can have <code class="language-plaintext highlighter-rouge">Listener</code>s and <code class="language-plaintext highlighter-rouge">StatusListener</code>s,
+defined with <code class="language-plaintext highlighter-rouge">addListener()</code> and <code class="language-plaintext highlighter-rouge">addStatusListener()</code>.
+A <code class="language-plaintext highlighter-rouge">Listener</code> is called whenever the value of the animation changes.
+The most common behavior of a <code class="language-plaintext highlighter-rouge">Listener</code> is to call <code class="language-plaintext highlighter-rouge">setState()</code>
+to cause a rebuild. A <code class="language-plaintext highlighter-rouge">StatusListener</code> is called when an animation begins,
+ends, moves forward, or moves reverse, as defined by <code class="language-plaintext highlighter-rouge">AnimationStatus</code>.
+The next section has an example of the <code class="language-plaintext highlighter-rouge">addListener()</code> method,
+and <a href="#monitoring">Monitoring the progress of the animation</a> shows an
+example of <code class="language-plaintext highlighter-rouge">addStatusListener()</code>.</p>
+
+<hr>
+
+<h2 id="animation-examples">
+<a class="anchor" href="#animation-examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animation examples</h2>
+
+<p>This section walks you through 5 animation examples.
+Each section provides a link to the source code for that example.</p>
+
+<h3 id="rendering-animations">
+<a class="anchor" href="#rendering-animations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rendering animations</h3>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>How to add basic animation to a widget using <code class="language-plaintext highlighter-rouge">addListener()</code> and
+<code class="language-plaintext highlighter-rouge">setState()</code>.</li>
+    <li>Every time the Animation generates a new number, the <code class="language-plaintext highlighter-rouge">addListener()</code>
+function calls <code class="language-plaintext highlighter-rouge">setState()</code>.</li>
+    <li>How to define an <code class="language-plaintext highlighter-rouge">AnimationController</code> with the required
+<code class="language-plaintext highlighter-rouge">vsync</code> parameter.</li>
+    <li>Understanding the “<code class="language-plaintext highlighter-rouge">..</code>” syntax in “<code class="language-plaintext highlighter-rouge">..addListener</code>”,
+also known as Dart’s <em>cascade notation</em>.</li>
+    <li>To make a class private, start its name with an underscore (<code class="language-plaintext highlighter-rouge">_</code>).</li>
+  </ul>
+</aside>
+
+<p>So far you’ve learned how to generate a sequence of numbers over time.
+Nothing has been rendered to the screen. To render with an
+<code class="language-plaintext highlighter-rouge">Animation</code> object, store the <code class="language-plaintext highlighter-rouge">Animation</code> object as a
+member of your widget, then use its value to decide how to draw.</p>
+
+<p>Consider the following app that draws the Flutter logo without animation:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">import 'package:flutter/material.dart';
+
+void main() =&gt; runApp(LogoApp());
+
+class LogoApp extends StatefulWidget {
+  _LogoAppState createState() =&gt; _LogoAppState();
+}
+
+class _LogoAppState extends State&lt;LogoApp&gt; {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        height: 300,
+        width: 300,
+        child: FlutterLogo(),
+      ),
+    );
+  }
+}</pre></div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate0">animate0</a></p>
+
+<p>The following shows the same code modified to animate the
+logo to grow from nothing to full size.
+When defining an <code class="language-plaintext highlighter-rouge">AnimationController</code>, you must pass in a
+<code class="language-plaintext highlighter-rouge">vsync</code> object. The <code class="language-plaintext highlighter-rouge">vsync</code> parameter is described in the
+<a href="#animationcontroller"><code class="language-plaintext highlighter-rouge">AnimationController</code> section</a>.</p>
+
+<p>The changes from the non-animated example are highlighted:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-384068" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{animate0 → animate1}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -1,3 +1,4 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">1</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">import 'package:flutter/animation.dart';</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">1</div>
+<div class="line-num2">2</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">import 'package:flutter/material.dart';</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">2</div>
+<div class="line-num2">3</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">void main() =&gt; runApp(LogoApp());</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -6,16 +7,39 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">6</div>
+<div class="line-num2">7</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  _LogoAppState createState() =&gt; _LogoAppState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">7</div>
+<div class="line-num2">8</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">8</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">class _LogoAppState extends State&lt;LogoApp&gt; {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">9</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">class _LogoAppState extends State&lt;LogoApp&gt; <ins>with SingleTickerProviderStateMixin </ins>{</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">10</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  late Animation&lt;double&gt; animation;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">11</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  late AnimationController controller;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">12</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">13</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">14</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">15</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">16</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller =</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">17</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        AnimationController(duration: const Duration(seconds: 2), vsync: this);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">18</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">19</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      ..addListener(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">20</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        setState(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">21</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">          // The state that has changed here is the animation object’s value.</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">22</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">23</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">24</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller.forward();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">25</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">26</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">9</div>
+<div class="line-num2">27</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">10</div>
+<div class="line-num2">28</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">11</div>
+<div class="line-num2">29</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    return Center(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">12</div>
+<div class="line-num2">30</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      child: Container(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">13</div>
+<div class="line-num2">31</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        margin: EdgeInsets.symmetric(vertical: 10),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">14</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        height: <del>300</del>,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">15</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        width: <del>300</del>,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">32</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        height: <ins>animation.value</ins>,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">33</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        width: <ins>animation.value</ins>,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">16</div>
+<div class="line-num2">34</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        child: FlutterLogo(),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">17</div>
+<div class="line-num2">35</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      ),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">18</div>
+<div class="line-num2">36</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">19</div>
+<div class="line-num2">37</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">38</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">39</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">40</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  void dispose() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">41</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">42</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    super.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">43</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">20</div>
+<div class="line-num2">44</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate1">animate1</a></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">addListener()</code> function calls <code class="language-plaintext highlighter-rouge">setState()</code>,
+so every time the <code class="language-plaintext highlighter-rouge">Animation</code> generates a new number,
+the current frame is marked dirty, which forces
+<code class="language-plaintext highlighter-rouge">build()</code> to be called again. In <code class="language-plaintext highlighter-rouge">build()</code>,
+the container changes size because its height and
+width now use <code class="language-plaintext highlighter-rouge">animation.value</code> instead of a hardcoded value.
+Dispose of the controller when the <code class="language-plaintext highlighter-rouge">State</code> object is
+discarded to prevent memory leaks.</p>
+
+<p>With these few changes,
+you’ve created your first animation in Flutter!</p>
+
+<aside class="alert alert-secondary" role="alert">
+  <p><strong>Dart language tricks:</strong>
+  You might not be familiar with Dart’s cascade notation—the two
+  dots in <code class="language-plaintext highlighter-rouge">..addListener()</code>. This syntax means that the <code class="language-plaintext highlighter-rouge">addListener()</code>
+  method is called with the return value from <code class="language-plaintext highlighter-rouge">animate()</code>.
+  Consider the following example:</p>
+  <pre class="prettyprint lang-dart"><span class="highlight">animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)</span>
+  <span class="highlight">..addListener</span>(() {
+    // ···
+  });</pre>
+
+  <p>This code is equivalent to:</p>
+  <pre class="prettyprint lang-dart"><span class="highlight">animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller);</span>
+<span class="highlight">animation.addListener(() {</span>
+    // ···
+  });</pre>
+
+  <p>You can learn more about cascade notation in the
+  <a href="https://dart.dev/guides/language/language-tour">Dart Language Tour</a>.</p>
+</aside>
+
+<h3 id="simplifying-with-animatedwidget">
+<a class="anchor" href="#simplifying-with-animatedwidget" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simplifying with Animated­Widget</h3>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>How to use the <a href="https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html"><code class="language-plaintext highlighter-rouge">AnimatedWidget</code></a> helper class
+(instead of <code class="language-plaintext highlighter-rouge">addListener()</code>
+and <code class="language-plaintext highlighter-rouge">setState()</code>) to create a widget that animates.</li>
+    <li>Use <code class="language-plaintext highlighter-rouge">AnimatedWidget</code> to create a widget that performs
+a reusable animation.
+To separate the transition from the widget, use an
+<code class="language-plaintext highlighter-rouge">AnimatedBuilder</code>, as shown in the
+<a href="#refactoring-with-animatedbuilder">Refactoring with AnimatedBuilder</a> section.</li>
+    <li>Examples of <code class="language-plaintext highlighter-rouge">AnimatedWidget</code>s in the Flutter API:
+<code class="language-plaintext highlighter-rouge">AnimatedBuilder</code>, <code class="language-plaintext highlighter-rouge">AnimatedModalBarrier</code>,
+<code class="language-plaintext highlighter-rouge">DecoratedBoxTransition</code>, <code class="language-plaintext highlighter-rouge">FadeTransition</code>,
+<code class="language-plaintext highlighter-rouge">PositionedTransition</code>, <code class="language-plaintext highlighter-rouge">RelativePositionedTransition</code>,
+<code class="language-plaintext highlighter-rouge">RotationTransition</code>, <code class="language-plaintext highlighter-rouge">ScaleTransition</code>,
+<code class="language-plaintext highlighter-rouge">SizeTransition</code>, <code class="language-plaintext highlighter-rouge">SlideTransition</code>.</li>
+  </ul>
+</aside>
+
+<p>The <code class="language-plaintext highlighter-rouge">AnimatedWidget</code> base class allows you to separate out
+the core widget code from the animation code.
+<code class="language-plaintext highlighter-rouge">AnimatedWidget</code> doesn’t need to maintain a <code class="language-plaintext highlighter-rouge">State</code>
+object to hold the animation. Add the following <code class="language-plaintext highlighter-rouge">AnimatedLogo</code> class:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__header">lib/main.dart (AnimatedLogo)</div>
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">class AnimatedLogo extends AnimatedWidget {
+  AnimatedLogo({Key? key, required Animation&lt;double&gt; animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation&lt;double&gt;;
+    return Center(
+      child: Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        height: animation.value,
+        width: animation.value,
+        child: FlutterLogo(),
+      ),
+    );
+  }
+}</pre></div>
+</div>
+
+<p><code class="language-plaintext highlighter-rouge">AnimatedLogo</code> uses the current value of the <code class="language-plaintext highlighter-rouge">animation</code>
+when drawing itself.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">LogoApp</code> still manages the <code class="language-plaintext highlighter-rouge">AnimationController</code> and the <code class="language-plaintext highlighter-rouge">Tween</code>,
+and it passes the <code class="language-plaintext highlighter-rouge">Animation</code> object to <code class="language-plaintext highlighter-rouge">AnimatedLogo</code>:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-463908" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{animate1 → animate2}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -10,2 +27,2 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">10</div>
+<div class="line-num2">27</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">class _LogoAppState extends State&lt;LogoApp&gt; with SingleTickerProviderStateMixin {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">11</div>
+<div class="line-num2">28</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  late Animation&lt;double&gt; animation;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -13,32 +30,18 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">13</div>
+<div class="line-num2">30</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">14</div>
+<div class="line-num2">31</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">15</div>
+<div class="line-num2">32</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">16</div>
+<div class="line-num2">33</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller =</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">17</div>
+<div class="line-num2">34</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        AnimationController(duration: const Duration(seconds: 2), vsync: this);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">18</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">35</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)<ins>;</ins></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">19</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">      ..addListener(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">20</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        setState(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">21</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">          // The state that has changed here is the animation object’s value.</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">22</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">23</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">      });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">24</div>
+<div class="line-num2">36</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.forward();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">25</div>
+<div class="line-num2">37</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">26</div>
+<div class="line-num2">38</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">27</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) <del>{</del></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">39</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) <ins>=&gt; AnimatedLogo(animation: animation);</ins></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">28</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">    return Center(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">29</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">      child: Container(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">30</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        margin: EdgeInsets.symmetric(vertical: 10),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">31</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        height: animation.value,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">32</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        width: animation.value,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">33</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">        child: FlutterLogo(),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">34</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">      ),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">35</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">    );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">36</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">37</div>
+<div class="line-num2">40</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">38</div>
+<div class="line-num2">41</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void dispose() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">39</div>
+<div class="line-num2">42</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">40</div>
+<div class="line-num2">43</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">41</div>
+<div class="line-num2">44</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate2">animate2</a></p>
+
+<p><a name="monitoring"></a></p>
+<h3 id="monitoring-the-progress-of-the-animation">
+<a class="anchor" href="#monitoring-the-progress-of-the-animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Monitoring the progress of the animation</h3>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>Use <code class="language-plaintext highlighter-rouge">addStatusListener()</code> for notifications of changes
+to the animation’s state, such as starting, stopping,
+or reversing direction.</li>
+    <li>Run an animation in an infinite loop by reversing direction when
+the animation has either completed or returned to its starting state.</li>
+  </ul>
+</aside>
+
+<p>It’s often helpful to know when an animation changes state,
+such as finishing, moving forward, or reversing.
+You can get notifications for this with <code class="language-plaintext highlighter-rouge">addStatusListener()</code>.
+The following code modifies the previous example so that
+it listens for a state change and prints an update.
+The highlighted line shows the change:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">class _LogoAppState extends State&lt;LogoApp&gt; with SingleTickerProviderStateMixin {
+  late Animation&lt;double&gt; animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)
+      <span class="highlight">..addStatusListener((state) =&gt; print('$state'));</span>
+    controller.forward();
+  }
+  // ...
+}</pre></div>
+</div>
+
+<p>Running this code produces this output:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">AnimationStatus.forward
+AnimationStatus.completed
+</span></code></pre></div></div>
+
+<p>Next, use <code class="language-plaintext highlighter-rouge">addStatusListener()</code> to reverse the animation
+at the beginning or the end. This creates a “breathing” effect:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-543748" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{animate2 → animate3}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -32,7 +32,15 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">32</div>
+<div class="line-num2">32</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">33</div>
+<div class="line-num2">33</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">34</div>
+<div class="line-num2">34</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller =</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">35</div>
+<div class="line-num2">35</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        AnimationController(duration: const Duration(seconds: 2), vsync: this);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">36</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)<del>;</del></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">36</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller)</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">37</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      ..addStatusListener((status) {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">38</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        if (status == AnimationStatus.completed) {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">39</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">          controller.reverse();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">40</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        } else if (status == AnimationStatus.dismissed) {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">41</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">          controller.forward();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">42</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">43</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      })</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">44</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      ..addStatusListener((state) =&gt; print('$state'));</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">37</div>
+<div class="line-num2">45</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.forward();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">38</div>
+<div class="line-num2">46</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate3">animate3</a></p>
+
+<h3 id="refactoring-with-animatedbuilder">
+<a class="anchor" href="#refactoring-with-animatedbuilder" aria-hidden="true"><span class="octicon octicon-link"></span></a>Refactoring with AnimatedBuilder</h3>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>An <a href="https://api.flutter.dev/flutter/widgets/AnimatedBuilder-class.html"><code class="language-plaintext highlighter-rouge">AnimatedBuilder</code></a> understands how to render the transition.</li>
+    <li>An <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> doesn’t know how to render the widget,
+nor does it manage the <code class="language-plaintext highlighter-rouge">Animation</code> object.</li>
+    <li>Use <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> to describe an animation as
+part of a build method for another widget.
+If you simply want to define a widget with a reusable
+animation, use an <code class="language-plaintext highlighter-rouge">AnimatedWidget</code>, as shown in
+the <a href="#simplifying-with-animatedwidget">Simplifying with AnimatedWidget</a> section.</li>
+    <li>Examples of <code class="language-plaintext highlighter-rouge">AnimatedBuilders</code> in the Flutter API: <code class="language-plaintext highlighter-rouge">BottomSheet</code>,
+<code class="language-plaintext highlighter-rouge">ExpansionTile</code>, <code class="language-plaintext highlighter-rouge">PopupMenu</code>, <code class="language-plaintext highlighter-rouge">ProgressIndicator</code>,
+<code class="language-plaintext highlighter-rouge">RefreshIndicator</code>, <code class="language-plaintext highlighter-rouge">Scaffold</code>, <code class="language-plaintext highlighter-rouge">SnackBar</code>, <code class="language-plaintext highlighter-rouge">TabBar</code>,
+<code class="language-plaintext highlighter-rouge">TextField</code>.</li>
+  </ul>
+</aside>
+
+<p>One problem with the code in the <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate3">animate3</a> example,
+is that changing the animation required changing the widget
+that renders the logo. A better solution
+is to separate responsibilities into different classes:</p>
+
+<ul>
+  <li>Render the logo</li>
+  <li>Define the <code class="language-plaintext highlighter-rouge">Animation</code> object</li>
+  <li>Render the transition</li>
+</ul>
+
+<p>You can accomplish this separation with the help of the
+<code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> class. An <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> is a
+separate class in the render tree. Like <code class="language-plaintext highlighter-rouge">AnimatedWidget</code>,
+<code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> automatically listens to notifications
+from the <code class="language-plaintext highlighter-rouge">Animation</code> object, and marks the widget tree
+dirty as necessary, so you don’t need to call <code class="language-plaintext highlighter-rouge">addListener()</code>.</p>
+
+<p>The widget tree for the <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate4">animate4</a>
+example looks like this:</p>
+
+<p><img alt="AnimatedBuilder widget tree" class="d-block mx-auto" width="160px" src="/assets/ui/AnimatedBuilder-WidgetTree-99e58a8bbf50268bcb0586c276889534bf31e0dc09f17e355a863b04b06a0ec4.png"></p>
+
+<p>Starting from the bottom of the widget tree, the code for rendering
+the logo is straightforward:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">class LogoWidget extends StatelessWidget {
+  // Leave out the height and width so it fills the animating parent
+  Widget build(BuildContext context) =&gt; Container(
+        margin: EdgeInsets.symmetric(vertical: 10),
+        child: FlutterLogo(),
+      );
+}</pre></div>
+</div>
+
+<p>The middle three blocks in the diagram are all created in the
+<code class="language-plaintext highlighter-rouge">build()</code> method in <code class="language-plaintext highlighter-rouge">GrowTransition</code>, shown below.
+The <code class="language-plaintext highlighter-rouge">GrowTransition</code> widget itself is stateless and holds
+the set of final variables necessary to define the transition animation.
+The build() function creates and returns the <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code>,
+which takes the (<code class="language-plaintext highlighter-rouge">Anonymous</code> builder) method and the
+<code class="language-plaintext highlighter-rouge">LogoWidget</code> object as parameters. The work of rendering the
+transition actually happens in the (<code class="language-plaintext highlighter-rouge">Anonymous</code> builder)
+method, which creates a <code class="language-plaintext highlighter-rouge">Container</code> of the appropriate size
+to force the <code class="language-plaintext highlighter-rouge">LogoWidget</code> to shrink to fit.</p>
+
+<p>One tricky point in the code below is that the child looks
+like it’s specified twice. What’s happening is that the
+outer reference of child is passed to <code class="language-plaintext highlighter-rouge">AnimatedBuilder</code>,
+which passes it to the anonymous closure, which then uses
+that object as its child. The net result is that the
+<code class="language-plaintext highlighter-rouge">AnimatedBuilder</code> is inserted in between the two widgets
+in the render tree.</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">class GrowTransition extends StatelessWidget {
+  GrowTransition({required this.child, required this.animation});
+
+  final Widget child;
+  final Animation&lt;double&gt; animation;
+
+  Widget build(BuildContext context) =&gt; Center(
+        child: AnimatedBuilder(
+            animation: animation,
+            builder: (context, child) =&gt; Container(
+                  height: animation.value,
+                  width: animation.value,
+                  child: child,
+                ),
+            child: child),
+      );
+}</pre></div>
+</div>
+
+<p>Finally, the code to initialize the animation looks very
+similar to the <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate2">animate2</a> example. The <code class="language-plaintext highlighter-rouge">initState()</code>
+method creates an <code class="language-plaintext highlighter-rouge">AnimationController</code> and a <code class="language-plaintext highlighter-rouge">Tween</code>,
+then binds them with <code class="language-plaintext highlighter-rouge">animate()</code>. The magic happens in
+the <code class="language-plaintext highlighter-rouge">build()</code> method, which returns a <code class="language-plaintext highlighter-rouge">GrowTransition</code>
+object with a <code class="language-plaintext highlighter-rouge">LogoWidget</code> as a child, and an animation object to
+drive the transition. These are the three elements listed
+in the bullet points above.</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-009571" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{animate2 → animate4}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -27,22 +36,25 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">27</div>
+<div class="line-num2">36</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">class _LogoAppState extends State&lt;LogoApp&gt; with SingleTickerProviderStateMixin {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">28</div>
+<div class="line-num2">37</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  late Animation&lt;double&gt; animation;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">29</div>
+<div class="line-num2">38</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  late AnimationController controller;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">30</div>
+<div class="line-num2">39</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">31</div>
+<div class="line-num2">40</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">32</div>
+<div class="line-num2">41</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">33</div>
+<div class="line-num2">42</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller =</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">34</div>
+<div class="line-num2">43</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        AnimationController(duration: const Duration(seconds: 2), vsync: this);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">35</div>
+<div class="line-num2">44</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    animation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">36</div>
+<div class="line-num2">45</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.forward();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">37</div>
+<div class="line-num2">46</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">38</div>
+<div class="line-num2">47</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">39</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) =&gt; <del>AnimatedLogo</del>(<del>animation: animation);</del></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">48</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) =&gt; <ins>GrowTransition</ins>(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">49</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        child: LogoWidget(),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">50</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">        animation: animation,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">51</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">40</div>
+<div class="line-num2">52</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">41</div>
+<div class="line-num2">53</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void dispose() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">42</div>
+<div class="line-num2">54</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">43</div>
+<div class="line-num2">55</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">44</div>
+<div class="line-num2">56</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">45</div>
+<div class="line-num2">57</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate4">animate4</a></p>
+
+<h3 id="simultaneous-animations">
+<a class="anchor" href="#simultaneous-animations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Simultaneous animations</h3>
+
+<aside class="alert alert-secondary" role="alert">
+  <h4 class="no_toc">What's the point?</h4>
+
+  <ul>
+    <li>The <a href="https://api.flutter.dev/flutter/animation/Curves-class.html"><code class="language-plaintext highlighter-rouge">Curves</code></a> class defines an array of
+commonly used curves that you can
+use with a <a href="https://api.flutter.dev/flutter/animation/CurvedAnimation-class.html"><code class="language-plaintext highlighter-rouge">CurvedAnimation</code></a>.</li>
+  </ul>
+</aside>
+
+<p>In this section, you’ll build on the example from
+<a href="#monitoring">monitoring the progress of the animation</a>
+(<a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate3">animate3</a>), which used <code class="language-plaintext highlighter-rouge">AnimatedWidget</code>
+to animate in and out continuously. Consider the case
+where you want to animate in and out while the
+opacity animates from transparent to opaque.</p>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  This example shows how to use multiple tweens on the same animation
+  controller, where each tween manages a different effect in
+  the animation. It is for illustrative purposes only.
+  If you were tweening opacity and size in production code,
+  you’d probably use <a href="https://api.flutter.dev/flutter/widgets/FadeTransition-class.html"><code class="language-plaintext highlighter-rouge">FadeTransition</code></a> and <a href="https://api.flutter.dev/flutter/widgets/SizeTransition-class.html"><code class="language-plaintext highlighter-rouge">SizeTransition</code></a>
+  instead.</p>
+</aside>
+
+<p>Each tween manages an aspect of the animation. For example:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">controller =
+    AnimationController(duration: const Duration(seconds: 2), vsync: this);
+sizeAnimation = Tween&lt;double&gt;(begin: 0, end: 300).animate(controller);
+opacityAnimation = Tween&lt;double&gt;(begin: 0.1, end: 1).animate(controller);</pre></div>
+</div>
+
+<p>You can get the size with <code class="language-plaintext highlighter-rouge">sizeAnimation.value</code> and the opacity
+with <code class="language-plaintext highlighter-rouge">opacityAnimation.value</code>, but the constructor for <code class="language-plaintext highlighter-rouge">AnimatedWidget</code>
+only takes a single <code class="language-plaintext highlighter-rouge">Animation</code> object. To solve this problem,
+the example creates its own <code class="language-plaintext highlighter-rouge">Tween</code> objects and explicitly calculates the
+values.</p>
+
+<p>Change <code class="language-plaintext highlighter-rouge">AnimatedLogo</code> to encapsulate its own <code class="language-plaintext highlighter-rouge">Tween</code> objects,
+and its <code class="language-plaintext highlighter-rouge">build()</code> method calls <code class="language-plaintext highlighter-rouge">Tween.evaluate()</code>
+on the parent’s animation object to calculate
+the required size and opacity values.
+The following code shows the changes with highlights:</p>
+
+<div class="code-excerpt">
+<div class="code-excerpt__code"><pre class="prettyprint lang-dart">class AnimatedLogo extends AnimatedWidget {
+  // Make the Tweens static because they don't change.
+  <span class="highlight">static final _opacityTween = Tween&lt;double&gt;(begin: 0.1, end: 1);</span>
+  <span class="highlight">static final _sizeTween = Tween&lt;double&gt;(begin: 0, end: 300);</span>
+
+  AnimatedLogo({Key? key, required Animation&lt;double&gt; animation})
+      : super(key: key, listenable: animation);
+
+  Widget build(BuildContext context) {
+    final animation = listenable as Animation&lt;double&gt;;
+    return Center(
+      <span class="highlight">child: Opacity(</span>
+        <span class="highlight">opacity: _opacityTween.evaluate(animation),</span>
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10),
+          height: <span class="highlight">_sizeTween.evaluate(animation),</span>
+          width: <span class="highlight">_sizeTween.evaluate(animation),</span>
+          child: FlutterLogo(),
+        ),
+      ),
+    );
+  }
+}
+
+class LogoApp extends StatefulWidget {
+  _LogoAppState createState() =&gt; _LogoAppState();
+}
+
+class _LogoAppState extends State&lt;LogoApp&gt; with SingleTickerProviderStateMixin {
+  late Animation&lt;double&gt; animation;
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller =
+        AnimationController(duration: const Duration(seconds: 2), vsync: this);
+    animation = <span class="highlight">CurvedAnimation(parent: controller, curve: Curves.easeIn)</span>
+      ..addStatusListener((status) {
+        if (status == AnimationStatus.completed) {
+          controller.reverse();
+        } else if (status == AnimationStatus.dismissed) {
+          controller.forward();
+        }
+      });
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) =&gt; AnimatedLogo(animation: animation);
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+}</pre></div>
+</div>
+
+<p><strong>App source:</strong> <a href="https://github.com/flutter/website/tree/master/null_safety_examples/animation/animate5">animate5</a></p>
+
+<h2 id="next-steps">
+<a class="anchor" href="#next-steps" aria-hidden="true"><span class="octicon octicon-link"></span></a>Next steps</h2>
+
+<p>This tutorial gives you a foundation for creating animations in
+Flutter using <code class="language-plaintext highlighter-rouge">Tweens</code>, but there are many other classes to explore.
+You might investigate the specialized <code class="language-plaintext highlighter-rouge">Tween</code> classes,
+animations specific to Material Design,
+<code class="language-plaintext highlighter-rouge">ReverseAnimation</code>,
+shared element transitions (also known as Hero animations),
+physics simulations and <code class="language-plaintext highlighter-rouge">fling()</code> methods.
+See the <a href="/docs/development/ui/animations">animations landing page</a>
+for the latest available documents and examples.</p>
+
+
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+
+    <footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 site-footer__wrapper">
+        <div class="site-footer__logo">
+          <img src="/images/flutter-mono-81x100.png" alt="Flutter Logo" width="81" height="100">
+        </div>
+        <div class="site-footer__content">
+          <ul class="site-footer__link-list">
+              <li><a href="https://groups.google.com/forum/#!forum/flutter-dev">flutter-dev@</a></li>
+              <li><a href="/tos">terms</a></li>
+              <li><a href="/brand">brand usage</a></li>
+              <li><a href="/security">security</a></li>
+              <li><a href="https://www.google.com/intl/en/policies/privacy">privacy</a></li>
+              <li><a href="https://esflutter.dev/">español</a></li>
+              <li><a href="https://flutter.cn" class="text-nowrap">社区中文资源</a></li> 
+              <li><a href="https://flutter-ko.dev/" class="text-nowrap">한국어</a></li>
+              <li><a href="https://blog.google/inside-google/company-announcements/standing-with-black-community">We stand in solidarity with the Black community. Black Lives Matter.</a></li>
+          </ul>
+
+          <p class="licenses">
+            Except as otherwise noted,
+            this work is licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative
+            Commons Attribution 4.0 International License</a>,
+            and code samples are licensed under the BSD License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    <script async="" defer="" src="//survey.g.doubleclick.net/async_survey?site=at3ul57xpub2vk3oxt2ytw365i"></script>
+  </body>
+</html>

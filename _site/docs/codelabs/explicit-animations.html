@@ -1,0 +1,3491 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Explicit animations  - Flutter </title>
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <!-- Google Optimize -->
+  <script src="https://www.googleoptimize.com/optimize.js?id=GTM-MPZP6R8"></script>
+  <!-- End Google Optimize -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-ND4LWWZ');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <meta name="description" content="A codelab that uses interactive examples and exercises to teach  how to use explicit animations in Flutter.">
+  <meta name="keywords" content=" ">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flutterdev">
+
+  <meta property="og:title" content="Explicit animations">
+  <meta property="og:url" content="https://flutter.dev/docs/codelabs/explicit-animations">
+  <meta property="og:description" content="A codelab that uses interactive examples and exercises to teach  how to use explicit animations in Flutter.">
+  
+  <meta property="og:image" content="https://flutter.dev/images/flutter-logo-sharing.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:300,400,500|Roboto+Mono:400,700|Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/main-5179236d2a521f0d8c964446a1eaa9bee448793c298286381d5cbdc3f6776229.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+  <script src="/assets/main-3d1fe020941b4eb18d313f0eb6a8ff9fd170a0b3ed6913d333d804fec0136545.js" type="text/javascript"></script>
+  <script defer src="https://dartpad.dev/inject_embed.dart.js"></script>
+  <script defer src="/assets/codelabs/js/animations_examples.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.4.0/diff2html-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/dart.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+<script>$(document).ready(function() {
+  var diff2htmlUi = new Diff2HtmlUI();
+  diff2htmlUi.highlightCode(".d2h-wrapper");
+});</script>
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67589403-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <meta name="google-site-verification" content="HFqxhSbf9YA_0rBglNLzDiWnrHiK_w4cqDh2YD2GEY4" />
+  <meta name="google-site-verification" content="Zom-prnFykfYycmI_nzRWYx5r6Z9OwR-yEsgElRz_Ug" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="overlay-under-drawer"></div>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-md justify-content-start justify-content-md-between">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="material-icons">menu</i>
+    </button>
+
+    <a class="navbar-brand" href="/">
+      <img alt="Flutter logo" height="37" width="129" class="align-middle" src="/assets/flutter-lockup-1caf6476beed76adec3c477586da54de6b552b2f42108ec5bc68dc63bae2df75.png">
+    </a>
+
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+      <div class="site-header__sheet-bg" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></div>
+      <div class="site-header__sheet">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/docs">Docs</a>
+          </li>
+          <div class="site-sidebar site-sidebar--header d-md-none">
+            <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="true" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+          </div>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/showcase">Showcase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/community">Community</a>
+          </li>
+        </ul>
+        <form action="/search/" class="site-header__search form-inline">
+          <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="site-header__social navbar-nav flex-row">
+      <a class="nav-item nav-link" href="https://twitter.com/flutterdev" aria-label="Twittter"><i class="fab fa-twitter fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://www.youtube.com/flutterdev" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://github.com/flutter" aria-label="Github"><i class="fab fa-github fa-lg"></i></a>
+    </div>
+    <a class="site-header__cta btn btn-primary" href="/docs/get-started/install/">Get started</a>
+    </nav>
+</header>
+<!---->
+  
+  <div class="site-banner site-banner--default" role="alert">
+    Flutter's I/O schedule is live. <a href="http://goo.gle/io21-flutter-agenda-4">Learn more</a>.
+  </div>
+<div class="container-fluid position-relative">
+  <div class="row flex-xl-nowrap">
+    <div class="fixed-col site-sidebar site-sidebar--fixed col-12 col-md-3 col-xl-2 d-none d-md-block" data-fixed-column>
+      <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="true" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+    </div>
+    <div
+  id="site-toc--side"
+  class="site-toc site-toc--side fixed-col col-xl-2 order-3"
+  data-fixed-column
+>
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    </header>
+  <ul class="section-nav nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#what-are-explicit-animations">What are explicit animations?</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#animation-concepts">Animation concepts</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#what-is-animation">What is animation?</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#example-bouncing-ball-starter-code-1">Example: bouncing ball (starter code 1)</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#frame-rate">Frame rate</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#example-bouncing-ball-starter-code-2">Example: bouncing ball (starter code 2)</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#interpolation">Interpolation</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#example-bouncing-ball-starter-code-3">Example: bouncing ball (starter code 3)</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#animationcontroller">AnimationController</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#what-is-an-animationcontroller">What is an AnimationController?</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#create-your-first-explicit-animation-with-animationcontroller">Create your first explicit animation with AnimationController</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#1-use-a-tickerprovider-mixin">1. Use a TickerProvider mixin</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#2-instantiate-and-dispose-of-animationcontroller-in-lifecycle-methods">2. Instantiate and dispose of AnimationController in lifecycle methods</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#3-pass-animationcontroller-parameters">3. Pass AnimationController parameters</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#4-add-listeners">4. Add listener(s)</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#5-trigger-the-animation">5. Trigger the animation</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#animationcontroller-concepts">AnimationController concepts</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#the-animation-object">The Animation object</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#animationcontroller-interpolates-frame-values">AnimationController interpolates frame values</a></li>
+<li class="toc-entry nav-item toc-h4"><a class="nav-link" href="#animationcontroller-doesnt-know-anything-about-the-ui">AnimationController doesn’t know anything about the UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#curves">Curves</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#tweens">Tweens</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#animatedbuilder">AnimatedBuilder</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#animatedwidget">AnimatedWidget</a></li>
+</ul>
+</div>
+<main class="site-content col-12 col-md-9 offset-md-3 col-xl-8 offset-xl-2 col-xxl-8 offset-xxl-2" role="main">
+      <div class="container">
+        
+        
+        <header class="site-content__title">
+          <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/flutter/website/tree/master/src/docs/codelabs/explicit-animations.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="fas fa-file-alt fa-sm"></i>
+  </a>
+  <a href="https://github.com/flutter/website/issues/new?title='Explicit animations' page issue&body=
+Page URL: https://flutter.dev/docs/codelabs/explicit-animations.html%0D%0A
+Page source: https://github.com/flutter/website/tree/master/src/docs/codelabs/explicit-animations.md%0D%0A
+%0D%0A
+Found a typo? You can fix it yourself by going to the page source and clicking the pencil icon. Or finish creating this issue.%0D%0A
+%0D%0A
+Description of issue:" class="btn no-automatic-external" title="Report an issue with this page"
+    target="_blank" rel="noopener">
+    <i class="fas fa-bug fa-sm"></i>
+  </a>
+</div>
+
+          <h1>Explicit animations</h1>
+          </header>
+        <div
+  id="site-toc--inline"
+  class="site-toc site-toc--inline "
+  
+>
+  <header class="site-toc__title">
+    Contents
+    </header>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#what-are-explicit-animations">What are explicit animations?</a></li>
+<li class="toc-entry toc-h2"><a href="#animation-concepts">Animation concepts</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#what-is-animation">What is animation?</a></li>
+<li class="toc-entry toc-h3"><a href="#example-bouncing-ball-starter-code-1">Example: bouncing ball (starter code 1)</a></li>
+<li class="toc-entry toc-h3"><a href="#frame-rate">Frame rate</a></li>
+<li class="toc-entry toc-h3"><a href="#example-bouncing-ball-starter-code-2">Example: bouncing ball (starter code 2)</a></li>
+<li class="toc-entry toc-h3"><a href="#interpolation">Interpolation</a></li>
+<li class="toc-entry toc-h3"><a href="#example-bouncing-ball-starter-code-3">Example: bouncing ball (starter code 3)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#animationcontroller">AnimationController</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#what-is-an-animationcontroller">What is an AnimationController?</a></li>
+<li class="toc-entry toc-h3"><a href="#create-your-first-explicit-animation-with-animationcontroller">Create your first explicit animation with AnimationController</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#1-use-a-tickerprovider-mixin">1. Use a TickerProvider mixin</a></li>
+<li class="toc-entry toc-h4"><a href="#2-instantiate-and-dispose-of-animationcontroller-in-lifecycle-methods">2. Instantiate and dispose of AnimationController in lifecycle methods</a></li>
+<li class="toc-entry toc-h4"><a href="#3-pass-animationcontroller-parameters">3. Pass AnimationController parameters</a></li>
+<li class="toc-entry toc-h4"><a href="#4-add-listeners">4. Add listener(s)</a></li>
+<li class="toc-entry toc-h4"><a href="#5-trigger-the-animation">5. Trigger the animation</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#animationcontroller-concepts">AnimationController concepts</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#the-animation-object">The Animation object</a></li>
+<li class="toc-entry toc-h4"><a href="#animationcontroller-interpolates-frame-values">AnimationController interpolates frame values</a></li>
+<li class="toc-entry toc-h4"><a href="#animationcontroller-doesnt-know-anything-about-the-ui">AnimationController doesn’t know anything about the UI</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#curves">Curves</a></li>
+<li class="toc-entry toc-h2"><a href="#tweens">Tweens</a></li>
+<li class="toc-entry toc-h2"><a href="#animatedbuilder">AnimatedBuilder</a></li>
+<li class="toc-entry toc-h2"><a href="#animatedwidget">AnimatedWidget</a></li>
+</ul>
+</div>
+
+<p>Welcome to the explicit animations codelab,
+where you learn how to create animations
+with more complex and custom features
+than can be achieved using implicit animations.</p>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  This codelab is not yet complete.</p>
+</aside>
+
+<p>To get the most out of this codelab,
+you should have basic knowledge of the following:</p>
+
+<ul>
+  <li>How to <a href="https://codelabs.developers.google.com/codelabs/first-flutter-app-pt1">make a Flutter app</a>.</li>
+  <li>How to use <a href="/docs/development/ui/interactive#stateful-and-stateless-widgets">stateful widgets</a>.</li>
+</ul>
+
+<p>This codelab covers the following material:</p>
+
+<ul>
+  <li>Animation concepts</li>
+  <li>Using <code class="language-plaintext highlighter-rouge">AnimationController</code> to implement explicit animations</li>
+  <li>Choosing between implicit and explicit animations</li>
+</ul>
+
+<h2 id="what-are-explicit-animations">
+<a class="anchor" href="#what-are-explicit-animations" aria-hidden="true"><span class="octicon octicon-link"></span></a>What are explicit animations?</h2>
+
+<p>Explicit animations are a set of controls for
+telling Flutter how to rapidly rebuild the widget tree
+while changing widget properties to create animation effects.
+This approach enables you to create effects that you can’t achieve
+using <a href="/docs/development/ui/animations/implicit-animations">implicit animations</a>.</p>
+
+<h2 id="animation-concepts">
+<a class="anchor" href="#animation-concepts" aria-hidden="true"><span class="octicon octicon-link"></span></a>Animation concepts</h2>
+
+<p>Learning to create explicit animations can be daunting
+if you are new to animation in general.
+The following section equips you with animation concepts
+that help you better grasp how explicit
+animations work in Flutter.
+The subsequent sections relate these concepts
+to the corresponding tools and methods of explicit animations.
+If you are already experienced with animation, you can skip this
+section and move on to the <a href="#animationcontroller"><code class="language-plaintext highlighter-rouge">AnimationController</code> section</a>.</p>
+
+<h3 id="what-is-animation">
+<a class="anchor" href="#what-is-animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is animation?</h3>
+
+<p>Think about how animations work
+in a flip-book, or cartoons on TV, or a movie reel.
+What do these animation technologies have in common?
+They create the illusion of motion by rapidly transitioning
+a single frame that you are viewing to other frames
+within a pre-defined sequence.</p>
+
+<p>Suppose you want to create your own Flutter animation
+without using the animations library.
+Start with the simplest case possible:
+Your goal is to animate a ball
+so that it repeatedly bounces up and down.
+The following example demonstrates a first attempt
+using a naive approach.
+Can you spot the lines of code that create the effect?</p>
+
+<h3 id="example-bouncing-ball-starter-code-1">
+<a class="anchor" href="#example-bouncing-ball-starter-code-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: bouncing ball (starter code 1)</h3>
+
+<pre><code class="language-run-dartpad:theme-light:mode-flutter:split-60:width-100%:height-500px:null_safety-true">{$ begin main.dart $}
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class BouncingBallDemo extends StatefulWidget {
+  @override
+  _BouncingBallDemoState createState() =&gt; _BouncingBallDemoState();
+}
+
+class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; {
+  late double marginTop;
+
+  void changePosition(Timer t) async {
+    setState(() {
+      marginTop = marginTop == 0 ? 100 : 0;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    marginTop = 0;
+    Timer.periodic(const Duration(seconds: 1), changePosition);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: marginTop),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
+        ),
+        width: 40.0,
+        height: 40.0,
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: BouncingBallDemo(),
+        ),
+      ),
+    );
+  }
+}
+
+Future&lt;void&gt; main() async {
+  runApp(
+    MyApp(),
+  );
+}
+{$ end main.dart $}
+</code></pre>
+
+<p>The preceding example uses the container’s <code class="language-plaintext highlighter-rouge">margin</code> property
+to alternate the position of the ball on the screen,
+and a periodic timer to control
+how frequently the ball changes its position (once every second).
+As a viewer, this approach leaves a lot to be desired.
+The ball only has two positions,
+so the animation looks pretty choppy—you could
+easily mistake the animation for a glitch.
+To describe this problem in animation terms,
+you would say that <em>the animation alternates
+between only two frames:</em></p>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  In this example, you are creating an animation effect
+  that <em>only looks</em> like it is running at two frames per second.
+  In reality, Flutter is running this example at ~60 frames per second.</p>
+</aside>
+
+<div class="table-wrapper">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>frame #</td>
+        <td>position</td>
+        <td>movement direction</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>top margin: 0</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>top margin: 100</td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>top margin: 0</td>
+        <td>up</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>Most importantly, this example demonstrates at a basic
+level how frames are used to create animations:
+<strong>A frame is a single still image that can be used
+within a sequence of other still images
+to create the illusion of motion.</strong>
+In this case, the first frame consists of a
+ball centered on the screen,
+and the second frame consists of the same ball
+placed further down on the screen using
+the top margin property.</p>
+
+<p>PENDING: # image: a frame in Flutter</p>
+
+<p>Even this though example doesn’t use Flutter’s
+animation library, it creates an animation
+in fundamentally the same way:
+by telling Flutter to rebuild its widget tree
+so as to rapidly move between frames
+over a specified period of time.
+This is an important takeaway to keep in mind
+while creating explicit animations.
+At a fundamental level,
+<strong>explicit animations provide you with controls
+for telling Flutter how to quickly rebuild a widget tree
+to create the illusion of motion.</strong> You’ll learn more
+about these controls later in this codelab.</p>
+
+<p>Given what you’ve learned so far,
+can you think of a way to improve the bouncing ball effect
+in the preceding example?
+Try to come up with an answer before diving into the next section.</p>
+
+<aside class="alert alert-secondary" role="alert">
+  <p><strong>Quick review:</strong></p>
+  <ul>
+    <li>A frame is a single still image that can be used
+within a sequence of other still images
+to create the illusion of motion.</li>
+    <li>In Flutter, you can think of a single frame as
+a static configuration of a widget tree.</li>
+    <li>An animation is a sequence of frames that,
+when rapidly displayed over time,
+creates the illusion of motion.</li>
+    <li>In Flutter, an animation changes a widget property value
+between frames to create the illusion of motion.
+You can create an animation by telling Flutter
+to rapidly rebuild a widget tree while gradually
+changing a widget property on each iteration
+of the widget tree.</li>
+    <li>The first example uses a timer to trigger
+a change in the top margin of the bouncing ball
+once every second.</li>
+  </ul>
+</aside>
+
+<h3 id="frame-rate">
+<a class="anchor" href="#frame-rate" aria-hidden="true"><span class="octicon octicon-link"></span></a>Frame rate</h3>
+
+<p>The previous example represents a naive approach
+to animating a bouncing ball:
+it alternates the position of the ball
+between only two frames,
+switching frames once every second.
+One way to improve this animation is to use more frames,
+which smoothes out the animation
+and provides a more convincing illusion of movement.
+Consider what changes you need to make to the example
+so that, instead of having just two positions,
+the ball has five:</p>
+
+<div class="table-wrapper">
+  <table class="table table-striped">
+    <tbody>
+      <tr>
+        <td>frame #</td>
+        <td>position</td>
+        <td>movement direction</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>top margin: 0</td>
+        <td> </td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>top margin: 25</td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>top margin: 50</td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>top margin: 75</td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>top margin: 100</td>
+        <td>down</td>
+      </tr>
+      <tr>
+        <td>4</td>
+        <td>top margin: 75</td>
+        <td>up</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>top margin: 50</td>
+        <td>up</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>top margin: 25</td>
+        <td>up</td>
+      </tr>
+      <tr>
+        <td>1</td>
+        <td>top margin: 0</td>
+        <td>up</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p>Now that you are using more frames,
+in order to keep the ball bouncing at the same rate
+(one bounce per second)
+you  need to increase the frame rate.
+<strong>The frame rate is the rate of frames per second (fps).</strong>
+In this case, you are increasing the frame rate
+from 2 frames per second to 4 fps.
+Even though you are using five total frames,
+the first frame gets re-used for the downward and upward
+motion of the ball,
+so you only need to count it once
+for the purpose of determining the frame rate.</p>
+
+<p>Now that you have increased the frame rate
+for this animation,
+you can also calculate the new value that
+the margin should change in each frame.
+As the preceding chart makes clear,
+now that there are 5 frames instead of 2,
+and since the top margin value remains
+between 0 and 100 throughout the animation,
+each frame either increases or decreases
+the ball’s top margin value by 25.</p>
+
+<aside class="alert alert-secondary" role="alert">
+  <p>Change in margin value between each
+  frame = total change in margin / # of frames</p>
+</aside>
+
+<p>In this case, the top margin changes by 100
+over 4 frames, so each frame
+changes the top margin value by 25.
+(Even though there are 5 total frames,
+in this example you are reusing one frame for both
+the downward and upward motion of the ball, so you
+only need to count 4 frames for the margin change.)</p>
+
+<p>That’s it! With the updated frame rate
+and the top margin values needed for each frame,
+you now have enough information
+to update the preceding example
+by doubling the frame rate that the animation uses.
+Before diving into the following example,
+think about how you might refactor the preceding example
+using these updated parameters.
+You can use the DartPad editor in the preceding example
+to try out your solution.
+When you’re ready, run the next example to
+view the updated animation:</p>
+
+<h3 id="example-bouncing-ball-starter-code-2">
+<a class="anchor" href="#example-bouncing-ball-starter-code-2" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: bouncing ball (starter code 2)</h3>
+
+<pre><code class="language-run-dartpad:theme-light:mode-flutter:split-60:width-100%:height-500px:null_safety-true">{$ begin main.dart $}
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class BouncingBallDemo extends StatefulWidget {
+  @override
+  _BouncingBallDemoState createState() =&gt; _BouncingBallDemoState();
+}
+
+class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; {
+  late String direction;
+  late double marginTop;
+  late double increment;
+  late double start;
+  late double end;
+  late Duration duration;
+
+  @override
+  void initState() {
+    super.initState();
+    marginTop = 0;
+    direction = 'down';
+    increment = 25;
+    start = 0;
+    end = 100;
+    duration = Duration(milliseconds: 250);
+
+    Timer.periodic(duration, bounce);
+  }
+
+  void setDirection() {
+    if (marginTop == end) {
+      setState(() {
+        direction = 'up';
+      });
+    }
+
+    if (marginTop == start) {
+      setState(() {
+        direction = 'down';
+      });
+    }
+  }
+
+  void bounce(Timer t) {
+    setDirection();
+    setState(() {
+      if (direction == 'down') {
+        marginTop += increment;
+      } else {
+        marginTop -= increment;
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: marginTop),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
+        ),
+        width: 40.0,
+        height: 40.0,
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: BouncingBallDemo(),
+        ),
+      ),
+    );
+  }
+}
+
+Future&lt;void&gt; main() async {
+  runApp(
+    MyApp(),
+  );
+}
+{$ end main.dart $}
+</code></pre>
+
+<aside class="alert alert-secondary" role="alert">
+  <p><strong>Quick Review:</strong></p>
+  <ul>
+    <li>Frame rate is measured as the number of frames per second (fps).</li>
+    <li>Flutter aims to provide 60 fps performance,
+or 120 fps performance on devices capable of 120Hz updates.
+For 60fps, frames need to render approximately every 16ms.
+See <a href="/docs/perf/rendering/ui-performance">performance profiling</a> page for more information.</li>
+  </ul>
+</aside>
+
+<h3 id="interpolation">
+<a class="anchor" href="#interpolation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interpolation</h3>
+
+<p>Have you ever wondered how computer graphics animators
+draw each and every frame of your favorite CGI movies?
+Well, they don’t! Instead, animators set an initial
+position and a final position for the object they are animating.
+Next, they rely on software to compute all of the
+positions for the object between the initial and the
+final position that they defined.
+<strong>The process of computing animation values between
+a starting and ending position is called interpolation.</strong></p>
+
+<p>As a developer, interpolation vastly simplifies
+how you reason about and create your animations.
+Instead of thinking of an animation
+in terms of hundreds (or thousands) of frames,
+you can think of an animation
+as a starting value and an ending value,
+and allow interpolation to take care of the rest!</p>
+
+<p>The preceding example uses an imperative approach for
+calculating the values for each frame
+in the animation:
+you explicitly provide
+values for the frame rate as well as
+the value needed to increment
+the top margin property for each frame.
+Can you think of a way to refactor this example
+so that you only need to provide a starting and ending
+value for top margin, and leave the rest to an
+interpolation function the generates the values
+for the frames in between?</p>
+
+<p>Here’s a few hints:</p>
+
+<ul>
+  <li>Don’t worry about animating the ball
+up and down. Just focus on the first downward motion
+of the ball (from a top margin of 0 to top margin of 100).</li>
+  <li>Try using 60 fps for the frame rate.</li>
+  <li>For any starting or ending position of the ball,
+you can express the amount to increment top margin
+between each frame as the difference between the margin’s
+starting and ending values divided by the total number of frames.</li>
+</ul>
+
+<p>The following example contains one way to implement these updates
+to the bouncing ball example. Run the example to the see the difference
+that these updates make to your animation:</p>
+
+<h3 id="example-bouncing-ball-starter-code-3">
+<a class="anchor" href="#example-bouncing-ball-starter-code-3" aria-hidden="true"><span class="octicon octicon-link"></span></a>Example: bouncing ball (starter code 3)</h3>
+
+<pre><code class="language-run-dartpad:theme-light:mode-flutter:split-60:width-100%:height-500px:null_safety-true">{$ begin main.dart $}
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class BouncingBallDemo extends StatefulWidget {
+  @override
+  _BouncingBallDemoState createState() =&gt; _BouncingBallDemoState();
+}
+
+class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; {
+  late double marginTop;
+  late double start;
+  late double end;
+  late double increment;
+
+  void bounce(Timer t) async {
+    if (marginTop &lt; end) {
+      setState(() {
+        marginTop += increment;
+      });
+    } else {
+      t.cancel();
+    }
+  }
+
+  void interpolate(double start, double end) {
+    setState(() {
+      increment = (end - start) / 60;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    marginTop = 0;
+    start = 0;
+    end = 100;
+    interpolate(start, end);
+    Timer.periodic(const Duration(milliseconds: 16), bounce);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: marginTop),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
+        ),
+        width: 40.0,
+        height: 40.0,
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: BouncingBallDemo(),
+        ),
+      ),
+    );
+  }
+}
+
+Future&lt;void&gt; main() async {
+  runApp(
+    MyApp(),
+  );
+}
+{$ end main.dart $}
+</code></pre>
+
+<p>At 60 fps, this updated version of the bouncing ball animation
+looks smoother than in all prior examples!</p>
+
+<p>This example only creates half of the animation—the
+ball moves down, but not back up again.
+Wouldn’t it be nice to have a declarative interface
+for controlling the direction that the animation proceeds
+across the sequence of frames, and the conditions for
+starting and stopping it? This way, you could easily
+represent when to start the animation, pause it,
+play forward, play backward, end it, or repeat it indefinitely.
+In the next section, you’ll learn how Flutter’s animation library
+provides an interface for doing all of these things.</p>
+
+<aside class="alert alert-secondary" role="alert">
+  <p><strong>Quick review:</strong></p>
+  <ul>
+    <li>Interpolation is the process of computing all animation values
+between a starting and ending value.</li>
+    <li>Instead of thinking about an animation in terms of hundreds (or thousands)
+of frames, interpolation allows you to reason about and define an animation
+in terms of its starting and ending value.</li>
+  </ul>
+</aside>
+
+<aside class="alert alert-info" role="alert">
+  <p><strong>Bonus questions!</strong></p>
+  <ol>
+    <li>
+      <p>In the prior example, the rate of change for the
+bouncing ball’s top margin value is linear
+(the margin changes by the same amount between each frame).
+How would you change this example to make it possible to
+interpolate values between 0 and 100 at a changing rate?</p>
+    </li>
+    <li>
+      <p>The prior example only animates a single downward motion
+of the bouncing ball. Can you think of a way to:</p>
+
+      <ul>
+        <li>Continue the animation so that the ball bounces back up again?</li>
+        <li>Repeat the animation indefinitely?</li>
+      </ul>
+    </li>
+  </ol>
+</aside>
+
+<h2 id="animationcontroller">
+<a class="anchor" href="#animationcontroller" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimationController</h2>
+
+<p>The <a href="https://api.flutter.dev/flutter/animation/AnimationController-class.html"><code class="language-plaintext highlighter-rouge">AnimationController</code></a> is a special <code class="language-plaintext highlighter-rouge">Animation</code>
+object that generates a new value whenever the hardware
+is ready for a new frame. All explicit
+animations require an <code class="language-plaintext highlighter-rouge">AnimationController</code>.</p>
+
+<h3 id="what-is-an-animationcontroller">
+<a class="anchor" href="#what-is-an-animationcontroller" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is an AnimationController?</h3>
+
+<p>The <code class="language-plaintext highlighter-rouge">AnimationController</code> class represents an <strong>interpolated
+range of values</strong> that define all possible frames
+for a particular animation.
+<code class="language-plaintext highlighter-rouge">AnimationController</code> has a <code class="language-plaintext highlighter-rouge">value</code> property
+that represents the current value of the animation within
+the range of other frame values.
+<code class="language-plaintext highlighter-rouge">AnimationController</code> is <strong>playable</strong>—it provides
+controls for triggering changes to its <code class="language-plaintext highlighter-rouge">value</code> property
+(between its <code class="language-plaintext highlighter-rouge">lowerBound</code> and <code class="language-plaintext highlighter-rouge">upperBound</code>) over
+a specified period of time (the <code class="language-plaintext highlighter-rouge">duration</code> parameter).
+Once triggered, <code class="language-plaintext highlighter-rouge">AnimationController</code>
+changes its <code class="language-plaintext highlighter-rouge">value</code> property over time
+to the other values in the range
+between <code class="language-plaintext highlighter-rouge">upperBound</code> and <code class="language-plaintext highlighter-rouge">lowerBound</code>.
+This change in <code class="language-plaintext highlighter-rouge">value</code> over time
+is what creates the animation effect.
+<code class="language-plaintext highlighter-rouge">AnimationController</code> is also highly <strong>configurable</strong>, allowing you
+to change the following:</p>
+
+<ul>
+  <li>Whether the animation should progress forward or backward
+through the range of values once triggered.</li>
+  <li>The amount(s) that an animation’s <code class="language-plaintext highlighter-rouge">value</code> changes between each frame.</li>
+</ul>
+
+<p>The following sections demonstrate how to use
+<code class="language-plaintext highlighter-rouge">AnimationController</code> by providing step-by-step instructions for
+<a href="#create-your-first-explicit-animation-with-animationcontroller">creating your first explicit animation with
+<code class="language-plaintext highlighter-rouge">AnimationController</code></a>[] and by covering the
+<a href="#animationcontroller-concepts">underlying concepts of <code class="language-plaintext highlighter-rouge">AnimationController</code></a>.</p>
+
+<h3 id="create-your-first-explicit-animation-with-animationcontroller">
+<a class="anchor" href="#create-your-first-explicit-animation-with-animationcontroller" aria-hidden="true"><span class="octicon octicon-link"></span></a>Create your first explicit animation with AnimationController</h3>
+
+<p>The following example <strong>begins with no animation code</strong>—it
+consists of a <a href="https://api.flutter.dev/flutter/material/MaterialApp-class.html">Material app</a> home screen containing a green ball shape.</p>
+
+<p>PENDING: Insert DartPad here</p>
+
+<p>This section provides guided steps for building
+the same bouncing ball animation
+created in the <a href="#animation-concepts"><code class="language-plaintext highlighter-rouge">Animation</code> concepts</a> section—
+the difference is that this example uses an explicit animation,
+whereas the animation concepts section
+uses a naive approach in order to introduce
+fundamental animation concepts.</p>
+
+<p>PENDING : bouncing ball example</p>
+
+<p>Use the following instructions to create an explicit animation
+of a bouncing ball:</p>
+
+<h4 id="1-use-a-tickerprovider-mixin">
+<a class="anchor" href="#1-use-a-tickerprovider-mixin" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. Use a TickerProvider mixin</h4>
+
+<p>An <code class="language-plaintext highlighter-rouge">AnimationController</code> needs a <code class="language-plaintext highlighter-rouge">TickerProvider</code>—the
+<code class="language-plaintext highlighter-rouge">AnimationController</code> constructor takes
+a required parameter <code class="language-plaintext highlighter-rouge">vsync</code> that must implement a
+<code class="language-plaintext highlighter-rouge">TickerProvider</code> interface. Therefore, the first step for
+creating an explicit animation is to make a <code class="language-plaintext highlighter-rouge">TickerProvider</code>
+object available to pass as the <code class="language-plaintext highlighter-rouge">vsync</code> argument
+to <code class="language-plaintext highlighter-rouge">AnimationController</code>.
+To do this, use a <code class="language-plaintext highlighter-rouge">TickerProvider</code> mixin with the widget
+that you are animating:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-206662" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{explicit1 → explicit2}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -7,7 +7,7 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">7</div>
+<div class="line-num2">7</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  _BouncingBallDemoState createState() =&gt; _BouncingBallDemoState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">8</div>
+<div class="line-num2">8</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">9</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">9</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; <ins>with SingleTickerProviderStateMixin </ins>{</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">10</div>
+<div class="line-num2">10</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">11</div>
+<div class="line-num2">11</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">12</div>
+<div class="line-num2">12</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p>This step uses the <code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code>
+with <code class="language-plaintext highlighter-rouge">_BouncingBallDemoState</code>,
+but you can also use <code class="language-plaintext highlighter-rouge">TickerProviderStateMixin</code> to make your widget
+available as a <code class="language-plaintext highlighter-rouge">TickerProvider</code> for <code class="language-plaintext highlighter-rouge">AnimationController</code>.
+Here are some considerations for deciding between the two:</p>
+
+<ul>
+  <li>If you are only creating a single <code class="language-plaintext highlighter-rouge">AnimationController</code>
+from a <code class="language-plaintext highlighter-rouge">State</code> object (as in this example)
+you can use the <code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code>.</li>
+  <li>If you need to create more than one <code class="language-plaintext highlighter-rouge">AnimationController</code>
+over the lifetime of a <code class="language-plaintext highlighter-rouge">State</code> object,
+use the <code class="language-plaintext highlighter-rouge">TickerProviderStateMixin</code> instead.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code> is slightly more efficient
+than <code class="language-plaintext highlighter-rouge">TickerProviderStateMixin</code> in the case of the class
+only ever needing one <code class="language-plaintext highlighter-rouge">Ticker</code>.</li>
+</ul>
+
+<h4 id="2-instantiate-and-dispose-of-animationcontroller-in-lifecycle-methods">
+<a class="anchor" href="#2-instantiate-and-dispose-of-animationcontroller-in-lifecycle-methods" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Instantiate and dispose of AnimationController in lifecycle methods</h4>
+
+<p>Instantiate <code class="language-plaintext highlighter-rouge">AnimationController</code> in a widget lifecycle method,
+and call the <code class="language-plaintext highlighter-rouge">AnimationController.dispose()</code> within the
+<code class="language-plaintext highlighter-rouge">State.dispose()</code> lifecycle method:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-935940" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{explicit2 → explicit3}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -8,9 +8,12 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">8</div>
+<div class="line-num2">8</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">9</div>
+<div class="line-num2">9</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt; with SingleTickerProviderStateMixin {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">10</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  late AnimationController controller;</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">11</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">10</div>
+<div class="line-num2">12</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">11</div>
+<div class="line-num2">13</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">12</div>
+<div class="line-num2">14</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">15</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller = AnimationController();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">13</div>
+<div class="line-num2">16</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">14</div>
+<div class="line-num2">17</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -27,6 +30,12 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">27</div>
+<div class="line-num2">30</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      ),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">28</div>
+<div class="line-num2">31</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">29</div>
+<div class="line-num2">32</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">33</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">34</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">35</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  void dispose() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">36</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">37</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    super.dispose();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">38</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">30</div>
+<div class="line-num2">39</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">}</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">31</div>
+<div class="line-num2">40</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">class MyApp extends StatelessWidget {</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p>This code is not yet valid because it passes no arguments
+to <code class="language-plaintext highlighter-rouge">AnimationController</code>’s constructor.</p>
+
+<p>Remember the following observations whenever performing
+this step with <code class="language-plaintext highlighter-rouge">AnimationController</code>:</p>
+
+<ul>
+  <li>You can instantiate <code class="language-plaintext highlighter-rouge">AnimationController</code> in several
+different lifecycle methods,
+but it is most common to use <code class="language-plaintext highlighter-rouge">initState()</code>.</li>
+  <li>You should dispose of an <code class="language-plaintext highlighter-rouge">AnimationController</code>
+when it is no longer needed—this reduces
+the likelihood of memory leaks.</li>
+  <li>Always dispose of <code class="language-plaintext highlighter-rouge">AnimationController</code>
+within the <code class="language-plaintext highlighter-rouge">dispose()</code> lifecycle method.</li>
+</ul>
+
+<h4 id="3-pass-animationcontroller-parameters">
+<a class="anchor" href="#3-pass-animationcontroller-parameters" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Pass AnimationController parameters</h4>
+
+<p>Pass arguments for <code class="language-plaintext highlighter-rouge">vsync</code>, <code class="language-plaintext highlighter-rouge">duration</code>, <code class="language-plaintext highlighter-rouge">lowerBound</code>,
+and <code class="language-plaintext highlighter-rouge">upperBound</code> to the <code class="language-plaintext highlighter-rouge">AnimationController</code> constructor:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-334782" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{explicit3 → explicit4}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -13,7 +13,12 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">13</div>
+<div class="line-num2">13</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">14</div>
+<div class="line-num2">14</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  void initState() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">15</div>
+<div class="line-num2">15</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    super.initState();</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">16</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">    controller = AnimationController(<del>);</del></span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">16</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller = AnimationController(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">17</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      vsync: this, // the SingleTickerProviderStateMixin</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">18</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      duration: Duration(seconds: 1),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">19</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      lowerBound: 0,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">20</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      upperBound: 100,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">21</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">17</div>
+<div class="line-num2">22</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">18</div>
+<div class="line-num2">23</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<p>The <code class="language-plaintext highlighter-rouge">vsync</code> parameter makes use of the
+<code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code> you added in <a href="#1-use-a-tickerprovider-mixin">step 1</a>:</p>
+
+<ul>
+  <li>
+<strong>vsync</strong>:
+Remember from <a href="#1-use-a-tickerprovider-mixin">step 1</a> that <code class="language-plaintext highlighter-rouge">vsync</code> is a required parameter
+that takes a <code class="language-plaintext highlighter-rouge">TickerProvider</code>.
+By passing <code class="language-plaintext highlighter-rouge">this</code> for the <code class="language-plaintext highlighter-rouge">vsync</code> parameter,
+you are passing <code class="language-plaintext highlighter-rouge">_BouncingBallDemoState</code>
+as the <code class="language-plaintext highlighter-rouge">TickerProvider</code> object to the <code class="language-plaintext highlighter-rouge">AnimationController</code> constructor.
+<code class="language-plaintext highlighter-rouge">_BouncingBallDemoState</code> implements the <code class="language-plaintext highlighter-rouge">TickerProvider</code> interface
+because <a href="#1-use-a-tickerprovider-mixin">step 1</a> adds the <code class="language-plaintext highlighter-rouge">SingleTickerProviderStateMixin</code>
+with <code class="language-plaintext highlighter-rouge">_BouncingBallDemoState</code>.</li>
+</ul>
+
+<p>The <code class="language-plaintext highlighter-rouge">duration</code>, <code class="language-plaintext highlighter-rouge">upperBound</code>, and <code class="language-plaintext highlighter-rouge">lowerBound</code> parameters
+define the following parts of your animation:</p>
+<ul>
+  <li>
+<strong>duration</strong>: The <code class="language-plaintext highlighter-rouge">duration</code> of the animation is 1 second.</li>
+  <li>
+<strong>upperBound</strong> and <strong>lowerBound</strong>:
+Since the bouncing ball animation moves the ball
+by transitioning its top-margin value from 0 to 100,
+this step passes 0 as the <code class="language-plaintext highlighter-rouge">lowerBound</code> and 100 as the <code class="language-plaintext highlighter-rouge">upperBound</code>.</li>
+</ul>
+
+<h4 id="4-add-listeners">
+<a class="anchor" href="#4-add-listeners" aria-hidden="true"><span class="octicon octicon-link"></span></a>4. Add listener(s)</h4>
+
+<p>An <code class="language-plaintext highlighter-rouge">AnimationController</code> doesn’t know anything
+about the UI—it merely triggers changes to its <code class="language-plaintext highlighter-rouge">value</code>
+property over a specified <code class="language-plaintext highlighter-rouge">duration</code>.
+To make your UI respond to the changes
+that <code class="language-plaintext highlighter-rouge">AnimationController</code> makes to its <code class="language-plaintext highlighter-rouge">value</code> property,
+register a listener with <code class="language-plaintext highlighter-rouge">AnimationController</code>
+that calls <code class="language-plaintext highlighter-rouge">setState()</code> each time <code class="language-plaintext highlighter-rouge">AnimationController</code>
+changes its value:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-605504" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{explicit4 → explicit5}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -19,12 +19,16 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">19</div>
+<div class="line-num2">19</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      lowerBound: 0,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">20</div>
+<div class="line-num2">20</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      upperBound: 100,</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">21</div>
+<div class="line-num2">21</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    );</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">22</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">23</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller.addListener(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">24</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      setState(() {});</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">25</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">22</div>
+<div class="line-num2">26</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">23</div>
+<div class="line-num2">27</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">24</div>
+<div class="line-num2">28</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  Widget build(BuildContext context) {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">25</div>
+<div class="line-num2">29</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    return Container(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-del">
+      <div class="line-num1">26</div>
+<div class="line-num2"></div>
+    </td>
+    <td class="d2h-del">
+        <div class="d2h-code-line d2h-del">
+            <span class="d2h-code-line-prefix">-</span>
+            <span class="d2h-code-line-ctn">      margin: EdgeInsets.only(top: <del>0</del>),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">30</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">      margin: EdgeInsets.only(top: <ins>controller.value</ins>),</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">27</div>
+<div class="line-num2">31</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      child: Container(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">28</div>
+<div class="line-num2">32</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">        decoration: BoxDecoration(</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">29</div>
+<div class="line-num2">33</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">          shape: BoxShape.circle,</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code> provides an <code class="language-plaintext highlighter-rouge">addListener()</code> method
+that takes a callback function. <code class="language-plaintext highlighter-rouge">AnimationController</code>
+invokes this callback function every time
+<code class="language-plaintext highlighter-rouge">AnimationController</code> changes its <code class="language-plaintext highlighter-rouge">value</code> property.
+In order to rebuild the widget tree to reflect each change
+in <code class="language-plaintext highlighter-rouge">AnimationController</code>’s <code class="language-plaintext highlighter-rouge">value</code> property, you
+must call <code class="language-plaintext highlighter-rouge">setState()</code> from within the listener callback
+that you pass to <code class="language-plaintext highlighter-rouge">addListener()</code>.
+This is why explicit animations require <code class="language-plaintext highlighter-rouge">StatefulWidget</code>s.</p>
+
+<h4 id="5-trigger-the-animation">
+<a class="anchor" href="#5-trigger-the-animation" aria-hidden="true"><span class="octicon octicon-link"></span></a>5. Trigger the animation</h4>
+
+<p>To start the bouncing ball animation so that
+it repeats indefinitely, call <code class="language-plaintext highlighter-rouge">AnimationController.repeat()</code>:</p>
+
+<div class="d2h-wrapper">
+    <div id="d2h-091070" class="d2h-file-wrapper" data-lang="dart">
+    <div class="d2h-file-header">
+    <span class="d2h-file-name-wrapper">
+    <svg aria-hidden="true" class="d2h-icon" height="16" version="1.1" viewbox="0 0 12 16" width="12">
+        <path d="M6 5H2v-1h4v1zM2 8h7v-1H2v1z m0 2h7v-1H2v1z m0 2h7v-1H2v1z m10-7.5v9.5c0 0.55-0.45 1-1 1H1c-0.55 0-1-0.45-1-1V2c0-0.55 0.45-1 1-1h7.5l3.5 3.5z m-1 0.5L8 2H1v12h10V5z"></path>
+    </svg>    <span class="d2h-file-name">{explicit5 → explicit6}/lib/main.dart</span>
+    </span>
+    </div>
+    <div class="d2h-file-diff">
+        <div class="d2h-code-wrapper">
+            <table class="d2h-diff-table">
+                <tbody class="d2h-diff-tbody">
+                <tr>
+    <td class="d2h-code-linenumber d2h-info"></td>
+    <td class="d2h-info">
+        <div class="d2h-code-line d2h-info">@@ -23,6 +23,8 @@</div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">23</div>
+<div class="line-num2">23</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    controller.addListener(() {</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">24</div>
+<div class="line-num2">24</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">      setState(() {});</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">25</div>
+<div class="line-num2">25</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">    });</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">26</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-ins">
+      <div class="line-num1"></div>
+<div class="line-num2">27</div>
+    </td>
+    <td class="d2h-ins">
+        <div class="d2h-code-line d2h-ins">
+            <span class="d2h-code-line-prefix">+</span>
+            <span class="d2h-code-line-ctn">    controller.repeat(reverse: true);</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">26</div>
+<div class="line-num2">28</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  }</span>
+        </div>
+    </td>
+</tr>
+<tr>
+    <td class="d2h-code-linenumber d2h-cntx">
+      <div class="line-num1">27</div>
+<div class="line-num2">29</div>
+    </td>
+    <td class="d2h-cntx">
+        <div class="d2h-code-line d2h-cntx">
+            <span class="d2h-code-line-prefix"> </span>
+            <span class="d2h-code-line-ctn">  @override</span>
+        </div>
+    </td>
+</tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>
+<p>This step calls <code class="language-plaintext highlighter-rouge">repeat()</code> within <code class="language-plaintext highlighter-rouge">initState()</code> because
+the bouncing ball animation can begin immediately
+when this view is</p>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code> provides several methods for “driving” an animation:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">repeat()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">forward()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reverse()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">stop()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">reset()</code></li>
+</ul>
+
+<p>Run the following example to see this explicit animation in action!</p>
+
+<pre><code class="language-run-dartpad:theme-light:mode-flutter:split-60:width-100%:height-500px:null_safety-true">{$ begin main.dart $}
+import 'dart:async';
+import 'package:flutter/material.dart';
+
+class BouncingBallDemo extends StatefulWidget {
+  @override
+  _BouncingBallDemoState createState() =&gt; _BouncingBallDemoState();
+}
+
+class _BouncingBallDemoState extends State&lt;BouncingBallDemo&gt;
+    with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+      lowerBound: 0,
+      upperBound: 100,
+    );
+
+    controller.addListener(() {
+      setState(() {});
+    });
+
+    controller.repeat(reverse: true);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(top: controller.value),
+      child: Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.green,
+        ),
+        width: 40.0,
+        height: 40.0,
+      ),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: BouncingBallDemo(),
+        ),
+      ),
+    );
+  }
+}
+
+Future&lt;void&gt; main() async {
+  runApp(
+    MyApp(),
+  );
+}
+{$ end main.dart $}
+</code></pre>
+
+<h3 id="animationcontroller-concepts">
+<a class="anchor" href="#animationcontroller-concepts" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimationController concepts</h3>
+
+<p>As the name suggests, the <code class="language-plaintext highlighter-rouge">AnimationController</code> controls the
+animation.</p>
+
+<h4 id="the-animation-object">
+<a class="anchor" href="#the-animation-object" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Animation object</h4>
+
+<p>Lifecycle of an animation (completed, dismissed)</p>
+
+<ul>
+  <li>An <code class="language-plaintext highlighter-rouge">Animation</code> has a <code class="language-plaintext highlighter-rouge">status</code> and a <code class="language-plaintext highlighter-rouge">value</code>.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">value</code> depends on what the user wants,
+and can be of any type, such as <color> or <size>.</size></color>
+</li>
+  <li>The controller’s <code class="language-plaintext highlighter-rouge">status</code> has four possible
+values: dismissed, forward, reverse, and completed.</li>
+</ul>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code> is the central class that you use
+to create explicit animations; its capabilities
+fall into four categories:
+defining animations, generating animation values,
+registering listeners, and play or sequence controls:</p>
+
+<ul>
+  <li>
+<code class="language-plaintext highlighter-rouge">AnimationController</code> makes it easy to access
+the current value of the animation—just
+use the <code class="language-plaintext highlighter-rouge">value</code> property.</li>
+  <li>To “play” an animation,
+you can use one of several methods that
+initiate the sequence of changes to <code class="language-plaintext highlighter-rouge">value</code>.
+For example, to “play” an animation
+from its starting value to its ending value,
+simply call <code class="language-plaintext highlighter-rouge">forward()</code>.</li>
+  <li>Use <code class="language-plaintext highlighter-rouge">.addListener()</code> to register a callback invoked whenever
+<code class="language-plaintext highlighter-rouge">AnimationController</code> changes its <code class="language-plaintext highlighter-rouge">value</code> property.
+Most commonly, you register <code class="language-plaintext highlighter-rouge">setState()</code> with <code class="language-plaintext highlighter-rouge">AnimationController</code>.
+This tells Flutter to rebuild the widget tree
+whenever <code class="language-plaintext highlighter-rouge">AnimationController</code>’s value changes.</li>
+  <li>
+<code class="language-plaintext highlighter-rouge">AnimationController</code> needs a <code class="language-plaintext highlighter-rouge">TickerProvider</code> to
+synchronize the animation’s behavior to the device’s display.</li>
+</ul>
+
+<h4 id="animationcontroller-interpolates-frame-values">
+<a class="anchor" href="#animationcontroller-interpolates-frame-values" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimationController interpolates frame values</h4>
+
+<p>To generate its range of values,
+instantiate <code class="language-plaintext highlighter-rouge">AnimationController</code> and
+pass it a few basic arguments like the <code class="language-plaintext highlighter-rouge">duration</code> of your animation,
+as well as the starting and ending values,
+<code class="language-plaintext highlighter-rouge">lowerBound</code> and <code class="language-plaintext highlighter-rouge">upperBound</code>, for your animation.
+Once instantiated, <code class="language-plaintext highlighter-rouge">AnimationController</code> creates an interpolated
+range of values between <code class="language-plaintext highlighter-rouge">upperBound</code> and <code class="language-plaintext highlighter-rouge">lowerBound</code>
+over the given <code class="language-plaintext highlighter-rouge">duration</code>.</p>
+
+<p>PENDING: Image of values in AnimationController</p>
+
+<p>In this example,
+the <code class="language-plaintext highlighter-rouge">AnimationController</code> constructor takes the
+optional parameters <code class="language-plaintext highlighter-rouge">lowerBound</code>, <code class="language-plaintext highlighter-rouge">upperBound</code>,
+and <code class="language-plaintext highlighter-rouge">duration</code>:</p>
+
+<p>Instantiate <code class="language-plaintext highlighter-rouge">AnimationController</code>:</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">controller</span> <span class="o">=</span> <span class="n">AnimationController</span><span class="o">(</span>
+  <span class="nl">lowerBound:</span> <span class="mi">0</span><span class="o">,</span>
+  <span class="nl">upperBound:</span> <span class="mi">100</span><span class="o">,</span>
+  <span class="nl">duration:</span> <span class="kd">const</span> <span class="n">Duration</span><span class="o">(</span><span class="nl">seconds:</span> <span class="mi">1</span><span class="o">),</span>
+  <span class="nl">vsync:</span> <span class="k">this</span><span class="o">,</span> <span class="c1">// Don't worry about vsync for now.</span>
+<span class="o">);</span>
+</code></pre></div></div>
+
+<p>When you instantiate <code class="language-plaintext highlighter-rouge">AnimationController</code>,
+you define an animation in terms of its starting value
+(<code class="language-plaintext highlighter-rouge">lowerBound</code>), its ending value (<code class="language-plaintext highlighter-rouge">upperBound</code>),
+and the amount of time it takes to change
+from one to the other (<code class="language-plaintext highlighter-rouge">duration</code>).</p>
+
+<p>The default values for <code class="language-plaintext highlighter-rouge">lowerBound</code> and <code class="language-plaintext highlighter-rouge">upperBound</code>
+are 0 and 1, respectively; <code class="language-plaintext highlighter-rouge">duration</code> doesn’t have a default value.</p>
+
+<p>The preceding <a href="#animation-concepts"><code class="language-plaintext highlighter-rouge">Animation</code> concepts</a> section uses an <code class="language-plaintext highlighter-rouge">interpolate()</code>
+method to generate frame values between a starting value and an
+ending value of the <code class="language-plaintext highlighter-rouge">margin</code> property.
+The example uses each interpolated value in a separate frame
+to animate a circle up and down,
+making it appear like a bouncing ball.
+The first thing to know about <code class="language-plaintext highlighter-rouge">AnimationController</code>
+is that, within this process, <code class="language-plaintext highlighter-rouge">AnimationController</code>
+handles the interpolation part for you.
+The following example renders a blank screen,
+but uses <code class="language-plaintext highlighter-rouge">AnimationController</code> to print values from 0 to 100
+at 60fps over 1 second.
+Click <strong>Run</strong>, then check the values that are
+being printed by clicking the <strong>Console</strong> area at the bottom
+of the editor:</p>
+
+<pre><code class="language-run-dartpad:theme-light:mode-flutter:split-100:width-100%:height-500px:null_safety-true">{$ begin main.dart $}
+import 'dart:async';
+
+import 'package:flutter/material.dart';
+
+class AnimationControllerDemo extends StatefulWidget {
+  @override
+  _AnimationControllerDemo createState() =&gt; _AnimationControllerDemo();
+}
+
+class _AnimationControllerDemo extends State&lt;AnimationControllerDemo&gt; with SingleTickerProviderStateMixin {
+  late AnimationController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1),
+      lowerBound: 0,
+      upperBound: 100,
+    );
+
+    controller.addListener(() {
+      print(controller.value);
+    });
+
+    controller.forward();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        body: Center(
+          child: AnimationControllerDemo(),
+        ),
+      ),
+    );
+  }
+}
+
+Future&lt;void&gt; main() async {
+  runApp(
+    MyApp(),
+  );
+}
+{$ end main.dart $}
+</code></pre>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code>
+  abstracts away the work of interpolation,
+  allowing you to reason about and create an animation
+  in terms of its duration, and the starting and ending
+  values of the property that you are animating:</p>
+
+<h4 id="animationcontroller-doesnt-know-anything-about-the-ui">
+<a class="anchor" href="#animationcontroller-doesnt-know-anything-about-the-ui" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimationController doesn’t know anything about the UI</h4>
+
+<h5 id="access-animation-values-with-controllervalue">Access animation values with controller.value</h5>
+
+<p><code class="language-plaintext highlighter-rouge">AnimationController</code> provides a <code class="language-plaintext highlighter-rouge">value</code> property.
+You can access this property directly—there
+is no getter method for <code class="language-plaintext highlighter-rouge">value</code>:</p>
+
+<p><!-- skip --></p>
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code>   <span class="n">print</span><span class="o">(</span><span class="n">controller</span><span class="o">.</span><span class="na">value</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>By default, the <code class="language-plaintext highlighter-rouge">value</code> property begins at the <code class="language-plaintext highlighter-rouge">lowerBound</code> value.
+You can set the starting value of <code class="language-plaintext highlighter-rouge">controller.value</code> to a specific
+value between <code class="language-plaintext highlighter-rouge">lowerBound</code> and <code class="language-plaintext highlighter-rouge">upperBound</code> using the <code class="language-plaintext highlighter-rouge">from</code> parameter.
+Once triggered, the <code class="language-plaintext highlighter-rouge">AnimationController</code> automatically updates
+the <code class="language-plaintext highlighter-rouge">value</code> property to a new value.</p>
+
+<h2 id="curves">
+<a class="anchor" href="#curves" aria-hidden="true"><span class="octicon octicon-link"></span></a>Curves</h2>
+
+<ul>
+  <li>Use CurvedAnimation</li>
+  <li>you can use presets, or create your own</li>
+</ul>
+
+<h2 id="tweens">
+<a class="anchor" href="#tweens" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tweens</h2>
+
+<ul>
+  <li>To use a <code class="language-plaintext highlighter-rouge">Tween</code> call <code class="language-plaintext highlighter-rouge">animate()</code> passing in the controller. (example)</li>
+</ul>
+
+<h2 id="animatedbuilder">
+<a class="anchor" href="#animatedbuilder" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimatedBuilder</h2>
+
+<h2 id="animatedwidget">
+<a class="anchor" href="#animatedwidget" aria-hidden="true"><span class="octicon octicon-link"></span></a>AnimatedWidget</h2>
+
+<hr>
+
+<p>TODO:</p>
+<ul>
+  <li>Explain that setState listener boilerplate isn’t normal.</li>
+  <li>Add section that uses AnimatedBuilder/AnimatedWidget</li>
+  <li>Refactor all DartPad samples to use non-working defaults,
+&amp; offer solution</li>
+  <li>Update vanilla bouncing ball final example to use <em>both</em>
+upward and downward motion</li>
+  <li>“Why TickerProvider?” in animationController concepts section</li>
+  <li>How to choose between AnimatedBuilder and AnimatedWidget.</li>
+  <li>Answer question: when to use a Tween,
+if you can just use upper and lower bound args for
+AnimationController?
+    <ul>
+      <li>when we need something other than a double?</li>
+    </ul>
+  </li>
+  <li>Add margin-bottom to DartPads</li>
+  <li>Add diffs between each solution in the introduction section</li>
+</ul>
+
+
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+
+    <footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 site-footer__wrapper">
+        <div class="site-footer__logo">
+          <img src="/images/flutter-mono-81x100.png" alt="Flutter Logo" width="81" height="100">
+        </div>
+        <div class="site-footer__content">
+          <ul class="site-footer__link-list">
+              <li><a href="https://groups.google.com/forum/#!forum/flutter-dev">flutter-dev@</a></li>
+              <li><a href="/tos">terms</a></li>
+              <li><a href="/brand">brand usage</a></li>
+              <li><a href="/security">security</a></li>
+              <li><a href="https://www.google.com/intl/en/policies/privacy">privacy</a></li>
+              <li><a href="https://esflutter.dev/">español</a></li>
+              <li><a href="https://flutter.cn" class="text-nowrap">社区中文资源</a></li> 
+              <li><a href="https://flutter-ko.dev/" class="text-nowrap">한국어</a></li>
+              <li><a href="https://blog.google/inside-google/company-announcements/standing-with-black-community">We stand in solidarity with the Black community. Black Lives Matter.</a></li>
+          </ul>
+
+          <p class="licenses">
+            Except as otherwise noted,
+            this work is licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative
+            Commons Attribution 4.0 International License</a>,
+            and code samples are licensed under the BSD License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    <script async="" defer="" src="//survey.g.doubleclick.net/async_survey?site=at3ul57xpub2vk3oxt2ytw365i"></script>
+  </body>
+</html>
