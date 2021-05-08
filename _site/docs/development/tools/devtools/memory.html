@@ -1,0 +1,2448 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Using the Memory view  - Flutter </title>
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <!-- Google Optimize -->
+  <script src="https://www.googleoptimize.com/optimize.js?id=GTM-MPZP6R8"></script>
+  <!-- End Google Optimize -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-ND4LWWZ');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <meta name="description" content="Learn how to use the DevTools memory view.">
+  <meta name="keywords" content=" ">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flutterdev">
+
+  <meta property="og:title" content="Using the Memory view">
+  <meta property="og:url" content="https://flutter.dev/docs/development/tools/devtools/memory">
+  <meta property="og:description" content="Learn how to use the DevTools memory view.">
+  
+  <meta property="og:image" content="https://flutter.dev/images/flutter-logo-sharing.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:300,400,500|Roboto+Mono:400,700|Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/main-5179236d2a521f0d8c964446a1eaa9bee448793c298286381d5cbdc3f6776229.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+  <script src="/assets/main-3d1fe020941b4eb18d313f0eb6a8ff9fd170a0b3ed6913d333d804fec0136545.js" type="text/javascript"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67589403-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <meta name="google-site-verification" content="HFqxhSbf9YA_0rBglNLzDiWnrHiK_w4cqDh2YD2GEY4" />
+  <meta name="google-site-verification" content="Zom-prnFykfYycmI_nzRWYx5r6Z9OwR-yEsgElRz_Ug" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="overlay-under-drawer"></div>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-md justify-content-start justify-content-md-between">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="material-icons">menu</i>
+    </button>
+
+    <a class="navbar-brand" href="/">
+      <img alt="Flutter logo" height="37" width="129" class="align-middle" src="/assets/flutter-lockup-1caf6476beed76adec3c477586da54de6b552b2f42108ec5bc68dc63bae2df75.png">
+    </a>
+
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+      <div class="site-header__sheet-bg" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></div>
+      <div class="site-header__sheet">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/docs">Docs</a>
+          </li>
+          <div class="site-sidebar site-sidebar--header d-md-none">
+            <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+          </div>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/showcase">Showcase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/community">Community</a>
+          </li>
+        </ul>
+        <form action="/search/" class="site-header__search form-inline">
+          <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="site-header__social navbar-nav flex-row">
+      <a class="nav-item nav-link" href="https://twitter.com/flutterdev" aria-label="Twittter"><i class="fab fa-twitter fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://www.youtube.com/flutterdev" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://github.com/flutter" aria-label="Github"><i class="fab fa-github fa-lg"></i></a>
+    </div>
+    <a class="site-header__cta btn btn-primary" href="/docs/get-started/install/">Get started</a>
+    </nav>
+</header>
+<!---->
+  
+  <div class="site-banner site-banner--default" role="alert">
+    Flutter's I/O schedule is live. <a href="http://goo.gle/io21-flutter-agenda-4">Learn more</a>.
+  </div>
+<div class="container-fluid position-relative">
+  <div class="row flex-xl-nowrap">
+    <div class="fixed-col site-sidebar site-sidebar--fixed col-12 col-md-3 col-xl-2 d-none d-md-block" data-fixed-column>
+      <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link active collapsable"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="true" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link active" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="false" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+    </div>
+    <div
+  id="site-toc--side"
+  class="site-toc site-toc--side fixed-col col-xl-2 order-3"
+  data-fixed-column
+>
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    </header>
+  <ul class="section-nav nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#what-is-it">What is it?</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#devtools-memory-page">DevTools memory page</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#charting-memory-statistics-and-events">Charting memory statistics and events</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#analysis-and-snapshots">Analysis and snapshots</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#allocations-and-tracking">Allocations and tracking</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#memory-anatomy">Memory anatomy</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#events-pane">Events Pane</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#adding-user-custom-events-to-the-timeline">Adding user custom events to the timeline</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#memory-overview-chart">Memory overview chart</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#hover-card">Hover card</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#android-chart">Android chart</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#memory-controls">Memory controls</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#memory-actions">Memory actions</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#analysis-tab">Analysis tab</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#analysis-actions">Analysis actions</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#analysis-and-snapshots-view">Analysis and Snapshots view</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#snapshots">Snapshots</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#inspecting-a-class-instance-in-a-snapshot">Inspecting a class instance in a snapshot</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#analysis-of-a-snapshot">Analysis of a snapshot</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#allocation-tab">Allocation tab</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#allocation-actions">Allocation actions</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#allocation-view">Allocation view</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#managing-the-objects-and-statistics-in-the-heap-monitor-allocations">Managing the objects and statistics in the heap (Monitor Allocations)</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#allocation-tracking">Allocation tracking</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#filtering-searching-and-auto-complete">Filtering, Searching and Auto-Complete</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#filtering">Filtering</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#setting">Setting</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#memory-problem-case-study">Memory problem case study</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#glossary-of-vm-terms">Glossary of VM terms</a></li>
+</ul>
+</div>
+<main class="site-content col-12 col-md-9 offset-md-3 col-xl-8 offset-xl-2 col-xxl-8 offset-xxl-2" role="main">
+      <div class="container">
+        
+        
+        <header class="site-content__title">
+          <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/flutter/website/tree/master/src/docs/development/tools/devtools/memory.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="fas fa-file-alt fa-sm"></i>
+  </a>
+  <a href="https://github.com/flutter/website/issues/new?title='Using the Memory view' page issue&body=
+Page URL: https://flutter.dev/docs/development/tools/devtools/memory.html%0D%0A
+Page source: https://github.com/flutter/website/tree/master/src/docs/development/tools/devtools/memory.md%0D%0A
+%0D%0A
+Found a typo? You can fix it yourself by going to the page source and clicking the pencil icon. Or finish creating this issue.%0D%0A
+%0D%0A
+Description of issue:" class="btn no-automatic-external" title="Report an issue with this page"
+    target="_blank" rel="noopener">
+    <i class="fas fa-bug fa-sm"></i>
+  </a>
+</div>
+
+          <h1>Using the Memory view</h1>
+          
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb" vocab="http://schema.org/" typeof="BreadcrumbList">
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs" property="item" typeof="WebPage"><span property="name">Docs</span>
+      </a>
+      <meta property="position" content="1" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development" property="item" typeof="WebPage"><span property="name">Development</span>
+      </a>
+      <meta property="position" content="2" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development/tools" property="item" typeof="WebPage"><span property="name">Tools</span>
+      </a>
+      <meta property="position" content="3" />
+    </li>
+  <li class="breadcrumb-item"
+      property="itemListElement" typeof="ListItem"><a href="/docs/development/tools/devtools" property="item" typeof="WebPage"><span property="name">DevTools</span>
+      </a>
+      <meta property="position" content="4" />
+    </li>
+  <li class="breadcrumb-item active"
+      property="itemListElement" typeof="ListItem" aria-current="page"><a href="/docs/development/tools/devtools/memory.html" property="item" typeof="WebPage"><span property="name">Using the Memory view</span>
+      </a>
+      <meta property="position" content="5" />
+    </li>
+  
+  </ol>
+</nav>
+          </header>
+        <div
+  id="site-toc--inline"
+  class="site-toc site-toc--inline "
+  
+>
+  <header class="site-toc__title">
+    Contents
+    </header>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#what-is-it">What is it?</a></li>
+<li class="toc-entry toc-h2"><a href="#devtools-memory-page">DevTools memory page</a></li>
+<li class="toc-entry toc-h2"><a href="#charting-memory-statistics-and-events">Charting memory statistics and events</a></li>
+<li class="toc-entry toc-h2"><a href="#analysis-and-snapshots">Analysis and snapshots</a></li>
+<li class="toc-entry toc-h2"><a href="#allocations-and-tracking">Allocations and tracking</a></li>
+<li class="toc-entry toc-h2"><a href="#memory-anatomy">Memory anatomy</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#events-pane">Events Pane</a></li>
+<li class="toc-entry toc-h3"><a href="#adding-user-custom-events-to-the-timeline">Adding user custom events to the timeline</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#memory-overview-chart">Memory overview chart</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#hover-card">Hover card</a></li>
+<li class="toc-entry toc-h3"><a href="#android-chart">Android chart</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#memory-controls">Memory controls</a></li>
+<li class="toc-entry toc-h2"><a href="#memory-actions">Memory actions</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#analysis-tab">Analysis tab</a></li>
+<li class="toc-entry toc-h3"><a href="#analysis-actions">Analysis actions</a></li>
+<li class="toc-entry toc-h3"><a href="#analysis-and-snapshots-view">Analysis and Snapshots view</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#snapshots">Snapshots</a></li>
+<li class="toc-entry toc-h2"><a href="#inspecting-a-class-instance-in-a-snapshot">Inspecting a class instance in a snapshot</a></li>
+<li class="toc-entry toc-h2"><a href="#analysis-of-a-snapshot">Analysis of a snapshot</a></li>
+<li class="toc-entry toc-h2"><a href="#allocation-tab">Allocation tab</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#allocation-actions">Allocation actions</a></li>
+<li class="toc-entry toc-h3"><a href="#allocation-view">Allocation view</a></li>
+<li class="toc-entry toc-h3"><a href="#managing-the-objects-and-statistics-in-the-heap-monitor-allocations">Managing the objects and statistics in the heap (Monitor Allocations)</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#allocation-tracking">Allocation tracking</a></li>
+<li class="toc-entry toc-h2"><a href="#filtering-searching-and-auto-complete">Filtering, Searching and Auto-Complete</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#filtering">Filtering</a></li>
+<li class="toc-entry toc-h3"><a href="#setting">Setting</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#memory-problem-case-study">Memory problem case study</a></li>
+<li class="toc-entry toc-h2"><a href="#glossary-of-vm-terms">Glossary of VM terms</a></li>
+</ul>
+</div>
+<h2 id="what-is-it">
+<a class="anchor" href="#what-is-it" aria-hidden="true"><span class="octicon octicon-link"></span></a>What is it?</h2>
+
+<p>Allocated Dart objects created using a class constructor (for
+example, by using <code class="language-plaintext highlighter-rouge">new MyClass()</code> or <code class="language-plaintext highlighter-rouge">MyClass()</code>) live in a
+portion of memory called the heap. The memory in the heap is
+managed by the Dart VM (virtual machine).</p>
+
+<h2 id="devtools-memory-page">
+<a class="anchor" href="#devtools-memory-page" aria-hidden="true"><span class="octicon octicon-link"></span></a>DevTools memory page</h2>
+
+<p>DevTools Memory page lets you peek at how an isolate is using
+memory at a given moment.</p>
+
+<p>Memory profiling in DevTools consists of 3 main functions:</p>
+<ul>
+  <li>Charting memory usage statistics and events</li>
+  <li>Anaylsis to view all memory via a heap to detect memory issues and inspect objects</li>
+  <li>Allocations to monitor and track (stack trace) specific classes and objects when an allocation occurs</li>
+</ul>
+
+<h2 id="charting-memory-statistics-and-events">
+<a class="anchor" href="#charting-memory-statistics-and-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Charting memory statistics and events</h2>
+
+<p>At the top-level, when the memory tab is selected memory statistics from
+the VM are collected. These statistics are displayed in the two overview
+charts (Dart memory and Android-only) the collection of general memory
+usage e.g., total heap used, external heap, maximum heap capacity,
+Resident Set Size (RSS). As you interact with your application various
+events are detected e.g., memory GC (garabage collection),Flutter events,
+user fired events (using the <code class="language-plaintext highlighter-rouge">dart:developer</code> package) are collected
+in the same timeline as the memory statistics. All of this collected
+statistics and events are displayed in charts see <a href="#memory-anatomy">Memory anatomy</a>.</p>
+
+<h2 id="analysis-and-snapshots">
+<a class="anchor" href="#analysis-and-snapshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis and snapshots</h2>
+
+<p>A Snapshot is a complete, the most complex and time consuming view of
+all objects in the Dart memory heap. Each time a snapshot is taken, an
+analysis is performed over the collected memory data.  The analysis
+attempts to identify any memory patterns that may cause leaks or lead to
+application crashes. For example, loading large assets for thumbnail-sized
+images inefficiently, memory usage can be improved by loading smaller
+assets or adjusting the cacheWidth/cacheHeight to decode an image to a
+smaller size reducing the memory usage of the ImageCache. The analysis
+catches issues like this see <a href="#analysis-tab">Analysis tab</a>.</p>
+
+<h2 id="allocations-and-tracking">
+<a class="anchor" href="#allocations-and-tracking" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allocations and tracking</h2>
+
+<p>Monitoring all allocations involes you directly interacting with DevTools
+and your application to isolate a short period of time that you are
+interested in knowing how many objects were allocated, how many bytes
+were allocated, or tracking all the places in your code where a particular
+class is allocated. This information is available under the “Allocations”
+tab of Memory profiler and his a fairly fast with less overhead than using
+a snapshot.</p>
+
+<p>Monitoring allocations and resetting of accumulators, helps to analyze
+the accumulator counts (number of objects or bytes allocated) in a short
+timeframe between a reset and monitor Track events. The accumulators
+can be used to understand the rate of memory allocations. If you suspect
+your application is leaking memory or has other bugs relating to memory
+allocation. Additionally, the ability to track a few specific classes, too
+many may slow the running of your application. The VM records the stack
+trace at the time a class’ constructor (allocation) is called. This can
+isolate the exact location in your code when/where memory is being allocated.
+See <a href="#allocation-tab">Allocation tab</a>.</p>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  <strong>Use <a href="/docs/testing/build-modes#profile">profile mode</a> when running your app to analyze performance.</strong>
+  Memory usage is not indicative of release performance unless your
+  application is run in profile mode. In general, memory usage is
+  fairly accurate, in relative terms, between debug, release, or
+  profile modes. Profile mode might show higher absolute memory usage
+  because a service isolate is created to profile your application.
+  This isolate won’t exist in release mode. Absolute memory used might
+  also be higher in debug versus release mode. In <a href="/docs/testing/build-modes#release">release mode</a>,
+  work can be computed and optimized ahead of time, while in <a href="/docs/testing/build-modes#debug">debug mode</a>
+  that same work might have to be computed at runtime,
+  requiring more information.</p>
+</aside>
+
+<h2 id="memory-anatomy">
+<a class="anchor" href="#memory-anatomy" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory anatomy</h2>
+
+<p>A timeseries graph is used to visualize the state of the Flutter memory
+at successive intervals of time. Each data point on the chart
+corresponds to the timestamp (x-axis) of measured quantities (y-axis)
+of the heap, for example, usage, capacity, external, garbage
+collection, and resident set size.</p>
+
+<p><img src="/assets/tools/devtools/memory_chart_anatomy-c90f880b5f9edd1741fe02d646c1dafadeb2d2a0b67a0230e4ee551870ab82e6.png" alt="Screenshot of a memory anatomy page" width="100%"></p>
+
+<h3 id="events-pane">
+<a class="anchor" href="#events-pane" aria-hidden="true"><span class="octicon octicon-link"></span></a>Events Pane</h3>
+
+<p>The event timeline displays Dart VM and DevTools events
+on a shared timeline. These events can be snapshots (manual and auto),
+Dart VM GCs, user requested GCs, or monitor and accumulator reset actions.</p>
+
+<p><img src="/assets/tools/devtools/memory_eventtimeline-cf67432e120dc29525d2f242e7ae9682f8c86d87314ecde6c844a8f0c28728d5.png" alt="Screenshot of DevTools events"></p>
+
+<p>This chart displays DevTools events (such as manual GC, VM GC,
+Snapshot, monitor Allocations <strong>Track</strong> and <strong>Reset</strong> of accumulators button
+clicks) in relation to the memory chart timeline. Clicking over the
+markers in the Event timeline displays a hover card of the time when
+the event occurred. This may help identify when a memory leak might have
+occurred in the timeline (x-axis).</p>
+
+<p><img src="/assets/tools/devtools/memory_eventtimeline_legend-5518155f81bf9771379764931046accbac856a833aabc4a97b2d4ef68827b817.png" alt="Screenshot of the event timeline legend"></p>
+
+<p>This legend shows the symbol for each DevTools event and its meaning</p>
+
+<dl>
+  <dt><strong>Snapshot</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_snapshot-f14ef38f5e6097ea079f54ff90c97d57669bf0a2ebfeba58069bf1e3f3758f52.png" alt="User Snapshot" width="17px"></p>
+  <dd>
+    <p>User initiated snapshot—all memory
+                information collected and an analysis performed.</p>
+  </dd>
+  <dt><strong>Auto-Snapshot</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_auto_snapshot-aa2ddac56f5cd8c0526402d6affa1fc7c644da0df1dd2f34c2a7630ce139b88e.png" alt="Auto Snapshot" width="18px"></p>
+  <dd>
+    <p>DevTools initiated a snapshot detecting
+                 that memory grow by 40% or more from previous
+                 size.  This is used to quickly detect memory
+                 spikes in your Flutter application for later
+                 analysis (same information collected in a manual
+                 snapshot).</p>
+  </dd>
+  <dt><strong>Track</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_monitor-cb6f5660c8fd430a6818ca234ef14e54b02d5d51c1f375b789a0ca8aeb430844.png" alt="Monitor" width="17px"></p>
+  <dd>
+    <p>Collects current state of all active classes
+                 number of instances and byte size of all instances.
+                 In addtion, the deltas are the change in the
+                 accumulators since the last “Reset” button pressed.</p>
+  </dd>
+  <dt><strong>Reset</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_reset_monitor-0d4ddaebc2c799c8445c996e3e8fdb66622da9ad462e099c9108727b54b578a2.png" alt="Reset" width="18px"></p>
+  <dd>
+    <p>When both the instance and bytes accumulators
+                 were reset to zero.</p>
+  </dd>
+  <dt><strong>User Initiated GC</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_gc-c169e24fb14813605a4e1942f9a75baa13f30025ac28c3d3f0be03c76eeca36e.png" alt="GC" width="18px"></p>
+  <dd>
+    <p>User initiated request to VM to to perform a
+                 garbage collection of memory (only a suggestion
+                 to the VM).</p>
+  </dd>
+  <dt><strong>VM GC</strong></dt>
+  <p><img src="/assets/tools/devtools/memory_eventtimeline_vmgc-6d4824eac6931423d855bd97ab3548dcb4c3187de84218d5a07d1975fd189b53.png" alt="VM GC" width="11px"></p>
+  <dd>
+    <p>GC (VM garbage collection) has occurred, frees
+                 space no longer used. For more information on
+                 how Dart performs garbage collection, see
+                 <a href="https://medium.com/flutter/flutter-dont-fear-the-garbage-collector-d69b3ff1ca30">Don’t Fear the Garbage Collector</a>.</p>
+  </dd>
+  <dt><strong>User and Flutter Event</strong></dt>
+  <dd>Displayed as a triangle in the event pane.  The dark magenta
+    triangle "Multiple Flutter or User Events"
+</dd>
+  <p><img src="/assets/tools/devtools/memory_multi_events-3666856c3d603fb55fd42df8332fa1219560edd32d55ccbe531a86cdd680bbca.png" alt="Aggregate Events" width="25px"></p>
+  <dd>identifies more than one event was received at this timestamp.
+    The lighter magenta triangle "One Flutter or User Event" 
+</dd>
+  <p><img src="/assets/tools/devtools/memory_one_event-a716856eb9d28bd026df7e179ae6ef62ec96ba9695877836af2a28cefc56cdea.png" alt="Single Events" width="23px"></p>
+  <dd>indicates only one event was received at this timestamp. To
+    view the events clicking on the triangle will display a hover
+    card and expanding the events at the bottom of the hovercard
+    will display all events for that timestamp.
+</dd>
+</dl>
+
+<p>Displayed below the events pane is the <a href="#memory-overview-chart">memory chart</a>
+and the <a href="#android-chart">Android memory chart</a>. The android-memory chart is
+specific to an Android app, and it shows Android ADB meminfo from an
+ADB app summary.</p>
+
+<h3 id="adding-user-custom-events-to-the-timeline">
+<a class="anchor" href="#adding-user-custom-events-to-the-timeline" aria-hidden="true"><span class="octicon octicon-link"></span></a>Adding user custom events to the timeline</h3>
+
+<p>Sometimes it may be difficult to correlate the actions in your Flutter
+application code and the collected memory statistics/events charted in
+the Memory timeline/chart. To help know what’s happening in your code
+your own events can be injected into the Memory Profile timeline to
+help to understand how your application’s memory usage is performing
+within the Dart/Flutter framework (heap).</p>
+
+<p>Posting your own custom event(s) are done using the dart:developer package
+postEvent method. In particular, the event name must be prefixed with
+<strong>DevTools.Event_</strong> then your event name would be appended e.g.,
+<strong>DevTools.Event_</strong><em>MyEventName</em></p>
+
+<p>To use add the following import to your code:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import 'dart:developer' as developer;
+</code></pre></div></div>
+
+<p>and a method to post custom event(s) to the Memory timeline:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  void devToolsPostEvent(String eventName, Map&lt;String, Object&gt; eventData) {
+    developer.postEvent('DevTools.Event_$eventName', eventData);
+  }
+</code></pre></div></div>
+
+<p>Then to post an event from your code you would call the devToolsPostEvent
+e.g. In your function recordLoadedImage you could cause the ‘MyImages’
+event to be posted to the Memory (event) timeline with the values method
+and param (the URL).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  Widget recordLoadedImage(ImageChunkEvent imageChunkEvent, String imageUrl) {
+ 
+    // Record the event in the memory event pane.
+    devToolsPostEvent('MyFirstApp', { 'method': 'recordLoadedImage', 'param': imageUrl });
+
+    if (imageChunkEvent == null) return null;
+
+    ...
+
+  }
+</code></pre></div></div>
+<p>Clicking on the aggregated event triangle in the event pane will dispay a
+hover card with the details of all events e.g., two custom events at
+the timestamp 04:36:21 with the event name ‘MyFirstApp’ and the two
+eventData entries method and param are displayed with their values:</p>
+
+<p><img src="/assets/tools/devtools/memory_hover_events-5b71be7be522e33d3cb3731dc05dad68bcb4628d7c68f454da628467a4019711.png" alt="Hover Card Custom Events"></p>
+
+<p>Scrolling the events displays:</p>
+
+<p><img src="/assets/tools/devtools/memory_events_detail-86ff8705515c7cb9e35abd52588c18995e54b330aac47f068d39ba92aa571a8f.png" alt="Custom Events Details"></p>
+
+<h2 id="memory-overview-chart">
+<a class="anchor" href="#memory-overview-chart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory overview chart</h2>
+
+<p>A timeseries graph of collected memory statistics, to visualize
+the state of the Dart/Flutter heap and Dart/Flutter native memory
+over time.</p>
+
+<p>The chart’s x-axis is a timeline of events (timeseries). The data
+plotted in the y-axis all have a timestamp when the data was
+collected. In other words, it shows the polled state (capacity,
+used, external, RSS (resident set size), and GC (garbage collection))
+of the memory every 500 ms. This helps give a live appearance on
+the state of the memory as the application is running.</p>
+
+<p>Clicking on the Legend button describes the collected measurements
+and symbols/colors used to display the data.</p>
+
+<p><img src="/assets/tools/devtools/memory_chart_anatomy-c90f880b5f9edd1741fe02d646c1dafadeb2d2a0b67a0230e4ee551870ab82e6.png" alt="Screenshot of a memory anatomy page"></p>
+
+<p>The <strong>Memory Size Scale</strong> Y axis scale automatically adjusts to the
+range of data collected in the current visible chart range.</p>
+
+<p>The quantities plotted on the y-axis are:</p>
+
+<p><strong>Dart/Flutter Heap</strong> Objects (Dart/Flutter objects) in the heap.</p>
+
+<p><strong>Dart/Flutter Native</strong> Memory that is not in the Dart/Flutter heap but
+  is still part of the total memory footprint. Objects in this
+  memory would be native objects (for example, from a memory read
+  from a file, or a decoded image). The native objects are exposed
+  to the Dart VM from the native OS (such as Android, Linux, Windows,
+  iOS) using a Dart embedder. The embedder creates a Dart wrapper
+  with a finalizer, allowing Dart code to communicate with these
+  native resources. Flutter has an embedder for Android and iOS.
+  For more information, see <a href="https://dart-lang.github.io/server/server.html">Dart on the Server</a> or
+  <a href="https://github.com/flutter/flutter/wiki/Custom-Flutter-Engine-Embedders">Custom Flutter Engine Embedders</a>.</p>
+
+<p><strong>Timeline</strong> The timestamps of all collected memory statistics
+and events at a particular point in time (timestamp).</p>
+
+<p><strong>Raster Cache</strong> Size of the Flutter engine’s raster cache layer(s)
+or picture(s) while performing the final rendering after compositing.
+See <a href="https://flutter.dev/docs/resources/architectural-overview">Flutter Architectural Overview</a> and
+<a href="https://flutter.dev/docs/development/tools/devtools/performance">DevTools Performance</a>.</p>
+
+<p><strong>Allocated</strong> Current capacity of the heap is typically slightly
+larger than total size of all heap objects.</p>
+
+<p><strong>RSS - Resident Set Size</strong> The resident set size displays the
+amount of memory for a process. It doesn’t include memory that is
+swapped out. It includes memory from shared libraries that are
+loaded, as well as all stack and heap memory.</p>
+
+<p>For more information, see <a href="https://mrale.ph/dartvm/">Dart VM internals</a>.</p>
+
+<h3 id="hover-card">
+<a class="anchor" href="#hover-card" aria-hidden="true"><span class="octicon octicon-link"></span></a>Hover card</h3>
+
+<p>Clicking in a chart will display a vertical yellow line where the click
+occurred on the X-Axis (Timestamp), a hover card will be displayed with
+the information collected:</p>
+
+<p><img src="/assets/tools/devtools/memory_basic_chart-2286d8252b615db81c1f17597e5fb43bdb5c1a4d691f81c3a8e8e7d418417037.png" alt="Screenshot of the basic memory chart"></p>
+
+<p><strong>Memory Events</strong> Memory Events recorded in the Event Pane e.g., VM GC,
+User Initiated GC, User Initiated Snapshot, Auto-Snapshot,
+Allocation Monitoring and, Reset of Accumulators.</p>
+
+<p><strong>Dart / Flutter Memory</strong>
+Collected data Capacity, Used, External, RSS, Raster Cache
+(pictures/layers).</p>
+
+<p><strong>Flutter and User Events</strong>
+Extension events e.g., Flutter.ImageSizesForFrame, user
+custom events see <a href="#events-pane">Events</a>.</p>
+
+<p>Aggregate events, as the name implies, collects all the events nearest
+a particular timestamp (tick) and displays the events to the x-axis’
+closest tick.</p>
+
+<p>If more than one event, collected at this timestamp, a dark magenta
+triangle is displayed with the aggregate list of events. The aggregate
+vents collects all the events nearest a particular timestamp (tick)
+and displays the events to the X-Axis closest tick. Expanding the events
+will display the values for each event:
+<img src="/assets/tools/devtools/memory_multi_events-3666856c3d603fb55fd42df8332fa1219560edd32d55ccbe531a86cdd680bbca.png" alt="Aggregate Events" width="25px"></p>
+
+<p>If only one event is collected, a lighter magenta triangle color is
+displayed with the single event values:
+<img src="/assets/tools/devtools/memory_one_event-a716856eb9d28bd026df7e179ae6ef62ec96ba9695877836af2a28cefc56cdea.png" alt="Single Events" width="23px"></p>
+
+<p>If the Android memory chart is displayed then the Android collect data
+will displayed between the “Dart / Flutter Memory” and the “Flutter and
+User Events” e.g.,</p>
+
+<p><img src="/assets/tools/devtools/memory_android_hovercard-558dfc18c49a2375d60d6dbfd21f74fcd6cb842ed5cd01841539cf66ec674c1f.png" alt="Hovercard of Android chart is visible"></p>
+
+<h3 id="android-chart">
+<a class="anchor" href="#android-chart" aria-hidden="true"><span class="octicon octicon-link"></span></a>Android chart</h3>
+
+<p>When connected to an Android app, DevTools collects Android’s ADB
+(Android Debug Bridge) meminfo from an ADB app summary (polled every 500 ms).
+This meminfo section is the most interesting at a high-level.  If you were
+to collect this info from the ADB tool, this is what it would look like:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; adb shell dumpsys meminfo io.flutter.demo.gallery -d
+
+ App Summary
+                       Pss(KB)
+                       -------
+           Java Heap:     5192
+         Native Heap:    11992
+                Code:     2132
+               Stack:       60
+            Graphics:    53700
+       Private Other:    42800
+              System:    84493
+ 
+               TOTAL:   200369       TOTAL SWAP PSS:    82168
+</code></pre></div></div>
+
+<p>This chart is another timeseries graph of the state of Android memory as
+the application is running. The quantities plotted on the y-axis are
+the above values (Java Heap, Native Heap, Code size, Stack size,
+Graphics stack, System size and total).</p>
+
+<p>Clicking on a timestamp (x-position) will display all data points
+collected for that time period.</p>
+
+<p><img src="/assets/tools/devtools/memory_android-812f21b7f60cc9ff84a5265c6f929b8266d92fb5e7dca2355567fc22d095c319.png" alt="Screenshot of Android Memory Chart"></p>
+
+<p>The hover card will display the values of all collected Android memory data.</p>
+
+<dl>
+  <dt><strong>Time</strong></dt>
+  <dd>The timestamp for the current data values collected -
+    see descriptions below.
+</dd>
+  <dt><strong>Total</strong></dt>
+  <dd>The total memory in use. Total memory is comprised of
+    several different categories, all of which are plotted
+    along the y-axis. These categories are described below.
+</dd>
+  <dt><strong>Other</strong></dt>
+  <dd>Other memory usage corresponds to the ‘Private Other’
+    field from ADB. This is memory used by the app that the
+    system isn't sure how to categorize. Note: The Other trace
+    is a combination of Other and System (shared and system
+    memory usage) - corresponds to ‘System’ field from ADB.
+</dd>
+  <dt><strong>Code</strong></dt>
+  <dd>Code memory usage corresponds to the ‘Code’ field from ADB.
+This is memory that your app uses for static code and resources,
+such as dex byte code, optimized or compiled dex code, .so libraries,
+and fonts.
+</dd>
+  <dt><strong>Native Heap</strong></dt>
+  <dd>Native Heap usage corresponds to the ‘Native Heap’ field
+    from ADB. This is memory from objects allocated from C or
+    C++ code. Even if you're not using C++ in your app, you might
+    see some native memory used here because the Android framework
+    uses native memory to handle various tasks on your behalf. Some
+    examples of these tasks are handling image assets and other
+    graphics—even though the code you've written is in Java or Kotlin.
+</dd>
+  <dt><strong>Java Heap</strong></dt>
+  <dd>Java Heap usage corresponds to the ‘Java Heap’ field from ADB.
+    This is memory from objects allocated from Java or Kotlin code.
+</dd>
+  <dt><strong>Stack</strong></dt>
+  <dd>Stack usage corresponds to the ‘Stack’ field from ADB. This is
+memory used by both native and Java stacks in your app. This usually
+relates to how many threads your app is running.
+</dd>
+  <dt><strong>Graphics</strong></dt>
+  <dd>Graphics usage corresponds to the ‘Graphics’ field from ADB. This
+is memory used for graphics buffer queues to display pixels on the screen,
+including GL surfaces, GL textures, etc. Note: This is memory shared with
+the CPU—not dedicated GPU memory.
+</dd>
+</dl>
+
+<h2 id="memory-controls">
+<a class="anchor" href="#memory-controls" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory controls</h2>
+
+<p>At the top of the memory page, above the charts, are several buttons and
+dropdowns that control how memory data is displayed.</p>
+
+<p><img src="/assets/tools/devtools/memory_controls-b0f14f218b0a39bb86fffb0aeb356225d832d41ec8b20f44c1239276c98d1a68.png" alt="Screenshot of a memory controls" width="100%"></p>
+
+<dl>
+  <dt><strong>Pause</strong></dt>
+  <dd>Pause the memory overview chart to allow inspecting
+    the currently plotted data. Incoming memory data is still received;
+    notice the Range selector continues to grow to the right.</dd>
+  <dt><strong>Resume</strong></dt>
+  <dd>Resume the memory overview chart so that it is live, displaying the
+    current time and the latest memory statistics.</dd>
+  <dt><strong>Clear</strong></dt>
+  <dd>Clear all collected data from the memory profiler.</dd>
+  <dt><strong>Display</strong></dt>
+  <dd>The duration of the x-axis. For example, if this dropdown
+    is set to "Display 5 minutes", memory data from the last
+    5 minutes will be displayed.</dd>
+  <dt>- Display 1 Minute</dt>
+  <dt>- Display 5 Minutes</dt>
+  <dt>- Display 10 Minutes</dt>
+  <dt>- Display All Minutes (slider disabled)</dt>
+  <dt><strong>Source</strong></dt>
+  <dd>Source can be either "Live Feed", which pulls data from the
+    connected Flutter app, or one of the available offline data
+    files, which are created by clicking "Export".</dd>
+  <dt><strong>Android Memory</strong></dt>
+  <dd>Displays or hides the Android Memory Chart.</dd>
+  <dt><strong>GC</strong></dt>
+  <dd>Initiates a garbage collection - compaction of the heap.</dd>
+  <dt><strong>Export</strong></dt>
+  <dd>Saves collected data for Event Timeline, Memory Overview Chart
+    and Android Overview Chart. Files saved are displayed under the Source
+    dropdown. Selecting a file loads the offline data.</dd>
+</dl>
+
+<h2 id="memory-actions">
+<a class="anchor" href="#memory-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory actions</h2>
+
+<p>Below the memory charts (Event Timeline, Memory Overview and Android Overview
+charts) are interactive actions used to collect and analyze information about
+memory usage while using the application DevTools is connected to there are two tabs:</p>
+
+<p><img src="/assets/tools/devtools/memory_two_tabs-f95d3119d86ea89f3e7077ea492fc6397c4937b445481c50777058c7bc4d62c0.png" alt="Two Tabs Memory Actions"></p>
+
+<h3 id="analysis-tab">
+<a class="anchor" href="#analysis-tab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis tab</h3>
+
+<p>The Analysis tab collects memory snapshots both user initiated and
+auto-collected by DevTools, when DevTools detects memory spikes.
+Each snapshot is analyzed and an analysis is created too.</p>
+
+<h3 id="analysis-actions">
+<a class="anchor" href="#analysis-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis actions</h3>
+
+<p>The actions available for Analysis are:</p>
+
+<p><img src="/assets/tools/devtools/memory_analysis_actions-f8dc387c072694a0061f7c34c23ebea984be5b0b0df097fd96e459ce667602c5.png" alt="Screenshot of a memory actions"></p>
+
+<p><strong>Snapshot</strong> Clicking the Snapshot button makes a request to the
+Dart VM to collect the current state of memory.  The
+memory objects can be sorted by attributes such as class
+name, size, allocated instances (see <a href="#snapshots">Snapshot classes</a>).</p>
+
+<p><strong>Treemap</strong> If the Treemap switch is on the snapshot displays currently
+active memory objects, the last snapshot, memory in a high-level
+view as a tree map. (TBD details).</p>
+
+<p><strong>Group By</strong> Dropdown to select how data is grouped, which can either be by
+instance or by class name.</p>
+
+<p><strong>Collapse All</strong> Collapse all nodes in the tree table.</p>
+
+<p><strong>Expand All</strong> Expand all nodes in the tree table</p>
+
+<h3 id="analysis-and-snapshots-view">
+<a class="anchor" href="#analysis-and-snapshots-view" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis and Snapshots view</h3>
+
+<p>All Analyses and Snapshots are displayed in a Table Tree View:</p>
+
+<p><img src="/assets/tools/devtools/memory_table_tree_view-ff8c52c0a94641c5e601ae16fb2575749aa980387602e19f7ff276b1bd485a6d.png" alt="Two Tabs Memory Actions"></p>
+
+<p>The snapshots are grouped by library and within library by class and
+each class will display the list of known instances for that class.</p>
+
+<p>A snapshot is a complete view of all memory objects at a particular
+point in time.  Navigating, in the tree, to a class and it’s instances
+(if the constructor was called to create an instance).  If instances exists
+expanding the class will display all live instances (objects). Clicking on
+an instance, of a class, will bring up the memory inspector to the right-side
+of the table tree.</p>
+
+<p><img src="/assets/tools/devtools/memory_navigate_inspect-8a9bfc4969c950c9a2eaad5b2377c2032e90a1f53ef22816c8a6b604ddc8d2e3.png" alt="Two Tabs Memory Actions"></p>
+
+<h2 id="snapshots">
+<a class="anchor" href="#snapshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Snapshots</h2>
+
+<p><img src="/assets/tools/devtools/memory_snapshot-73c3bb340d71a6bb5938ac6fd566c15f27a67a5459d672ddac3f2eed8d80e289.png" alt="The Snapshot button"></p>
+
+<p>Clicking the <strong>Snapshot</strong> button shows the current state of the heap with regard
+to all active classes and their instances.</p>
+
+<p><img src="/assets/tools/devtools/memory_snapshot_tree-17571495f18b9e2dccf04c486563f0e4935e3b2db47b94178eedd4742eeb0108.png" alt="Screenshot of the Snapshot classes"></p>
+
+<p>This pane shows classes allocated in the heap, all instances for a class,
+and the ability to inspect a particular instance.</p>
+
+<p>In addition, a snapshot can automatically occur when DevTools notices a
+spike in memory used (growth of &gt; 40%).</p>
+
+<p>Every snapshot, manual or automatic, will generate an analysis of the snapshot
+e.g., groups image problems that might have occurred. In the future, other
+common Flutter coding issues e.g., Fonts, Files, JSON, etc. that could cause
+memory problems will be flagged.</p>
+
+<dl>
+  <dt><strong>Tree View of Memory</strong></dt>
+  <dd>The tree table view displays outstanding memory events (user
+    requested snapshots, automatic snapshots, snapshot analyses,
+    memory allocation monitoring).
+</dd>
+  <dt><strong>Memory Inspector</strong></dt>
+  <dd>Display either the contents of an analysis, snapshot or
+    monitoring based on the currently selected row in the tree view.
+</dd>
+</dl>
+
+<p>Snapshots have major tree nodes:</p>
+<dl>
+  <dt>External</dt>
+  <dd>Memory that is not in the Dart heap but is still part
+    of the total memory footprint. Objects in external memory would be
+    native objects (for example, from a memory read from a file,
+    or a decoded image). The native objects are exposed to the Dart
+    VM from the native OS (such as Android, Linux, Windows, iOS)
+    using a Dart embedder. The embedder creates a Dart wrapper with
+    a finalizer, allowing Dart code to communicate with these native
+    resources. Flutter has an embedder for Android and iOS.
+    For more information, see [Dart on the Server][] or
+    [Custom Flutter Engine Embedders][embedder].
+</dd>
+  <dt>Filtered</dt>
+  <dd>Filter are the packages being filtered.</dd>
+  <dt>Packages</dt>
+  <dd>User packages used by the application and Src - the empty Dart package.</dd>
+</dl>
+
+<p>Under each of the above nodes are class nodes, an aggregate of the
+objects allocated to this class. Clicking a class name displays a
+list of class instances. and under each class are all the instances
+of a class. Clicking on an instance will inspect the contents of that
+instances (fields and values).</p>
+
+<h2 id="inspecting-a-class-instance-in-a-snapshot">
+<a class="anchor" href="#inspecting-a-class-instance-in-a-snapshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inspecting a class instance in a snapshot</h2>
+
+<p>Expanding a class displays the active instances for that class.
+Clicking on an particular instance displays the type and value of
+the fields for that instance.</p>
+
+<p><img src="/assets/tools/devtools/memory_inspector-9543c4b64f8e23fcdfd4159162f0b9f15403709f6e726914d9577defb313bc27.png" alt="Screenshot of the inspecting an instance"></p>
+
+<h2 id="analysis-of-a-snapshot">
+<a class="anchor" href="#analysis-of-a-snapshot" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis of a snapshot</h2>
+
+<p>Every snapshot creates a corresponding Analyzed entry under the
+Analysis node (the Analyzed date/time corresponds to the matching
+Snapshot date/time).</p>
+
+<p><img src="/assets/tools/devtools/memory_analysis-b15dccf79cf173137340006efa09f90e30ebf11a60d9857b8d924dc26e4219e2.png" alt="Screenshot of a Snapshot Analysis"></p>
+
+<p>Currently, Analysis looks for common problems with images e.g.,
+loading large files instead of scaled thumbnails, not using a
+ListBuilder to manage images in a list, etc.</p>
+
+<p>The Analysis pulls all Image related classes and instances from
+a snapshot and organizes the data in one place instead of having
+to search for the all the classes and inspect the instances to
+understand what are just image related classes.</p>
+
+<p>In the above Analysis the raw images are located in the Externals
+portion of memory _Int32List (or _Int64List for newer phones)
+organizes the instances sizes into buckets.  Eleven images are
+10K-50K, one image is 10M-50M, seven images are 1M-10M and four
+images are greater than 50M.  For a grand total of over 500M of
+this app constitute images rendered as small images on a phone.</p>
+
+<h2 id="allocation-tab">
+<a class="anchor" href="#allocation-tab" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allocation tab</h2>
+
+<p>The Allocation tab allows monitoring the instances of all classes, reporting
+the number of objects allocated and number of bytes consumed by all objects.
+The numbers are displayed in absolute totals as well as accumulated totals.
+Initially, the accumulated values (number of objects and size in bytes) are
+equal to the initial totals at the time of the first monitor request. The
+accumulators can be reset, to zero, at any time such that the next monitor
+request will return the accumlated values since the last reset.</p>
+
+<p>Additionally, a small set of classes can track the allocation of each instance
+of a class. The tracking captures a stack trace when the constructor was
+called. The overhead to track these allocations are expensive (slow) therefore
+tracking should be used sparingly.</p>
+
+<h3 id="allocation-actions">
+<a class="anchor" href="#allocation-actions" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allocation actions</h3>
+
+<p><img src="/assets/tools/devtools/memory_allocations_actions-04591ca8a0c319d26faf1b5448c47ae04f0706beca28e42e695f51469a873fcb.png" alt="Screenshot of a memory actions"></p>
+
+<dl>
+  <dt><strong>Track</strong></dt>
+  <dd>
+    <p>Records and monitors the number of instances
+                 and size of all instances in bytes. Clicking
+                 the “Track” button, a table will populate with
+                 instance allocation data. For each instance in
+                 the allocation table, The “Delta” column reflects
+                 the number of memory allocations since the last reset.</p>
+  </dd>
+  <dt><strong>Reset</strong></dt>
+  <dd>Resets the accumulator counts (Delta columns) for each
+    instance in the allocation table.  The next time the "Monitor"
+    button is pressed, the "Delta" columns displays the populate with
+    the new instances and sizes since the last reset.
+</dd>
+  <dt><strong>Search</strong></dt>
+  <dd>The search field is enabled when the instance allocation data
+    exists. Typing, or selecting a name from the dropdown, will
+    navigate to that class name in the table.
+</dd>
+  <dt><strong>Filter</strong></dt>
+  <dd>Display a dialog box of libraries and class names to display
+   (checked on).
+</dd>
+</dl>
+
+<h3 id="allocation-view">
+<a class="anchor" href="#allocation-view" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allocation view</h3>
+
+<p>Allocations are displayed in a table view of each class available to
+the connected application:</p>
+
+<p><img src="/assets/tools/devtools/memory_allocations_overview-c88ec904418fb4bb51a0303bac137514f65f96e09fc58ea99fe701966bb2f29f.png" alt="Two Tabs Memory Actions"></p>
+
+<p>Each row displays the class name the number of instances and bytes
+allocated with deltas (accumulators since last reset).</p>
+
+<dl>
+  <dt><strong>Track with Stack Trace</strong></dt>
+  <dd>
+    <p>If enabled records the stack trace when the instance
+                 is created, class constructor called.</p>
+  </dd>
+  <dt><strong>Class Name</strong></dt>
+  <dd>
+    <p>Class allocations monitored.&lt;/dd&gt;</p>
+    </dd>
+<dt><strong>Total Instances</strong></dt>
+    <dd>
+      <p>Total number of active instances for the class.&lt;/dd&gt;</p>
+      </dd>
+<dt><strong>Delta Instances</strong></dt>
+      <dd>
+        <p>An accumulator of change in instance count controlled
+                 by the Reset button. When Reset is pressed the accumulators
+                 rest to zero then each time the Track button is pressed the
+                 current totals and deltas are updated.</p>
+      </dd>
+      <dt><strong>Total Bytes</strong></dt>
+      <dd>
+        <p>Total number of bytes allocated of all instances for the class.&lt;/dd&gt;</p>
+        </dd>
+<dt><strong>Delta Bytes</strong></dt>
+        <dd>
+          <p>An accumulator of change in instance bytes created controlled
+                 by the Reset button. When Reset is pressed the accumulators
+                 rest to zero then each time the Track button is pressed the
+                 current totals and deltas are updated.</p>
+        </dd>
+        <dt><strong>Timestamp of Last Track</strong></dt>
+        <dd>
+          <p>The time when the Track button was pressed.&lt;/dd&gt;</p>
+          </dd>
+<dt><strong>Change Bubble</strong></dt>
+          <dd>
+            <p>Small bubble to indicate the changes collected have been
+                 collected and updated in the table.</p>
+          </dd>
+          <p>&lt;/dl&gt;</p>
+
+          <p>For more information see <a href="#allocation-tracking">Allocation Tracking</a>.</p>
+
+          <h3 id="managing-the-objects-and-statistics-in-the-heap-monitor-allocations">
+<a class="anchor" href="#managing-the-objects-and-statistics-in-the-heap-monitor-allocations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Managing the objects and statistics in the heap (Monitor Allocations)</h3>
+
+          <p><img src="/assets/tools/devtools/memory_monitor_allocations-6de56d5f7d8df7be209fd4bb3d5a29d1b0390b67e734bf093b1bc2b6a42b7e86.png" alt="The Monitor Allocations button"></p>
+
+          <p>Clicking the allocation <strong>Track</strong> button monitors the total
+number of instances and total number of bytes allocated for a class.
+In addition, two accumulators are maintained for instances and bytes
+allocated these accumulators can be reset, to zero, by user action
+(pressing the Reset Accumulators button).  The mechanism is useful
+to find memory leaks.</p>
+
+          <p><img src="/assets/tools/devtools/memory_reset-2e18df61e423bd526089a0ead2a12c2ce0fe4b1a058d2d7ebe13bf7ccd7faab0.png" alt="Reset Accumulators button"></p>
+
+          <p>When the <strong>Reset</strong> button is pressed, the accumulators for all classes
+resets to zero. When reset is occurs a “monitor reset” event to the
+Event Timeline.  Clicking the <strong>Reset</strong> button again resets both
+accumulators to zero.</p>
+
+          <dl>
+            <dt><strong>Classes</strong></dt>
+            <dd>
+              <p>Active classes in the heap.&lt;/dd&gt;</p>
+              </dd>
+<dt><strong>Instances column</strong></dt>
+              <dd>Total active objects (instances) for all classes in the heap</dd>
+              <dt><strong>Delta column</strong></dt>
+              <dd>Accumulator counts of all instances since last "Reset" was pressed.
+    Clicking the Reset button initializes the accumulated (Delta) instances
+    of a class. This is useful for finding memory leaks.
+</dd>
+              <dt><strong>Bytes column</strong></dt>
+              <dd>Total bytes consumed for all instances of a class in the heap.</dd>
+              <dt><strong>Delta column</strong></dt>
+              <dd>Accumulator counts bytes allocated since last "Reset" was pressed.
+    Clicking the Reset button initializes the accumulated (Delta) bytes for
+    all instances of a class. This is useful for finding memory leaks.
+</dd>
+              <p>&lt;/dl&gt;</p>
+
+              <h2 id="allocation-tracking">
+<a class="anchor" href="#allocation-tracking" aria-hidden="true"><span class="octicon octicon-link"></span></a>Allocation tracking</h2>
+
+              <p>In addition to tracking the number of objects and bytes consumed
+for all instances of a class, a stack trace can be recorded when a
+class’s constructor is called to help narrow where allocations might
+be astray. To do this enable the Track checkbox for a class e.g.,</p>
+
+              <p><img src="/assets/tools/devtools/memory_enable_stacktrace-ee858237206a3afc1bdf8c8dc99e92ed6aa33dd2d3a37a5e3909c400eb2a2e62.png" alt="Enable Stack Trace Tracking"></p>
+
+              <p>Interact with your application then when you want to view the
+instances allocation press the “Track” button again. This will
+update the count for the instances being tracked e.g., 118 in the
+below figure. Expanding the instances tracked will display all the
+instances and timestamp when each instance was created e.g.,</p>
+
+              <p><img src="/assets/tools/devtools/memory_tracking-9c7091aa6c49f09c77542613b0cf93ff032bcca432d96019a7995d5e1bb62d8f.png" alt="Class Tracking"></p>
+
+              <p>Selecting an instance will display the call stack at the time the
+class’s constructor (allocated) was called e.g.,</p>
+
+              <p><img src="/assets/tools/devtools/memory_tracking_callstack-40e19810669f6f15fcf0f693aee9b3a2586e15627f26752ee8048f163532e71b.png" alt="Call Stack"></p>
+
+              <h2 id="filtering-searching-and-auto-complete">
+<a class="anchor" href="#filtering-searching-and-auto-complete" aria-hidden="true"><span class="octicon octicon-link"></span></a>Filtering, Searching and Auto-Complete</h2>
+
+              <p>Both the Analysis and Allocations tabs support searching and filtering
+Begin typing in the name of the class you’d like to find
+e.g., <strong>Ob</strong><em>ectWithUniqueId</em> will return a list that matches the characters
+typed so far. The first item in the list is highlighted.</p>
+
+              <p>Pressing a keystroke when auto-complete is visible:</p>
+
+              <dl>
+                <dt><strong>ENTER</strong></dt>
+                <dd>
+                  <p>Selects the highlighted line (GlobalObjectKey) and
+                 navigates to the row with that class name in
+                 the active tree table (Snapshot) or table (Allocations).</p>
+                </dd>
+                <dt><strong>UP/DOWN arrows</strong></dt>
+                <dd>
+                  <p>Rotates through the list of possible matches highlighting
+                 the next item in the list.</p>
+                </dd>
+                <dt><strong>ESCAPE</strong></dt>
+                <dd>
+                  <p>Clears and cancels all searching.</p>
+                </dd>
+              </dl>
+
+              <p><img src="/assets/tools/devtools/memory_search_1-d6712ca92cc018e84ddb095294d6f4d0eec9bcff700d3557136456b105f8d276.png" alt="Searching"></p>
+
+              <p>Typing more characters would narrow down the possible class names e.g., typing
+<strong>Obje</strong> displays:</p>
+
+              <p><img src="/assets/tools/devtools/memory_search_2-c331a08b5cd453095fede5ee8ed8e56b25473c1c0501788ddda9c980083dbc3c.png" alt="Narrower Search"></p>
+
+              <p>Finally, typing <strong>ObjectW</strong> displays the exact match:</p>
+
+              <p><img src="/assets/tools/devtools/memory_search_3-270f0363cbe41923b9c8fe826e9aa4c3b48220b312abdf0bd969553c65c2aad5.png" alt="Narrowed Search"></p>
+
+              <h3 id="filtering">
+<a class="anchor" href="#filtering" aria-hidden="true"><span class="octicon octicon-link"></span></a>Filtering</h3>
+
+              <p>Filtering is used to move libraries and classes from the main list (tables)
+to a Filter group to help reduce the number of classes visible that are
+less important while profiling memory.</p>
+
+              <p><img src="/assets/tools/devtools/memory_filtering-a61891a12c7b53d3fcf45fbaf191f3ea30bdf1e092ef6af6bfcb7cb52eae9323.png" alt="Filtering"></p>
+
+              <dl>
+                <dt><strong>Hide Private Classes</strong></dt>
+                <dd>
+                  <p>Class names prefix with an underscore.&lt;/dd&gt;</p>
+                  </dd>
+<dt><strong>Hide Classes with No Instances</strong></dt>
+                  <dd>
+                    <p>Classes never constructed are filtered.&lt;/dd&gt;</p>
+                    </dd>
+<dt><strong>Hide Libraries with No Instances</strong></dt>
+                    <dd>
+                      <p>All classes in a library never constructed
+                 the library is filtered.&lt;/dd&gt;</p>
+                      </dd>
+<dt><strong>Hide Libraries or Packages</strong></dt>
+                      <dd>
+                        <p>List of all libraries used in your application
+                 are displayed. By default the libraries enabled
+                 above are filtered out (dart:<em>, package:flutter</em>,
+                 etc.). The libraries automatically filtered can
+                 be enabled if you are interested in Dart core
+                 libraries and classes or the Flutter framework.</p>
+                      </dd>
+                      <p>&lt;/dl&gt;</p>
+
+                      <h3 id="setting">
+<a class="anchor" href="#setting" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting</h3>
+
+                      <p>The Memory profiler has a specific settings dialog:</p>
+
+                      <p><img src="/assets/tools/devtools/memory_settings-c458b8117f7852033193fbdf748f403f77903f18ff2dc640e7dd3054792aa8aa.png" alt="Settings"></p>
+
+                      <dl>
+                        <dt><strong>Collect Android Memory Statistics using ADB</strong></dt>
+                        <dd>
+                          <p>By default if DevTools is connected to your
+                 application via an Android device/emulator
+                 then Android memory statistics are not collected.
+                 Collecting with ADB can be expensive and may hide
+                 performance issues in your app.</p>
+                        </dd>
+                        <dt><strong>Display Data in Units (B, K, MB, GB)</strong></dt>
+                        <dd>
+                          <p>By default data displayed in the hover card
+                 are scaled using units instead of raw values.
+                 Turning off this will display the raw numbers
+                 e.g., 125M would display as 125,235,712</p>
+                        </dd>
+                        <dt><strong>Enable advanced memory settings</strong></dt>
+                        <dd>
+                          <p>If enabled, the GC button is displayed to
+                 ask the VM to garbage collect memory (manually).
+                 This manual GC is only a request to the VM. The
+                 VM may decide to do no compaction, some compaction
+                 or complete compaction of the heap.</p>
+                        </dd>
+                      </dl>
+
+                      <h2 id="memory-problem-case-study">
+<a class="anchor" href="#memory-problem-case-study" aria-hidden="true"><span class="octicon octicon-link"></span></a>Memory problem case study</h2>
+                      <p>Memory leak study using large network images was added with step-by-step
+instructions on using DevTools Memory profiler, detecting the memory
+problem and fixing the problem, see <a href="https://github.com/flutter/devtools/tree/master/case_study/memory_leaks/images_1">case study</a>.</p>
+
+                      <h2 id="glossary-of-vm-terms">
+<a class="anchor" href="#glossary-of-vm-terms" aria-hidden="true"><span class="octicon octicon-link"></span></a>Glossary of VM terms</h2>
+
+                      <p>Here are some computer science concepts that will help you better
+understand how your application uses memory.</p>
+
+                      <dl>
+                        <dt><strong>Garbage collection (GC)</strong></dt>
+                        <dd>GC is the process of searching the
+    heap to locate, and reclaim, regions of "dead" memory—memory
+    that is no longer being used by an application. This process
+    allows the memory to be re-used and minimizes the risk of an
+    application running out of memory, causing it to crash. Garbage
+    collection is performed automatically by the Dart VM. In DevTools,
+    you can perform garbage collection on demand by clicking the
+    GC button.
+</dd>
+                        <dt><strong>Heap</strong></dt>
+                        <dd>Dart objects that are dynamically allocated live in a portion of
+    memory called the heap. An object allocated from the heap is freed
+    (eligible for garbage collection) when nothing points to it,
+    or when the application terminates. When nothing points to an
+    object, it is considered to be dead. When an object is pointed
+    to by another object, it is live.
+</dd>
+                        <dt><strong>Isolates</strong></dt>
+                        <dd>
+                          <p>Dart supports concurrent execution by way of isolates,
+    which you can think of processes without the overhead.
+    Each isolate has its own memory and code that can’t be
+    affected by any other isolate. For more information,
+    see <a href="https://dart.dev/articles/archive/event-loop">The Event Loop and Dart</a>.</p>
+                        </dd>
+                        <dt><strong>Memory leak</strong></dt>
+                        <dd>A memory leak occurs when an object is live
+    (meaning that another object points to it), but it is not being
+    used (so it shouldn't have any references from other objects).
+    Such an object can't be garbage collected, so it takes up space
+    in the heap and contributes to memory fragmentation.
+    Memory leaks put unnecessary pressure on the VM and can be
+    difficult to debug.
+</dd>
+                        <dt><strong>Virtual machine (VM)</strong></dt>
+                        <dd>The Dart virtual machine is a piece of
+    software that directly executes Dart code.
+</dd>
+                      </dl>
+
+                    
+                  
+                
+              </dl>
+            
+          </dl>
+        
+      
+    
+  
+</dl>
+
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+
+    <footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 site-footer__wrapper">
+        <div class="site-footer__logo">
+          <img src="/images/flutter-mono-81x100.png" alt="Flutter Logo" width="81" height="100">
+        </div>
+        <div class="site-footer__content">
+          <ul class="site-footer__link-list">
+              <li><a href="https://groups.google.com/forum/#!forum/flutter-dev">flutter-dev@</a></li>
+              <li><a href="/tos">terms</a></li>
+              <li><a href="/brand">brand usage</a></li>
+              <li><a href="/security">security</a></li>
+              <li><a href="https://www.google.com/intl/en/policies/privacy">privacy</a></li>
+              <li><a href="https://esflutter.dev/">español</a></li>
+              <li><a href="https://flutter.cn" class="text-nowrap">社区中文资源</a></li> 
+              <li><a href="https://flutter-ko.dev/" class="text-nowrap">한국어</a></li>
+              <li><a href="https://blog.google/inside-google/company-announcements/standing-with-black-community">We stand in solidarity with the Black community. Black Lives Matter.</a></li>
+          </ul>
+
+          <p class="licenses">
+            Except as otherwise noted,
+            this work is licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative
+            Commons Attribution 4.0 International License</a>,
+            and code samples are licensed under the BSD License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    <script async="" defer="" src="//survey.g.doubleclick.net/async_survey?site=at3ul57xpub2vk3oxt2ytw365i"></script>
+  </body>
+</html>

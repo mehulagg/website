@@ -1,5 +1,6 @@
 .DS_Store
-_site
+_site/**/*.gif
+_site/**/*.mp4
 .*-cache
 .*-metadata
 build

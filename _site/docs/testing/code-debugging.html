@@ -1,0 +1,2341 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debugging Flutter apps programmatically  - Flutter </title>
+  <link rel="shortcut icon" href="/images/favicon.png">
+
+  <!-- Google Optimize -->
+  <script src="https://www.googleoptimize.com/optimize.js?id=GTM-MPZP6R8"></script>
+  <!-- End Google Optimize -->
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-ND4LWWZ');</script>
+  <!-- End Google Tag Manager -->
+
+  
+  <meta name="description" content="How to enable various debugging tools from your code and at the command line.">
+  <meta name="keywords" content=" ">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@flutterdev">
+
+  <meta property="og:title" content="Debugging Flutter apps programmatically">
+  <meta property="og:url" content="https://flutter.dev/docs/testing/code-debugging">
+  <meta property="og:description" content="How to enable various debugging tools from your code and at the command line.">
+  
+  <meta property="og:image" content="https://flutter.dev/images/flutter-logo-sharing.png">
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans:400,500|Roboto:300,400,500|Roboto+Mono:400,700|Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" href="/assets/main-5179236d2a521f0d8c964446a1eaa9bee448793c298286381d5cbdc3f6776229.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.0/clipboard.min.js"></script>
+  <script src="/assets/main-3d1fe020941b4eb18d313f0eb6a8ff9fd170a0b3ed6913d333d804fec0136545.js" type="text/javascript"></script>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-67589403-1', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+  <meta name="google-site-verification" content="HFqxhSbf9YA_0rBglNLzDiWnrHiK_w4cqDh2YD2GEY4" />
+  <meta name="google-site-verification" content="Zom-prnFykfYycmI_nzRWYx5r6Z9OwR-yEsgElRz_Ug" />
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-ND4LWWZ"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div id="overlay-under-drawer"></div>
+
+    <header class="site-header">
+  <nav class="navbar navbar-expand-md justify-content-start justify-content-md-between">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <i class="material-icons">menu</i>
+    </button>
+
+    <a class="navbar-brand" href="/">
+      <img alt="Flutter logo" height="37" width="129" class="align-middle" src="/assets/flutter-lockup-1caf6476beed76adec3c477586da54de6b552b2f42108ec5bc68dc63bae2df75.png">
+    </a>
+
+    <div class="collapse navbar-collapse flex-grow-0" id="navbarSupportedContent">
+      <div class="site-header__sheet-bg" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"></div>
+      <div class="site-header__sheet">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="/docs">Docs</a>
+          </li>
+          <div class="site-sidebar site-sidebar--header d-md-none">
+            <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="true" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+          </div>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/showcase">Showcase</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/community">Community</a>
+          </li>
+        </ul>
+        <form action="/search/" class="site-header__search form-inline">
+          <input class="site-header__searchfield form-control" type="search" name="q" id="q" autocomplete="off" placeholder="Search" aria-label="Search">
+        </form>
+      </div>
+    </div>
+    <div class="site-header__social navbar-nav flex-row">
+      <a class="nav-item nav-link" href="https://twitter.com/flutterdev" aria-label="Twittter"><i class="fab fa-twitter fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://www.youtube.com/flutterdev" aria-label="YouTube"><i class="fab fa-youtube fa-lg"></i></a>
+      <a class="nav-item nav-link" href="https://github.com/flutter" aria-label="Github"><i class="fab fa-github fa-lg"></i></a>
+    </div>
+    <a class="site-header__cta btn btn-primary" href="/docs/get-started/install/">Get started</a>
+    </nav>
+</header>
+<!---->
+  
+  <div class="site-banner site-banner--default" role="alert">
+    Flutter's I/O schedule is live. <a href="http://goo.gle/io21-flutter-agenda-4">Learn more</a>.
+  </div>
+<div class="container-fluid position-relative">
+  <div class="row flex-xl-nowrap">
+    <div class="fixed-col site-sidebar site-sidebar--fixed col-12 col-md-3 col-xl-2 d-none d-md-block" data-fixed-column>
+      <ul class="nav flex-column"><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-1" role="button"
+        aria-expanded="false" aria-controls="sidenav-1"
+      >Get started</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-1">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/install">1. Install</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/editor">2. Set up an editor</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/test-drive">3. Test drive</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/codelab">4. Write your first app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/learn-more">5. Learn more</a>
+  </li><div class="dropdown-divider"></div><li class="nav-item">
+    <a class="nav-link collapsable"
+      data-toggle="collapse" data-target="#sidenav-1-7"
+      href="#sidenav-1-7" role="button"
+      aria-expanded="true" aria-controls="sidenav-1-7"
+    >From another platform?
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/android-devs">Flutter for Android devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/ios-devs">Flutter for iOS devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/react-native-devs">Flutter for React Native devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/web-devs">Flutter for web devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/xamarin-forms-devs">Flutter for Xamarin.Forms devs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/flutter-for/declarative">Introduction to declarative UI</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="https://dart.dev/overview" target="_blank" rel="noopener">Dart language overview<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/get-started/web">Building a web app</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-2" role="button"
+        aria-expanded="false" aria-controls="sidenav-2"
+      >Samples & tutorials</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-2">
+        <li class="nav-item">
+    <a class="nav-link" href="https://gallery.flutter.dev" target="_blank" rel="noopener">Flutter Gallery [running app]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/gallery" target="_blank" rel="noopener">Flutter Gallery [repo]<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://flutter.github.io/samples/" target="_blank" rel="noopener">Sample apps on GitHub<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/cookbook">Cookbook</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/codelabs">Codelabs</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/tutorials">Tutorials</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-3" role="button"
+        aria-expanded="true" aria-controls="sidenav-3"
+      >Development</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-3">
+        <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1"
+      href="/docs/development/ui" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1"
+    >User interface
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets-intro">Introduction to widgets</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-2"
+      href="/docs/development/ui/layout" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-2"
+    >Building layouts
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout">Layouts in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/adaptive-responsive">Creating adaptive and responsive apps</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/constraints">Understanding constraints [NEW]</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/layout/box-constraints">Box constraints</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/interactive">Adding interactivity</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/assets-and-images">Assets and images</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-5"
+      href="/docs/development/ui/navigation" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-5"
+    >Navigation & routing
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation">Navigation in Flutter</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/deep-linking">Deep linking</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/navigation/url-strategies">URL strategies</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-6"
+      href="/docs/development/ui/animations" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-6"
+    >Animations
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/tutorial">Tutorial</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/implicit-animations">Implicit animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/hero-animations">Hero animations</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/animations/staggered-animations">Staggered animations</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-1-7"
+      href="/docs/development/ui/advanced" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-1-7"
+    >Advanced UI
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-1-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/slivers">Slivers</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/gestures">Gestures</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/advanced/splash-screen">Splash screens</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/ui/widgets">Widget catalog</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2"
+      href="/docs/development/data-and-backend" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2"
+    >Data & backend
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2">
+      <li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-2-1"
+      href="/docs/development/data-and-backend/state-mgmt" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-2-1"
+    >State management
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-2-1">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/intro">Introduction</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/declarative">Think declaratively</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/ephemeral-vs-app">Ephemeral vs app state</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/simple">Simple app state management</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/state-mgmt/options">Options</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/networking">Networking & http</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/json">JSON and serialization</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/firebase">Firebase</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/data-and-backend/google-apis">Google APIs</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-3"
+      href="/docs/development/accessibility-and-localization" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-3"
+    >Accessibility & internationalization
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/accessibility">Accessibility</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/accessibility-and-localization/internationalization">Internationalization</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-4"
+      href="/docs/development/platform-integration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-4"
+    >Platform integration
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes/supported-platforms">Supported platforms</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/ios-app-clip">Adding iOS App Clip support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/apple-watch">Apple Watch support</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/c-interop">C interop</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-views">Hosting native Android and iOS views</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/web">Web FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/platform-integration/platform-channels">Writing platform-specific code</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-5"
+      href="/docs/development/packages-and-plugins" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-5"
+    >Packages & plugins
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-5">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/using-packages">Using packages</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/developing-packages">Developing packages & plugins</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/favorites">Flutter Favorites program</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/background-processes">Background processes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6"
+      href="/docs/development/add-to-app" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6"
+    >Add Flutter to existing app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app">Introduction</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-2"
+      href="/docs/development/add-to-app/android" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-2"
+    >Adding to an Android app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-2">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-fragment">Add a Flutter Fragment</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/add-flutter-view">Add a Flutter View</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/android/plugin-setup">Plugin setup</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-6-3"
+      href="/docs/development/add-to-app/ios" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-6-3"
+    >Adding to an iOS app
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-6-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/project-setup">Project setup</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/ios/add-flutter-screen">Add a single Flutter screen</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/debugging">Debugging & hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/performance">Loading sequence and performance</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/add-to-app/multiple-flutters">Multiple Flutter instances</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7"
+      href="/docs/development/tools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7"
+    >Tools & features
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/android-studio">Android Studio & IntelliJ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/vs-code">Visual Studio Code</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-3"
+      href="/docs/development/tools/devtools" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-3"
+    >DevTools
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/android-studio">Install from Android Studio & IntelliJ</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/vscode">Install from VS Code</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cli">Install from command line</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/inspector">Flutter inspector</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/performance">Performance view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/cpu-profiler">CPU Profiler view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/memory">Memory view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/network">Network view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/debugger">Debugger</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/logging">Logging view</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/devtools/app-size">App size tool</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-7-4"
+      href="/docs/development/tools/sdk" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-7-4"
+    >Flutter SDK
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-7-4">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/overview">Overview</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/upgrading">Upgrading</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/releases">Releases</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/release/breaking-changes">Breaking changes</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/sdk/release-notes">Release notes</a>
+  </li>
+  </ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/pubspec">Flutter and the pubspec file</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/hot-reload">Hot reload</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/flutter-fix">Flutter Fix</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/formatting">Code formatting</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/tools/web-renderers">Web renderers</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-3-8"
+      href="/docs/development/androidx-migration" role="button"
+      aria-expanded="false" aria-controls="sidenav-3-8"
+    >Migration notes
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-3-8">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/development/androidx-migration">AndroidX migration</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/packages-and-plugins/plugin-api-migration">Android plugin upgrade</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-14">Developing for iOS 14</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/development/ios-project-migration">Xcode 11.4 support</a>
+  </li></ul>
+  </li>
+
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link active" data-toggle="collapse" href="#sidenav-4" role="button"
+        aria-expanded="true" aria-controls="sidenav-4"
+      >Testing & debugging</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-4">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/testing/debugging">Debugging tools</a>
+  </li><li class="nav-item">
+    <a class="nav-link active" href="/docs/testing/code-debugging">Debugging apps programmatically</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/oem-debuggers">Using an OEM debugger</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/build-modes">Flutter's build modes</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/common-errors">Common Flutter errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/errors">Handling errors</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing">Testing</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/testing/integration-tests">Integration testing</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-5" role="button"
+        aria-expanded="false" aria-controls="sidenav-5"
+      >Performance & optimization</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/perf">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/app-size">App size</a>
+  </li><li class="nav-item">
+    <a class="nav-link collapsable collapsed"
+      data-toggle="collapse" data-target="#sidenav-5-3"
+      href="/docs/perf/rendering" role="button"
+      aria-expanded="false" aria-controls="sidenav-5-3"
+    >Rendering performance
+    </a>
+    <ul class="nav flex-column flex-nowrap collapse " id="sidenav-5-3">
+      <li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering">Overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/best-practices">Performance best practices</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/ui-performance">Performance profiling</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/rendering/shader">Reduce shader compilation jank</a>
+  </li></ul>
+  </li>
+<li class="nav-item">
+    <a class="nav-link" href="/docs/perf/metrics">Performance metrics</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/faq">Performance FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/perf/appendix">Appendix</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-6" role="button"
+        aria-expanded="false" aria-controls="sidenav-6"
+      >Deployment</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-6">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/obfuscate">Obfuscating Dart code</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/flavors">Creating flavors for Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/android">Build and release an Android app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/ios">Build and release an iOS app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/linux">Build and release a Linux app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/web">Build and release a web app</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/deployment/cd">Continuous deployment</a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link collapsed" data-toggle="collapse" href="#sidenav-7" role="button"
+        aria-expanded="false" aria-controls="sidenav-7"
+      >Resources</a>
+
+      <ul class="nav flex-column flex-nowrap collapse " id="sidenav-7">
+        <li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bootstrap-into-dart">Dart resources</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/compatibility">Compatibility policy</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/architectural-overview">Architectural overview</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/inside-flutter">Inside Flutter</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/packages/google_fonts" target="_blank" rel="noopener">Google Fonts package<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/platform-adaptations">Platform adaptations</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/videos">Videos and online courses</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/books">Books</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/faq">FAQ</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/design-docs">Design Documents</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/resources/bug-reports">Creating useful bug reports</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://github.com/flutter/flutter/blob/master/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing to Flutter<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://drive.google.com/drive/folders/1KXNtO9My2AMpDOF9A9Y_4aj4_BcgmDDT" target="_blank" rel="noopener">Official brand assets<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li><li class="nav-item">
+      <a class="nav-link " data-toggle="collapse" href="#sidenav-8" role="button"
+        aria-expanded="true" aria-controls="sidenav-8"
+      >Reference</a>
+
+      <ul class="nav flex-column flex-nowrap collapse show" id="sidenav-8">
+        <li class="nav-item">
+    <a class="nav-link" href="/dash">Who is Dash?</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/widgets">Widget index</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://api.flutter.dev" target="_blank" rel="noopener">API reference<i class="fas fa-external-link-alt"></i></a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="/docs/reference/flutter-cli">flutter CLI reference</a>
+  </li><li class="nav-item">
+    <a class="nav-link" href="https://pub.dev/flutter" target="_blank" rel="noopener">Package site<i class="fas fa-external-link-alt"></i></a>
+  </li>
+</ul>
+    </li></ul>
+
+    </div>
+    <div
+  id="site-toc--side"
+  class="site-toc site-toc--side fixed-col col-xl-2 order-3"
+  data-fixed-column
+>
+  <header class="site-toc__title">
+    Contents
+    <button type="button" class="btn site-toc--button__page-top" aria-label="Page top"></button>
+    </header>
+  <ul class="section-nav nav">
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#logging">Logging</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#setting-breakpoints">Setting breakpoints</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#debug-flags-application-layers">Debug flags: application layers</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#widget-tree">Widget tree</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#render-tree">Render tree</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#layer-tree">Layer tree</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#semantics-tree">Semantics tree</a></li>
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#scheduling">Scheduling</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#debug-flags-layout">Debug flags: layout</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#debugging-animations">Debugging animations</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#debug-flags-performance">Debug flags: performance</a>
+<ul class="nav">
+<li class="toc-entry nav-item toc-h3"><a class="nav-link" href="#tracing-dart-code-performance">Tracing Dart code performance</a></li>
+</ul>
+</li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#performance-overlay">Performance overlay</a></li>
+<li class="toc-entry nav-item toc-h2"><a class="nav-link" href="#widget-alignment-grid">Widget alignment grid</a></li>
+</ul>
+</div>
+<main class="site-content col-12 col-md-9 offset-md-3 col-xl-8 offset-xl-2 col-xxl-8 offset-xxl-2" role="main">
+      <div class="container">
+        
+        
+        <header class="site-content__title">
+          <div id="page-github-links" class="btn-group" aria-label="Page GitHub links" role="group">
+  <a href="https://github.com/flutter/website/tree/master/src/docs/testing/code-debugging.md" class="btn no-automatic-external" title="View page source" target="_blank" rel="noopener">
+    <i class="fas fa-file-alt fa-sm"></i>
+  </a>
+  <a href="https://github.com/flutter/website/issues/new?title='Debugging Flutter apps programmatically' page issue&body=
+Page URL: https://flutter.dev/docs/testing/code-debugging.html%0D%0A
+Page source: https://github.com/flutter/website/tree/master/src/docs/testing/code-debugging.md%0D%0A
+%0D%0A
+Found a typo? You can fix it yourself by going to the page source and clicking the pencil icon. Or finish creating this issue.%0D%0A
+%0D%0A
+Description of issue:" class="btn no-automatic-external" title="Report an issue with this page"
+    target="_blank" rel="noopener">
+    <i class="fas fa-bug fa-sm"></i>
+  </a>
+</div>
+
+          <h1>Debugging Flutter apps programmatically</h1>
+          </header>
+        <div
+  id="site-toc--inline"
+  class="site-toc site-toc--inline "
+  
+>
+  <header class="site-toc__title">
+    Contents
+    </header>
+  <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#logging">Logging</a></li>
+<li class="toc-entry toc-h2"><a href="#setting-breakpoints">Setting breakpoints</a></li>
+<li class="toc-entry toc-h2"><a href="#debug-flags-application-layers">Debug flags: application layers</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#widget-tree">Widget tree</a></li>
+<li class="toc-entry toc-h3"><a href="#render-tree">Render tree</a></li>
+<li class="toc-entry toc-h3"><a href="#layer-tree">Layer tree</a></li>
+<li class="toc-entry toc-h3"><a href="#semantics-tree">Semantics tree</a></li>
+<li class="toc-entry toc-h3"><a href="#scheduling">Scheduling</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#debug-flags-layout">Debug flags: layout</a></li>
+<li class="toc-entry toc-h2"><a href="#debugging-animations">Debugging animations</a></li>
+<li class="toc-entry toc-h2"><a href="#debug-flags-performance">Debug flags: performance</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#tracing-dart-code-performance">Tracing Dart code performance</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#performance-overlay">Performance overlay</a></li>
+<li class="toc-entry toc-h2"><a href="#widget-alignment-grid">Widget alignment grid</a></li>
+</ul>
+</div>
+<p>This doc describes debugging features that you can enable in code.
+For a full list of debugging and profiling tools, see the
+<a href="/docs/testing/debugging">Debugging</a> page.</p>
+
+<h2 id="logging">
+<a class="anchor" href="#logging" aria-hidden="true"><span class="octicon octicon-link"></span></a>Logging</h2>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  You can view logs in DevTools’ <a href="/docs/development/tools/devtools/logging">Logging view</a>
+  or in your system console. This sections
+  shows how to set up your logging statements.</p>
+</aside>
+
+<p>You have two options for logging for your application.
+The first is to use <code class="language-plaintext highlighter-rouge">stdout</code> and <code class="language-plaintext highlighter-rouge">stderr</code>.
+Generally, this is done using <code class="language-plaintext highlighter-rouge">print()</code> statements,
+or by importing <code class="language-plaintext highlighter-rouge">dart:io</code> and invoking methods on
+<code class="language-plaintext highlighter-rouge">stderr</code> and <code class="language-plaintext highlighter-rouge">stdout</code>. For example:</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">stderr</span><span class="o">.</span><span class="na">writeln</span><span class="o">(</span><span class="s">'print me'</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>If you output too much at once, then Android sometimes
+discards some log lines. To avoid this, use <a href="https://api.flutter.dev/flutter/foundation/debugPrint.html"><code class="language-plaintext highlighter-rouge">debugPrint()</code></a>,
+from Flutter’s <code class="language-plaintext highlighter-rouge">foundation</code> library. This is a wrapper around <code class="language-plaintext highlighter-rouge">print</code>
+that throttles the output to a level that avoids being dropped by
+Android’s kernel.</p>
+
+<p>The other option for application logging is to use the
+<code class="language-plaintext highlighter-rouge">dart:developer</code> <a href="https://api.flutter.dev/flutter/dart-developer/log.html"><code class="language-plaintext highlighter-rouge">log()</code></a> function. This allows you to include a
+bit more granularity and information in the logging output.
+Here’s an example:</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'dart:developer'</span> <span class="k">as</span> <span class="n">developer</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">developer</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">'log me'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s">'my.app.category'</span><span class="o">);</span>
+
+  <span class="n">developer</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">'log me 1'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s">'my.other.category'</span><span class="o">);</span>
+  <span class="n">developer</span><span class="o">.</span><span class="na">log</span><span class="o">(</span><span class="s">'log me 2'</span><span class="o">,</span> <span class="nl">name:</span> <span class="s">'my.other.category'</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>You can also pass application data to the log call.
+The convention for this is to use the <code class="language-plaintext highlighter-rouge">error:</code> named
+parameter on the <code class="language-plaintext highlighter-rouge">log()</code> call, JSON encode the object
+you want to send, and pass the encoded string to the
+error parameter.</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'dart:convert'</span><span class="o">;</span>
+<span class="kn">import</span> <span class="s">'dart:developer'</span> <span class="k">as</span> <span class="n">developer</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="kd">var</span> <span class="n">myCustomObject</span> <span class="o">=</span> <span class="o">...;</span>
+
+  <span class="n">developer</span><span class="o">.</span><span class="na">log</span><span class="o">(</span>
+    <span class="s">'log me'</span><span class="o">,</span>
+    <span class="nl">name:</span> <span class="s">'my.app.category'</span><span class="o">,</span>
+    <span class="nl">error:</span> <span class="n">jsonEncode</span><span class="o">(</span><span class="n">myCustomObject</span><span class="o">),</span>
+  <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>If viewing the logging output in DevTool’s logging view,
+the JSON encoded error param is interpreted as a data object
+and rendered in the details view for that log entry.</p>
+
+<h2 id="setting-breakpoints">
+<a class="anchor" href="#setting-breakpoints" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setting breakpoints</h2>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  You can set breakpoints in DevTools’ <a href="/docs/development/tools/devtools/debugger">Debugger</a>, or
+  in the built-in debugger of your IDE. If you want to
+  set breakpoints programmatically, use the following
+  instructions.</p>
+</aside>
+
+<p>You can insert programmatic breakpoints using the
+<code class="language-plaintext highlighter-rouge">debugger()</code> statement. To use this, you have to
+import the <code class="language-plaintext highlighter-rouge">dart:developer</code> package at the top of
+the relevant file.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">debugger()</code> statement takes an optional <code class="language-plaintext highlighter-rouge">when</code>
+argument that you can specify to only break when a
+certain condition is true, as in the following example:</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'dart:developer'</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">someFunction</span><span class="p">(</span><span class="kt">double</span> <span class="n">offset</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">debugger</span><span class="o">(</span><span class="nl">when:</span> <span class="n">offset</span> <span class="o">&gt;</span> <span class="mf">30.0</span><span class="o">);</span>
+  <span class="c1">// ...</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="debug-flags-application-layers">
+<a class="anchor" href="#debug-flags-application-layers" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debug flags: application layers</h2>
+
+<p>Each layer of the Flutter framework provides a function to dump its
+current state or events to the console (using <code class="language-plaintext highlighter-rouge">debugPrint</code>).</p>
+
+<h3 id="widget-tree">
+<a class="anchor" href="#widget-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Widget tree</h3>
+
+<p>To dump the state of the Widgets library, call <a href="https://api.flutter.dev/flutter/widgets/debugDumpApp.html"><code class="language-plaintext highlighter-rouge">debugDumpApp()</code></a>.
+You can call this more or less any time that the application is not in
+the middle of running a build phase (in other words, not anywhere inside a
+<code class="language-plaintext highlighter-rouge">build()</code> method), if the app has built at least once and is in debug mode
+(in other words, any time after calling <code class="language-plaintext highlighter-rouge">runApp()</code>).</p>
+
+<p>For example, the following application:</p>
+
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'package:flutter/material.dart'</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">runApp</span><span class="o">(</span>
+    <span class="n">MaterialApp</span><span class="o">(</span>
+      <span class="nl">home:</span> <span class="n">AppHome</span><span class="o">(),</span>
+    <span class="o">),</span>
+  <span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">class</span> <span class="nc">AppHome</span> <span class="kd">extends</span> <span class="n">StatelessWidget</span> <span class="o">{</span>
+  <span class="nd">@override</span>
+  <span class="n">Widget</span> <span class="n">build</span><span class="o">(</span><span class="n">BuildContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">Material</span><span class="o">(</span>
+      <span class="nl">child:</span> <span class="n">Center</span><span class="o">(</span>
+        <span class="nl">child:</span> <span class="n">TextButton</span><span class="o">(</span>
+          <span class="nl">onPressed:</span> <span class="o">()</span> <span class="o">{</span>
+            <span class="n">debugDumpApp</span><span class="o">();</span>
+          <span class="o">},</span>
+          <span class="nl">child:</span> <span class="n">Text</span><span class="o">(</span><span class="s">'Dump App'</span><span class="o">),</span>
+        <span class="o">),</span>
+      <span class="o">),</span>
+    <span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The previous app outputs something like the following
+(the precise details vary by the version of the framework,
+the size of the device, and so forth):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I/flutter ( 6559): WidgetsFlutterBinding - CHECKED MODE
+I/flutter ( 6559): RenderObjectToWidgetAdapter&lt;RenderBox&gt;([GlobalObjectKey RenderView(497039273)]; renderObject: RenderView)
+I/flutter ( 6559): └MaterialApp(state: _MaterialAppState(1009803148))
+I/flutter ( 6559):  └ScrollConfiguration()
+I/flutter ( 6559):   └AnimatedTheme(duration: 200ms; state: _AnimatedThemeState(543295893; ticker inactive; ThemeDataTween(ThemeData(Brightness.light Color(0xff2196f3) etc...) → null)))
+I/flutter ( 6559):    └Theme(ThemeData(Brightness.light Color(0xff2196f3) etc...))
+I/flutter ( 6559):     └WidgetsApp([GlobalObjectKey _MaterialAppState(1009803148)]; state: _WidgetsAppState(552902158))
+I/flutter ( 6559):      └CheckedModeBanner()
+I/flutter ( 6559):       └Banner()
+I/flutter ( 6559):        └CustomPaint(renderObject: RenderCustomPaint)
+I/flutter ( 6559):         └DefaultTextStyle(inherit: true; color: Color(0xd0ff0000); family: "monospace"; size: 48.0; weight: 900; decoration: double Color(0xffffff00) TextDecoration.underline)
+I/flutter ( 6559):          └MediaQuery(MediaQueryData(size: Size(411.4, 683.4), devicePixelRatio: 2.625, textScaleFactor: 1.0, padding: EdgeInsets(0.0, 24.0, 0.0, 0.0)))
+I/flutter ( 6559):           └LocaleQuery(null)
+I/flutter ( 6559):            └Title(color: Color(0xff2196f3))
+I/flutter ( 6559):             └Navigator([GlobalObjectKey&lt;NavigatorState&gt; _WidgetsAppState(552902158)]; state: NavigatorState(240327618; tracking 1 ticker))
+I/flutter ( 6559):              └Listener(listeners: down, up, cancel; behavior: defer-to-child; renderObject: RenderPointerListener)
+I/flutter ( 6559):               └AbsorbPointer(renderObject: RenderAbsorbPointer)
+I/flutter ( 6559):                └Focus([GlobalKey 489139594]; state: _FocusState(739584448))
+I/flutter ( 6559):                 └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                  └_FocusScope(this scope has focus; focused subscope: [GlobalObjectKey MaterialPageRoute&lt;void&gt;(875520219)])
+I/flutter ( 6559):                   └Overlay([GlobalKey 199833992]; state: OverlayState(619367313; entries: [OverlayEntry@248818791(opaque: false; maintainState: false), OverlayEntry@837336156(opaque: false; maintainState: true)]))
+I/flutter ( 6559):                    └_Theatre(renderObject: _RenderTheatre)
+I/flutter ( 6559):                     └Stack(renderObject: RenderStack)
+I/flutter ( 6559):                      ├_OverlayEntry([GlobalKey 612888877]; state: _OverlayEntryState(739137453))
+I/flutter ( 6559):                      │└IgnorePointer(ignoring: false; renderObject: RenderIgnorePointer)
+I/flutter ( 6559):                      │ └ModalBarrier()
+I/flutter ( 6559):                      │  └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                      │   └GestureDetector()
+I/flutter ( 6559):                      │    └RawGestureDetector(state: RawGestureDetectorState(39068508; gestures: tap; behavior: opaque))
+I/flutter ( 6559):                      │     └_GestureSemantics(renderObject: RenderSemanticsGestureHandler)
+I/flutter ( 6559):                      │      └Listener(listeners: down; behavior: opaque; renderObject: RenderPointerListener)
+I/flutter ( 6559):                      │       └ConstrainedBox(BoxConstraints(biggest); renderObject: RenderConstrainedBox)
+I/flutter ( 6559):                      └_OverlayEntry([GlobalKey 727622716]; state: _OverlayEntryState(279971240))
+I/flutter ( 6559):                       └_ModalScope([GlobalKey 816151164]; state: _ModalScopeState(875510645))
+I/flutter ( 6559):                        └Focus([GlobalObjectKey MaterialPageRoute&lt;void&gt;(875520219)]; state: _FocusState(331487674))
+I/flutter ( 6559):                         └Semantics(container: true; renderObject: RenderSemanticsAnnotations)
+I/flutter ( 6559):                          └_FocusScope(this scope has focus)
+I/flutter ( 6559):                           └Offstage(offstage: false; renderObject: RenderOffstage)
+I/flutter ( 6559):                            └IgnorePointer(ignoring: false; renderObject: RenderIgnorePointer)
+I/flutter ( 6559):                             └_MountainViewPageTransition(animation: AnimationController(⏭ 1.000; paused; for MaterialPageRoute&lt;void&gt;(/))➩ProxyAnimation➩Cubic(0.40, 0.00, 0.20, 1.00)➩Tween&lt;Offset&gt;(Offset(0.0, 1.0) → Offset(0.0, 0.0))➩Offset(0.0, 0.0); state: _AnimatedState(552160732))
+I/flutter ( 6559):                              └SlideTransition(animation: AnimationController(⏭ 1.000; paused; for MaterialPageRoute&lt;void&gt;(/))➩ProxyAnimation➩Cubic(0.40, 0.00, 0.20, 1.00)➩Tween&lt;Offset&gt;(Offset(0.0, 1.0) → Offset(0.0, 0.0))➩Offset(0.0, 0.0); state: _AnimatedState(714726495))
+I/flutter ( 6559):                               └FractionalTranslation(renderObject: RenderFractionalTranslation)
+I/flutter ( 6559):                                └RepaintBoundary(renderObject: RenderRepaintBoundary)
+I/flutter ( 6559):                                 └PageStorage([GlobalKey 619728754])
+I/flutter ( 6559):                                  └_ModalScopeStatus(active)
+I/flutter ( 6559):                                   └AppHome()
+I/flutter ( 6559):                                    └Material(MaterialType.canvas; elevation: 0; state: _MaterialState(780114997))
+I/flutter ( 6559):                                     └AnimatedContainer(duration: 200ms; has background; state: _AnimatedContainerState(616063822; ticker inactive; has background))
+I/flutter ( 6559):                                      └Container(bg: BoxDecoration())
+I/flutter ( 6559):                                       └DecoratedBox(renderObject: RenderDecoratedBox)
+I/flutter ( 6559):                                        └Container(bg: BoxDecoration(backgroundColor: Color(0xfffafafa)))
+I/flutter ( 6559):                                         └DecoratedBox(renderObject: RenderDecoratedBox)
+I/flutter ( 6559):                                          └NotificationListener&lt;LayoutChangedNotification&gt;()
+I/flutter ( 6559):                                           └_InkFeature([GlobalKey ink renderer]; renderObject: _RenderInkFeatures)
+I/flutter ( 6559):                                            └AnimatedDefaultTextStyle(duration: 200ms; inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 400; baseline: alphabetic; state: _AnimatedDefaultTextStyleState(427742350; ticker inactive))
+I/flutter ( 6559):                                             └DefaultTextStyle(inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 400; baseline: alphabetic)
+I/flutter ( 6559):                                              └Center(alignment: Alignment.center; renderObject: RenderPositionedBox)
+I/flutter ( 6559):                                               └TextButton()
+I/flutter ( 6559):                                                └MaterialButton(state: _MaterialButtonState(398724090))
+I/flutter ( 6559):                                                 └ConstrainedBox(BoxConstraints(88.0&lt;=w&lt;=Infinity, h=36.0); renderObject: RenderConstrainedBox relayoutBoundary=up1)
+I/flutter ( 6559):                                                  └AnimatedDefaultTextStyle(duration: 200ms; inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 500; baseline: alphabetic; state: _AnimatedDefaultTextStyleState(315134664; ticker inactive))
+I/flutter ( 6559):                                                   └DefaultTextStyle(inherit: false; color: Color(0xdd000000); family: "Roboto"; size: 14.0; weight: 500; baseline: alphabetic)
+I/flutter ( 6559):                                                    └IconTheme(color: Color(0xdd000000))
+I/flutter ( 6559):                                                     └InkWell(state: _InkResponseState&lt;InkResponse&gt;(369160267))
+I/flutter ( 6559):                                                      └GestureDetector()
+I/flutter ( 6559):                                                       └RawGestureDetector(state: RawGestureDetectorState(175370983; gestures: tap; behavior: opaque))
+I/flutter ( 6559):                                                        └_GestureSemantics(renderObject: RenderSemanticsGestureHandler relayoutBoundary=up2)
+I/flutter ( 6559):                                                         └Listener(listeners: down; behavior: opaque; renderObject: RenderPointerListener relayoutBoundary=up3)
+I/flutter ( 6559):                                                          └Container(padding: EdgeInsets(16.0, 0.0, 16.0, 0.0))
+I/flutter ( 6559):                                                           └Padding(renderObject: RenderPadding relayoutBoundary=up4)
+I/flutter ( 6559):                                                            └Center(alignment: Alignment.center; widthFactor: 1.0; renderObject: RenderPositionedBox relayoutBoundary=up5)
+I/flutter ( 6559):                                                             └Text("Dump App")
+I/flutter ( 6559):                                                              └RichText(renderObject: RenderParagraph relayoutBoundary=up6)
+</code></pre></div></div>
+
+<p>This is the “flattened” tree, showing all the widgets projected
+through their various build functions. (This is the tree you obtain if
+you call <code class="language-plaintext highlighter-rouge">toStringDeep()</code> on the root of the widget tree.)
+You’ll see a lot of widgets in there that don’t appear in your
+application’s source, because they are inserted by the framework’s
+widgets’ build functions. For example,
+<a href="https://api.flutter.dev/flutter/material/InkFeature-class.html"><code class="language-plaintext highlighter-rouge">InkFeature</code></a> is an implementation detail of the <a href="https://api.flutter.dev/flutter/material/Material-class.html"><code class="language-plaintext highlighter-rouge">Material</code></a> widget.</p>
+
+<p>Since the <code class="language-plaintext highlighter-rouge">debugDumpApp()</code> call is invoked when the button changes
+from being pressed to being released, it coincides with the
+<a href="https://api.flutter.dev/flutter/material/TextButton-class.html"><code class="language-plaintext highlighter-rouge">TextButton</code></a> object calling <a href="https://api.flutter.dev/flutter/widgets/State/setState.html"><code class="language-plaintext highlighter-rouge">setState()</code></a>
+and thus marking itself dirty. That is why, when you look at the dump you
+should see that specific object marked as “dirty”. You can also see what
+gesture listeners have been registered; in this case, a single
+GestureDetector is listed, and it is listening only to a “tap” gesture
+(“tap” is the output of a <code class="language-plaintext highlighter-rouge">TapGestureDetector</code>’s <code class="language-plaintext highlighter-rouge">toStringShort</code>
+function).</p>
+
+<p>If you write your own widgets, you can add information by overriding
+<a href="https://api.flutter.dev/flutter/widgets/Widget/debugFillProperties.html"><code class="language-plaintext highlighter-rouge">debugFillProperties()</code></a>. Add <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsProperty-class.html">DiagnosticsProperty</a>
+objects to the method’s argument, and call the superclass method.
+This function is what the <code class="language-plaintext highlighter-rouge">toString</code> method uses to fill in the
+widget’s description.</p>
+
+<h3 id="render-tree">
+<a class="anchor" href="#render-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Render tree</h3>
+
+<p>If you are trying to debug a layout issue, then the Widgets layer’s
+tree might be insufficiently detailed. In that case, you can dump the
+rendering tree by calling <a href="https://api.flutter.dev/flutter/rendering/debugDumpRenderTree.html"><code class="language-plaintext highlighter-rouge">debugDumpRenderTree()</code></a>.
+As with <code class="language-plaintext highlighter-rouge">debugDumpApp()</code>, you can call this more or less any time
+except during a layout or paint phase. As a general rule,
+calling it from a <a href="https://api.flutter.dev/flutter/scheduler/SchedulerBinding/addPersistentFrameCallback.html">frame callback</a>
+or an event handler is the best solution.</p>
+
+<p>To call <code class="language-plaintext highlighter-rouge">debugDumpRenderTree()</code>, you need to add <code class="language-plaintext highlighter-rouge">import
+'package:flutter/rendering.dart';</code> to your source file.</p>
+
+<p>The output for the previous tiny example would look something like
+the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I/flutter ( 6559): RenderView
+I/flutter ( 6559):  │ debug mode enabled - android
+I/flutter ( 6559):  │ window size: Size(1080.0, 1794.0) (in physical pixels)
+I/flutter ( 6559):  │ device pixel ratio: 2.625 (physical pixels per logical pixel)
+I/flutter ( 6559):  │ configuration: Size(411.4, 683.4) at 2.625x (in logical pixels)
+I/flutter ( 6559):  │
+I/flutter ( 6559):  └─child: RenderCustomPaint
+I/flutter ( 6559):    │ creator: CustomPaint ← Banner ← CheckedModeBanner ←
+I/flutter ( 6559):    │   WidgetsApp-[GlobalObjectKey _MaterialAppState(1009803148)] ←
+I/flutter ( 6559):    │   Theme ← AnimatedTheme ← ScrollConfiguration ← MaterialApp ←
+I/flutter ( 6559):    │   [root]
+I/flutter ( 6559):    │ parentData: &lt;none&gt;
+I/flutter ( 6559):    │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):    │ size: Size(411.4, 683.4)
+I/flutter ( 6559):    │
+I/flutter ( 6559):    └─child: RenderPointerListener
+I/flutter ( 6559):      │ creator: Listener ← Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):      │   _WidgetsAppState(552902158)] ← Title ← LocaleQuery ← MediaQuery
+I/flutter ( 6559):      │   ← DefaultTextStyle ← CustomPaint ← Banner ← CheckedModeBanner ←
+I/flutter ( 6559):      │   WidgetsApp-[GlobalObjectKey _MaterialAppState(1009803148)] ←
+I/flutter ( 6559):      │   Theme ← AnimatedTheme ← ⋯
+I/flutter ( 6559):      │ parentData: &lt;none&gt;
+I/flutter ( 6559):      │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):      │ size: Size(411.4, 683.4)
+I/flutter ( 6559):      │ behavior: defer-to-child
+I/flutter ( 6559):      │ listeners: down, up, cancel
+I/flutter ( 6559):      │
+I/flutter ( 6559):      └─child: RenderAbsorbPointer
+I/flutter ( 6559):        │ creator: AbsorbPointer ← Listener ←
+I/flutter ( 6559):        │   Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):        │   _WidgetsAppState(552902158)] ← Title ← LocaleQuery ← MediaQuery
+I/flutter ( 6559):        │   ← DefaultTextStyle ← CustomPaint ← Banner ← CheckedModeBanner ←
+I/flutter ( 6559):        │   WidgetsApp-[GlobalObjectKey _MaterialAppState(1009803148)] ←
+I/flutter ( 6559):        │   Theme ← ⋯
+I/flutter ( 6559):        │ parentData: &lt;none&gt;
+I/flutter ( 6559):        │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):        │ size: Size(411.4, 683.4)
+I/flutter ( 6559):        │ absorbing: false
+I/flutter ( 6559):        │
+I/flutter ( 6559):        └─child: RenderSemanticsAnnotations
+I/flutter ( 6559):          │ creator: Semantics ← Focus-[GlobalKey 489139594] ← AbsorbPointer
+I/flutter ( 6559):          │   ← Listener ← Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):          │   _WidgetsAppState(552902158)] ← Title ← LocaleQuery ← MediaQuery
+I/flutter ( 6559):          │   ← DefaultTextStyle ← CustomPaint ← Banner ← CheckedModeBanner ←
+I/flutter ( 6559):          │   ⋯
+I/flutter ( 6559):          │ parentData: &lt;none&gt;
+I/flutter ( 6559):          │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):          │ size: Size(411.4, 683.4)
+I/flutter ( 6559):          │
+I/flutter ( 6559):          └─child: _RenderTheatre
+I/flutter ( 6559):            │ creator: _Theatre ← Overlay-[GlobalKey 199833992] ← _FocusScope ←
+I/flutter ( 6559):            │   Semantics ← Focus-[GlobalKey 489139594] ← AbsorbPointer ←
+I/flutter ( 6559):            │   Listener ← Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):            │   _WidgetsAppState(552902158)] ← Title ← LocaleQuery ← MediaQuery
+I/flutter ( 6559):            │   ← DefaultTextStyle ← ⋯
+I/flutter ( 6559):            │ parentData: &lt;none&gt;
+I/flutter ( 6559):            │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            │
+I/flutter ( 6559):            ├─onstage: RenderStack
+I/flutter ( 6559):            ╎ │ creator: Stack ← _Theatre ← Overlay-[GlobalKey 199833992] ←
+I/flutter ( 6559):            ╎ │   _FocusScope ← Semantics ← Focus-[GlobalKey 489139594] ←
+I/flutter ( 6559):            ╎ │   AbsorbPointer ← Listener ←
+I/flutter ( 6559):            ╎ │   Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):            ╎ │   _WidgetsAppState(552902158)] ← Title ← LocaleQuery ← MediaQuery
+I/flutter ( 6559):            ╎ │   ← ⋯
+I/flutter ( 6559):            ╎ │ parentData: not positioned; offset=Offset(0.0, 0.0)
+I/flutter ( 6559):            ╎ │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │
+I/flutter ( 6559):            ╎ ├─child 1: RenderIgnorePointer
+I/flutter ( 6559):            ╎ │ │ creator: IgnorePointer ← _OverlayEntry-[GlobalKey 612888877] ←
+I/flutter ( 6559):            ╎ │ │   Stack ← _Theatre ← Overlay-[GlobalKey 199833992] ← _FocusScope
+I/flutter ( 6559):            ╎ │ │   ← Semantics ← Focus-[GlobalKey 489139594] ← AbsorbPointer ←
+I/flutter ( 6559):            ╎ │ │   Listener ← Navigator-[GlobalObjectKey&lt;NavigatorState&gt;
+I/flutter ( 6559):            ╎ │ │   _WidgetsAppState(552902158)] ← Title ← ⋯
+I/flutter ( 6559):            ╎ │ │ parentData: not positioned; offset=Offset(0.0, 0.0)
+I/flutter ( 6559):            ╎ │ │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │ │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │ │ ignoring: false
+I/flutter ( 6559):            ╎ │ │ ignoringSemantics: implicitly false
+I/flutter ( 6559):            ╎ │ │
+I/flutter ( 6559):            ╎ │ └─child: RenderSemanticsAnnotations
+I/flutter ( 6559):            ╎ │   │ creator: Semantics ← ModalBarrier ← IgnorePointer ←
+I/flutter ( 6559):            ╎ │   │   _OverlayEntry-[GlobalKey 612888877] ← Stack ← _Theatre ←
+I/flutter ( 6559):            ╎ │   │   Overlay-[GlobalKey 199833992] ← _FocusScope ← Semantics ←
+I/flutter ( 6559):            ╎ │   │   Focus-[GlobalKey 489139594] ← AbsorbPointer ← Listener ← ⋯
+I/flutter ( 6559):            ╎ │   │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎ │   │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │   │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │   │
+I/flutter ( 6559):            ╎ │   └─child: RenderSemanticsGestureHandler
+I/flutter ( 6559):            ╎ │     │ creator: _GestureSemantics ← RawGestureDetector ← GestureDetector
+I/flutter ( 6559):            ╎ │     │   ← Semantics ← ModalBarrier ← IgnorePointer ←
+I/flutter ( 6559):            ╎ │     │   _OverlayEntry-[GlobalKey 612888877] ← Stack ← _Theatre ←
+I/flutter ( 6559):            ╎ │     │   Overlay-[GlobalKey 199833992] ← _FocusScope ← Semantics ← ⋯
+I/flutter ( 6559):            ╎ │     │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎ │     │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │     │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │     │
+I/flutter ( 6559):            ╎ │     └─child: RenderPointerListener
+I/flutter ( 6559):            ╎ │       │ creator: Listener ← _GestureSemantics ← RawGestureDetector ←
+I/flutter ( 6559):            ╎ │       │   GestureDetector ← Semantics ← ModalBarrier ← IgnorePointer ←
+I/flutter ( 6559):            ╎ │       │   _OverlayEntry-[GlobalKey 612888877] ← Stack ← _Theatre ←
+I/flutter ( 6559):            ╎ │       │   Overlay-[GlobalKey 199833992] ← _FocusScope ← ⋯
+I/flutter ( 6559):            ╎ │       │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎ │       │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │       │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │       │ behavior: opaque
+I/flutter ( 6559):            ╎ │       │ listeners: down
+I/flutter ( 6559):            ╎ │       │
+I/flutter ( 6559):            ╎ │       └─child: RenderConstrainedBox
+I/flutter ( 6559):            ╎ │           creator: ConstrainedBox ← Listener ← _GestureSemantics ←
+I/flutter ( 6559):            ╎ │             RawGestureDetector ← GestureDetector ← Semantics ← ModalBarrier
+I/flutter ( 6559):            ╎ │             ← IgnorePointer ← _OverlayEntry-[GlobalKey 612888877] ← Stack ←
+I/flutter ( 6559):            ╎ │             _Theatre ← Overlay-[GlobalKey 199833992] ← ⋯
+I/flutter ( 6559):            ╎ │           parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎ │           constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎ │           size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎ │           additionalConstraints: BoxConstraints(biggest)
+I/flutter ( 6559):            ╎ │
+I/flutter ( 6559):            ╎ └─child 2: RenderSemanticsAnnotations
+I/flutter ( 6559):            ╎   │ creator: Semantics ← Focus-[GlobalObjectKey
+I/flutter ( 6559):            ╎   │   MaterialPageRoute&lt;void&gt;(875520219)] ← _ModalScope-[GlobalKey
+I/flutter ( 6559):            ╎   │   816151164] ← _OverlayEntry-[GlobalKey 727622716] ← Stack ←
+I/flutter ( 6559):            ╎   │   _Theatre ← Overlay-[GlobalKey 199833992] ← _FocusScope ←
+I/flutter ( 6559):            ╎   │   Semantics ← Focus-[GlobalKey 489139594] ← AbsorbPointer ←
+I/flutter ( 6559):            ╎   │   Listener ← ⋯
+I/flutter ( 6559):            ╎   │ parentData: not positioned; offset=Offset(0.0, 0.0)
+I/flutter ( 6559):            ╎   │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎   │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎   │
+I/flutter ( 6559):            ╎   └─child: RenderOffstage
+I/flutter ( 6559):            ╎     │ creator: Offstage ← _FocusScope ← Semantics ←
+I/flutter ( 6559):            ╎     │   Focus-[GlobalObjectKey MaterialPageRoute&lt;void&gt;(875520219)] ←
+I/flutter ( 6559):            ╎     │   _ModalScope-[GlobalKey 816151164] ← _OverlayEntry-[GlobalKey
+I/flutter ( 6559):            ╎     │   727622716] ← Stack ← _Theatre ← Overlay-[GlobalKey 199833992] ←
+I/flutter ( 6559):            ╎     │   _FocusScope ← Semantics ← Focus-[GlobalKey 489139594] ← ⋯
+I/flutter ( 6559):            ╎     │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎     │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎     │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎     │ offstage: false
+I/flutter ( 6559):            ╎     │
+I/flutter ( 6559):            ╎     └─child: RenderIgnorePointer
+I/flutter ( 6559):            ╎       │ creator: IgnorePointer ← Offstage ← _FocusScope ← Semantics ←
+I/flutter ( 6559):            ╎       │   Focus-[GlobalObjectKey MaterialPageRoute&lt;void&gt;(875520219)] ←
+I/flutter ( 6559):            ╎       │   _ModalScope-[GlobalKey 816151164] ← _OverlayEntry-[GlobalKey
+I/flutter ( 6559):            ╎       │   727622716] ← Stack ← _Theatre ← Overlay-[GlobalKey 199833992] ←
+I/flutter ( 6559):            ╎       │   _FocusScope ← Semantics ← ⋯
+I/flutter ( 6559):            ╎       │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎       │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎       │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎       │ ignoring: false
+I/flutter ( 6559):            ╎       │ ignoringSemantics: implicitly false
+I/flutter ( 6559):            ╎       │
+I/flutter ( 6559):            ╎       └─child: RenderFractionalTranslation
+I/flutter ( 6559):            ╎         │ creator: FractionalTranslation ← SlideTransition ←
+I/flutter ( 6559):            ╎         │   _MountainViewPageTransition ← IgnorePointer ← Offstage ←
+I/flutter ( 6559):            ╎         │   _FocusScope ← Semantics ← Focus-[GlobalObjectKey
+I/flutter ( 6559):            ╎         │   MaterialPageRoute&lt;void&gt;(875520219)] ← _ModalScope-[GlobalKey
+I/flutter ( 6559):            ╎         │   816151164] ← _OverlayEntry-[GlobalKey 727622716] ← Stack ←
+I/flutter ( 6559):            ╎         │   _Theatre ← ⋯
+I/flutter ( 6559):            ╎         │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎         │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎         │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎         │ translation: Offset(0.0, 0.0)
+I/flutter ( 6559):            ╎         │ transformHitTests: true
+I/flutter ( 6559):            ╎         │
+I/flutter ( 6559):            ╎         └─child: RenderRepaintBoundary
+I/flutter ( 6559):            ╎           │ creator: RepaintBoundary ← FractionalTranslation ←
+I/flutter ( 6559):            ╎           │   SlideTransition ← _MountainViewPageTransition ← IgnorePointer ←
+I/flutter ( 6559):            ╎           │   Offstage ← _FocusScope ← Semantics ← Focus-[GlobalObjectKey
+I/flutter ( 6559):            ╎           │   MaterialPageRoute&lt;void&gt;(875520219)] ← _ModalScope-[GlobalKey
+I/flutter ( 6559):            ╎           │   816151164] ← _OverlayEntry-[GlobalKey 727622716] ← Stack ← ⋯
+I/flutter ( 6559):            ╎           │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎           │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎           │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎           │ metrics: 83.3% useful (1 bad vs 5 good)
+I/flutter ( 6559):            ╎           │ diagnosis: this is a useful repaint boundary and should be kept
+I/flutter ( 6559):            ╎           │
+I/flutter ( 6559):            ╎           └─child: RenderDecoratedBox
+I/flutter ( 6559):            ╎             │ creator: DecoratedBox ← Container ← AnimatedContainer ← Material
+I/flutter ( 6559):            ╎             │   ← AppHome ← _ModalScopeStatus ← PageStorage-[GlobalKey
+I/flutter ( 6559):            ╎             │   619728754] ← RepaintBoundary ← FractionalTranslation ←
+I/flutter ( 6559):            ╎             │   SlideTransition ← _MountainViewPageTransition ← IgnorePointer ←
+I/flutter ( 6559):            ╎             │   ⋯
+I/flutter ( 6559):            ╎             │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎             │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎             │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎             │ decoration:
+I/flutter ( 6559):            ╎             │   &lt;no decorations specified&gt;
+I/flutter ( 6559):            ╎             │ configuration: ImageConfiguration(bundle:
+I/flutter ( 6559):            ╎             │   PlatformAssetBundle@367106502(), devicePixelRatio: 2.625,
+I/flutter ( 6559):            ╎             │   platform: android)
+I/flutter ( 6559):            ╎             │
+I/flutter ( 6559):            ╎             └─child: RenderDecoratedBox
+I/flutter ( 6559):            ╎               │ creator: DecoratedBox ← Container ← DecoratedBox ← Container ←
+I/flutter ( 6559):            ╎               │   AnimatedContainer ← Material ← AppHome ← _ModalScopeStatus ←
+I/flutter ( 6559):            ╎               │   PageStorage-[GlobalKey 619728754] ← RepaintBoundary ←
+I/flutter ( 6559):            ╎               │   FractionalTranslation ← SlideTransition ← ⋯
+I/flutter ( 6559):            ╎               │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎               │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎               │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎               │ decoration:
+I/flutter ( 6559):            ╎               │   backgroundColor: Color(0xfffafafa)
+I/flutter ( 6559):            ╎               │ configuration: ImageConfiguration(bundle:
+I/flutter ( 6559):            ╎               │   PlatformAssetBundle@367106502(), devicePixelRatio: 2.625,
+I/flutter ( 6559):            ╎               │   platform: android)
+I/flutter ( 6559):            ╎               │
+I/flutter ( 6559):            ╎               └─child: _RenderInkFeatures
+I/flutter ( 6559):            ╎                 │ creator: _InkFeature-[GlobalKey ink renderer] ←
+I/flutter ( 6559):            ╎                 │   NotificationListener&lt;LayoutChangedNotification&gt; ← DecoratedBox
+I/flutter ( 6559):            ╎                 │   ← Container ← DecoratedBox ← Container ← AnimatedContainer ←
+I/flutter ( 6559):            ╎                 │   Material ← AppHome ← _ModalScopeStatus ← PageStorage-[GlobalKey
+I/flutter ( 6559):            ╎                 │   619728754] ← RepaintBoundary ← ⋯
+I/flutter ( 6559):            ╎                 │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎                 │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎                 │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎                 │
+I/flutter ( 6559):            ╎                 └─child: RenderPositionedBox
+I/flutter ( 6559):            ╎                   │ creator: Center ← DefaultTextStyle ← AnimatedDefaultTextStyle ←
+I/flutter ( 6559):            ╎                   │   _InkFeature-[GlobalKey ink renderer] ←
+I/flutter ( 6559):            ╎                   │   NotificationListener&lt;LayoutChangedNotification&gt; ← DecoratedBox
+I/flutter ( 6559):            ╎                   │   ← Container ← DecoratedBox ← Container ← AnimatedContainer ←
+I/flutter ( 6559):            ╎                   │   Material ← AppHome ← ⋯
+I/flutter ( 6559):            ╎                   │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎                   │ constraints: BoxConstraints(w=411.4, h=683.4)
+I/flutter ( 6559):            ╎                   │ size: Size(411.4, 683.4)
+I/flutter ( 6559):            ╎                   │ alignment: Alignment.center
+I/flutter ( 6559):            ╎                   │ widthFactor: expand
+I/flutter ( 6559):            ╎                   │ heightFactor: expand
+I/flutter ( 6559):            ╎                   │
+I/flutter ( 6559):            ╎                   └─child: RenderConstrainedBox relayoutBoundary=up1
+I/flutter ( 6559):            ╎                     │ creator: ConstrainedBox ← MaterialButton ← TextButton ← Center ←
+I/flutter ( 6559):            ╎                     │   DefaultTextStyle ← AnimatedDefaultTextStyle ←
+I/flutter ( 6559):            ╎                     │   _InkFeature-[GlobalKey ink renderer] ←
+I/flutter ( 6559):            ╎                     │   NotificationListener&lt;LayoutChangedNotification&gt; ← DecoratedBox
+I/flutter ( 6559):            ╎                     │   ← Container ← DecoratedBox ← Container ← ⋯
+I/flutter ( 6559):            ╎                     │ parentData: offset=Offset(156.7, 323.7)
+I/flutter ( 6559):            ╎                     │ constraints: BoxConstraints(0.0&lt;=w&lt;=411.4, 0.0&lt;=h&lt;=683.4)
+I/flutter ( 6559):            ╎                     │ size: Size(98.0, 36.0)
+I/flutter ( 6559):            ╎                     │ additionalConstraints: BoxConstraints(88.0&lt;=w&lt;=Infinity, h=36.0)
+I/flutter ( 6559):            ╎                     │
+I/flutter ( 6559):            ╎                     └─child: RenderSemanticsGestureHandler relayoutBoundary=up2
+I/flutter ( 6559):            ╎                       │ creator: _GestureSemantics ← RawGestureDetector ← GestureDetector
+I/flutter ( 6559):            ╎                       │   ← InkWell ← IconTheme ← DefaultTextStyle ←
+I/flutter ( 6559):            ╎                       │   AnimatedDefaultTextStyle ← ConstrainedBox ← MaterialButton ←
+I/flutter ( 6559):            ╎                       │   TextButton ← Center ← DefaultTextStyle ← ⋯
+I/flutter ( 6559):            ╎                       │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎                       │ constraints: BoxConstraints(88.0&lt;=w&lt;=411.4, h=36.0)
+I/flutter ( 6559):            ╎                       │ size: Size(98.0, 36.0)
+I/flutter ( 6559):            ╎                       │
+I/flutter ( 6559):            ╎                       └─child: RenderPointerListener relayoutBoundary=up3
+I/flutter ( 6559):            ╎                         │ creator: Listener ← _GestureSemantics ← RawGestureDetector ←
+I/flutter ( 6559):            ╎                         │   GestureDetector ← InkWell ← IconTheme ← DefaultTextStyle ←
+I/flutter ( 6559):            ╎                         │   AnimatedDefaultTextStyle ← ConstrainedBox ← MaterialButton ←
+I/flutter ( 6559):            ╎                         │   TextButton ← Center ← ⋯
+I/flutter ( 6559):            ╎                         │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎                         │ constraints: BoxConstraints(88.0&lt;=w&lt;=411.4, h=36.0)
+I/flutter ( 6559):            ╎                         │ size: Size(98.0, 36.0)
+I/flutter ( 6559):            ╎                         │ behavior: opaque
+I/flutter ( 6559):            ╎                         │ listeners: down
+I/flutter ( 6559):            ╎                         │
+I/flutter ( 6559):            ╎                         └─child: RenderPadding relayoutBoundary=up4
+I/flutter ( 6559):            ╎                           │ creator: Padding ← Container ← Listener ← _GestureSemantics ←
+I/flutter ( 6559):            ╎                           │   RawGestureDetector ← GestureDetector ← InkWell ← IconTheme ←
+I/flutter ( 6559):            ╎                           │   DefaultTextStyle ← AnimatedDefaultTextStyle ← ConstrainedBox ←
+I/flutter ( 6559):            ╎                           │   MaterialButton ← ⋯
+I/flutter ( 6559):            ╎                           │ parentData: &lt;none&gt;
+I/flutter ( 6559):            ╎                           │ constraints: BoxConstraints(88.0&lt;=w&lt;=411.4, h=36.0)
+I/flutter ( 6559):            ╎                           │ size: Size(98.0, 36.0)
+I/flutter ( 6559):            ╎                           │ padding: EdgeInsets(16.0, 0.0, 16.0, 0.0)
+I/flutter ( 6559):            ╎                           │
+I/flutter ( 6559):            ╎                           └─child: RenderPositionedBox relayoutBoundary=up5
+I/flutter ( 6559):            ╎                             │ creator: Center ← Padding ← Container ← Listener ←
+I/flutter ( 6559):            ╎                             │   _GestureSemantics ← RawGestureDetector ← GestureDetector ←
+I/flutter ( 6559):            ╎                             │   InkWell ← IconTheme ← DefaultTextStyle ←
+I/flutter ( 6559):            ╎                             │   AnimatedDefaultTextStyle ← ConstrainedBox ← ⋯
+I/flutter ( 6559):            ╎                             │ parentData: offset=Offset(16.0, 0.0)
+I/flutter ( 6559):            ╎                             │ constraints: BoxConstraints(56.0&lt;=w&lt;=379.4, h=36.0)
+I/flutter ( 6559):            ╎                             │ size: Size(66.0, 36.0)
+I/flutter ( 6559):            ╎                             │ alignment: Alignment.center
+I/flutter ( 6559):            ╎                             │ widthFactor: 1.0
+I/flutter ( 6559):            ╎                             │ heightFactor: expand
+I/flutter ( 6559):            ╎                             │
+I/flutter ( 6559):            ╎                             └─child: RenderParagraph relayoutBoundary=up6
+I/flutter ( 6559):            ╎                               │ creator: RichText ← Text ← Center ← Padding ← Container ←
+I/flutter ( 6559):            ╎                               │   Listener ← _GestureSemantics ← RawGestureDetector ←
+I/flutter ( 6559):            ╎                               │   GestureDetector ← InkWell ← IconTheme ← DefaultTextStyle ← ⋯
+I/flutter ( 6559):            ╎                               │ parentData: offset=Offset(0.0, 10.0)
+I/flutter ( 6559):            ╎                               │ constraints: BoxConstraints(0.0&lt;=w&lt;=379.4, 0.0&lt;=h&lt;=36.0)
+I/flutter ( 6559):            ╎                               │ size: Size(66.0, 16.0)
+I/flutter ( 6559):            ╎                               ╘═╦══ text ═══
+I/flutter ( 6559):            ╎                                 ║ TextSpan:
+I/flutter ( 6559):            ╎                                 ║   inherit: false
+I/flutter ( 6559):            ╎                                 ║   color: Color(0xdd000000)
+I/flutter ( 6559):            ╎                                 ║   family: "Roboto"
+I/flutter ( 6559):            ╎                                 ║   size: 14.0
+I/flutter ( 6559):            ╎                                 ║   weight: 500
+I/flutter ( 6559):            ╎                                 ║   baseline: alphabetic
+I/flutter ( 6559):            ╎                                 ║   "Dump App"
+I/flutter ( 6559):            ╎                                 ╚═══════════
+I/flutter ( 6559):            ╎
+I/flutter ( 6559):            └╌no offstage children
+
+</code></pre></div></div>
+
+<p>This is the output of the root <code class="language-plaintext highlighter-rouge">RenderObject</code> object’s
+<code class="language-plaintext highlighter-rouge">toStringDeep()</code> function.</p>
+
+<p>When debugging layout issues, the key fields to look at are the
+<code class="language-plaintext highlighter-rouge">size</code> and <code class="language-plaintext highlighter-rouge">constraints</code> fields. The constraints flow down the tree,
+and the sizes flow back up.</p>
+
+<p>For example, in the previous dump you can see that the window size,
+<code class="language-plaintext highlighter-rouge">Size(411.4, 683.4)</code>, is used to force all the boxes down to the
+<a href="https://api.flutter.dev/flutter/rendering/RenderPositionedBox-class.html"><code class="language-plaintext highlighter-rouge">RenderPositionedBox</code></a> to be the size of the screen, with
+constraints of <code class="language-plaintext highlighter-rouge">BoxConstraints(w=411.4, h=683.4)</code>.
+The <code class="language-plaintext highlighter-rouge">RenderPositionedBox</code>, which the dump says was created by a
+<a href="https://api.flutter.dev/flutter/widgets/Center-class.html"><code class="language-plaintext highlighter-rouge">Center</code></a> widget (as described by the <code class="language-plaintext highlighter-rouge">creator</code> field),
+sets its child’s constraints to a loose version of this:
+<code class="language-plaintext highlighter-rouge">BoxConstraints(0.0&lt;=w&lt;=411.4, 0.0&lt;=h&lt;=683.4)</code>. The child, a
+<a href="https://api.flutter.dev/flutter/rendering/RenderPadding-class.html"><code class="language-plaintext highlighter-rouge">RenderPadding</code></a>, further inserts these constraints to ensure
+there is room for the padding, and thus the <a href="https://api.flutter.dev/flutter/rendering/RenderConstrainedBox-class.html"><code class="language-plaintext highlighter-rouge">RenderConstrainedBox</code></a>
+has a loose constraint of <code class="language-plaintext highlighter-rouge">BoxConstraints(0.0&lt;=w&lt;=395.4,
+0.0&lt;=h&lt;=667.4)</code>. This object, which the <code class="language-plaintext highlighter-rouge">creator</code> field tells us is
+probably part of the <a href="https://api.flutter.dev/flutter/material/TextButton-class.html"><code class="language-plaintext highlighter-rouge">TextButton</code></a>’s definition,
+sets a minimum width of 88 pixels on its contents and a
+specific height of 36.0. (This is the <code class="language-plaintext highlighter-rouge">TextButton</code> class implementing
+the Material Design guidelines regarding button dimensions.)</p>
+
+<p>The inner-most <code class="language-plaintext highlighter-rouge">RenderPositionedBox</code> loosens the constraints again,
+this time to center the text within the button. The
+<a href="https://api.flutter.dev/flutter/rendering/RenderParagraph-class.html"><code class="language-plaintext highlighter-rouge">RenderParagraph</code></a> picks its size based on its contents.
+If you now follow the sizes back up the chain,
+you’ll see how the text’s size is what influences the
+width of all the boxes that form the button, as they all take their
+child’s dimensions to size themselves.</p>
+
+<p>Another way to notice this is by looking at the “relayoutSubtreeRoot”
+part of the descriptions of each box, which essentially tells you how
+many ancestors depend on this element’s size in some way.
+Thus the <code class="language-plaintext highlighter-rouge">RenderParagraph</code> has a <code class="language-plaintext highlighter-rouge">relayoutSubtreeRoot=up8</code>,
+meaning that when the <code class="language-plaintext highlighter-rouge">RenderParagraph</code> is dirtied,
+eight ancestors also have to be dirtied because they might be
+affected by the new dimensions.</p>
+
+<p>If you write your own render objects, you can add information to the
+dump by overriding <a href="https://api.flutter.dev/flutter/rendering/Layer/debugFillProperties.html"><code class="language-plaintext highlighter-rouge">debugFillProperties()</code></a>.
+Add <a href="https://api.flutter.dev/flutter/foundation/DiagnosticsProperty-class.html">DiagnosticsProperty</a>
+objects to the method’s argument, and call the superclass method.</p>
+
+<h3 id="layer-tree">
+<a class="anchor" href="#layer-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Layer tree</h3>
+
+<p>If you are trying to debug a compositing issue, you can use
+<a href="https://api.flutter.dev/flutter/rendering/debugDumpLayerTree.html"><code class="language-plaintext highlighter-rouge">debugDumpLayerTree()</code></a>.
+For the previous example, it would output:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I/flutter : TransformLayer
+I/flutter :  │ creator: [root]
+I/flutter :  │ offset: Offset(0.0, 0.0)
+I/flutter :  │ transform:
+I/flutter :  │   [0] 3.5,0.0,0.0,0.0
+I/flutter :  │   [1] 0.0,3.5,0.0,0.0
+I/flutter :  │   [2] 0.0,0.0,1.0,0.0
+I/flutter :  │   [3] 0.0,0.0,0.0,1.0
+I/flutter :  │
+I/flutter :  ├─child 1: OffsetLayer
+I/flutter :  │ │ creator: RepaintBoundary ← _FocusScope ← Semantics ← Focus-[GlobalObjectKey MaterialPageRoute(560156430)] ← _ModalScope-[GlobalKey 328026813] ← _OverlayEntry-[GlobalKey 388965355] ← Stack ← Overlay-[GlobalKey 625702218] ← Navigator-[GlobalObjectKey _MaterialAppState(859106034)] ← Title ← ⋯
+I/flutter :  │ │ offset: Offset(0.0, 0.0)
+I/flutter :  │ │
+I/flutter :  │ └─child 1: PictureLayer
+I/flutter :  │
+I/flutter :  └─child 2: PictureLayer
+</code></pre></div></div>
+
+<p>This is the output of calling <code class="language-plaintext highlighter-rouge">toStringDeep</code> on the root <code class="language-plaintext highlighter-rouge">Layer</code> object.</p>
+
+<p>The transform at the root is the transform that applies the device
+pixel ratio; in this case, a ratio of 3.5 device pixels for every
+logical pixel.</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">RepaintBoundary</code> widget, which creates a <code class="language-plaintext highlighter-rouge">RenderRepaintBoundary</code>
+in the render tree, creates a new layer in the layer tree. This is
+used to reduce how much needs to be repainted.</p>
+
+<h3 id="semantics-tree">
+<a class="anchor" href="#semantics-tree" aria-hidden="true"><span class="octicon octicon-link"></span></a>Semantics tree</h3>
+
+<p>You can also obtain a dump of the Semantics tree
+(the tree presented to the system accessibility APIs) using
+<a href="https://api.flutter.dev/flutter/rendering/debugDumpSemanticsTree.html"><code class="language-plaintext highlighter-rouge">debugDumpSemanticsTree()</code></a>.  To use this,
+you have to have first enable accessibility, for example, by
+enabling a system accessibility tool or the <code class="language-plaintext highlighter-rouge">SemanticsDebugger</code>.</p>
+
+<p>For the previous example, it would output the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I/flutter : SemanticsNode(0; Rect.fromLTRB(0.0, 0.0, 411.4, 683.4))
+I/flutter :  ├SemanticsNode(1; Rect.fromLTRB(0.0, 0.0, 411.4, 683.4))
+I/flutter :  │ └SemanticsNode(2; Rect.fromLTRB(0.0, 0.0, 411.4, 683.4); canBeTapped)
+I/flutter :  └SemanticsNode(3; Rect.fromLTRB(0.0, 0.0, 411.4, 683.4))
+I/flutter :    └SemanticsNode(4; Rect.fromLTRB(0.0, 0.0, 82.0, 36.0); canBeTapped; "Dump App")
+</code></pre></div></div>
+
+<!-- this tree is bad, see https://github.com/flutter/flutter/issues/2476 -->
+
+<h3 id="scheduling">
+<a class="anchor" href="#scheduling" aria-hidden="true"><span class="octicon octicon-link"></span></a>Scheduling</h3>
+
+<p>To find out where your events happen relative to the frame’s
+begin/end, you can toggle the <a href="https://api.flutter.dev/flutter/scheduler/debugPrintBeginFrameBanner.html"><code class="language-plaintext highlighter-rouge">debugPrintBeginFrameBanner</code></a>
+and the <a href="https://api.flutter.dev/flutter/scheduler/debugPrintEndFrameBanner.html"><code class="language-plaintext highlighter-rouge">debugPrintEndFrameBanner</code></a> booleans to print the
+beginning and end of the frames to the console.</p>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>I/flutter : ▄▄▄▄▄▄▄▄ Frame 12         30s 437.086ms ▄▄▄▄▄▄▄▄
+I/flutter : Debug print: Am I performing this work more than once per frame?
+I/flutter : Debug print: Am I performing this work more than once per frame?
+I/flutter : ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+</code></pre></div></div>
+
+<p>The <a href="https://api.flutter.dev/flutter/scheduler/debugPrintScheduleFrameStacks.html"><code class="language-plaintext highlighter-rouge">debugPrintScheduleFrameStacks</code></a> flag can also be used
+to print the call stack causing the current frame to be scheduled.</p>
+
+<h2 id="debug-flags-layout">
+<a class="anchor" href="#debug-flags-layout" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debug flags: layout</h2>
+
+<p>You can also debug a layout problem visually, by setting
+<a href="https://api.flutter.dev/flutter/rendering/debugPaintSizeEnabled.html"><code class="language-plaintext highlighter-rouge">debugPaintSizeEnabled</code></a> to <code class="language-plaintext highlighter-rouge">true</code>.
+This is a boolean from the <code class="language-plaintext highlighter-rouge">rendering</code> library. It can be
+enabled at any time and affects all painting while it is true.
+The easiest way to set it is at the top of your <code class="language-plaintext highlighter-rouge">void main()</code>
+entry point. See an example in the following code:</p>
+
+<!-- skip -->
+<div class="language-dart highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//add import to rendering library</span>
+<span class="kn">import</span> <span class="s">'package:flutter/rendering.dart'</span><span class="o">;</span>
+
+<span class="kt">void</span> <span class="nf">main</span><span class="p">(</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">debugPaintSizeEnabled</span><span class="o">=</span><span class="kc">true</span><span class="o">;</span>
+  <span class="n">runApp</span><span class="o">(</span><span class="n">MyApp</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>When it is enabled, all boxes get a bright teal border,
+padding (from widgets like <code class="language-plaintext highlighter-rouge">Padding</code>) is shown in faded
+blue with a darker blue box around the child, alignment
+(from widgets like <code class="language-plaintext highlighter-rouge">Center</code> and <code class="language-plaintext highlighter-rouge">Align</code>) is shown with
+yellow arrows, and spacers (from widgets like
+<code class="language-plaintext highlighter-rouge">Container</code> when they have no child) are shown in gray.</p>
+
+<p>The <a href="https://api.flutter.dev/flutter/rendering/debugPaintBaselinesEnabled.html"><code class="language-plaintext highlighter-rouge">debugPaintBaselinesEnabled</code></a> flag
+does something similar but for objects with baselines.
+The alphabetic baseline is shown in bright green and the
+ideographic baseline in orange.</p>
+
+<p>The <a href="https://api.flutter.dev/flutter/rendering/debugPaintPointersEnabled.html"><code class="language-plaintext highlighter-rouge">debugPaintPointersEnabled</code></a> flag turns on a
+special mode whereby any objects that are being tapped
+get highlighted in teal. This can help you determine
+whether an object is somehow failing to correctly hit
+test (which might happen if, for instance, it is actually
+outside the bounds of its parent and thus not
+being considered for hit testing in the first place).</p>
+
+<p>If you’re trying to debug compositor layers, for example
+to determine whether and where to add <code class="language-plaintext highlighter-rouge">RepaintBoundary</code>
+widgets, you can use the <a href="https://api.flutter.dev/flutter/rendering/debugPaintLayerBordersEnabled.html"><code class="language-plaintext highlighter-rouge">debugPaintLayerBordersEnabled</code></a>
+flag, which outlines each layer’s bounds in orange,
+or the <a href="https://api.flutter.dev/flutter/rendering/debugRepaintRainbowEnabled.html"><code class="language-plaintext highlighter-rouge">debugRepaintRainbowEnabled</code></a> flag,
+which causes layers to be overlayed with a rotating set of
+colors whenever they are repainted.</p>
+
+<p>All of these flags only work in <a href="/docs/testing/build-modes#debug">debug mode</a>.
+In general, anything in the Flutter framework that starts with
+“<code class="language-plaintext highlighter-rouge">debug...</code>” only works in debug mode.</p>
+
+<h2 id="debugging-animations">
+<a class="anchor" href="#debugging-animations" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debugging animations</h2>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  The easiest way to debug animations is to slow them down.
+  You can do this using the <strong>Slow Animations</strong> button in
+  DevTools’ <a href="/docs/development/tools/devtools/inspector">Inspector view</a>, which slows down the
+  animation by 5x. If you want more control over the
+  amount of slowness, use the following instructions.</p>
+</aside>
+
+<p>Set the <a href="https://api.flutter.dev/flutter/scheduler/timeDilation.html"><code class="language-plaintext highlighter-rouge">timeDilation</code></a> variable (from the <code class="language-plaintext highlighter-rouge">scheduler</code>
+library) to a number greater than 1.0, for instance, 50.0.
+It’s best to only set this once on app startup. If you
+change it on the fly, especially if you reduce it while
+animations are running, it’s possible that the framework
+will observe time going backwards, which will probably
+result in asserts and generally interfere with your efforts.</p>
+
+<h2 id="debug-flags-performance">
+<a class="anchor" href="#debug-flags-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Debug flags: performance</h2>
+
+<aside class="alert alert-info" role="alert">
+  <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  You can achieve similar results to some of these debug
+  flags using <a href="/docs/development/tools/devtools">DevTools</a>. Some of the debug flags aren’t
+  particularly useful. If you find a flag that has
+  functionality you would like to see added to <a href="/docs/development/tools/devtools">DevTools</a>,
+  please <a href="https://github.com/flutter/devtools/issues">file an issue</a>.</p>
+</aside>
+
+<p>Flutter provides a wide variety of debug flags and functions
+to help you debug your app at various points along the
+development cycle. To use these features, you must compile
+in debug mode.  The following list, while not complete,
+highlights some of flags (and one function) from the
+<a href="https://api.flutter.dev/flutter/rendering/rendering-library.html">rendering library</a> for debugging performance issues.</p>
+
+<p>You can set these flags either by editing the framework code,
+or by importing the module and setting the value in your
+<code class="language-plaintext highlighter-rouge">main()</code> method, following by a hot restart.</p>
+
+<dl>
+  <dt><a href="https://api.flutter.dev/flutter/rendering/debugDumpRenderTree.html"><code class="language-plaintext highlighter-rouge">debugDumpRenderTree()</code></a></dt>
+  <dd>
+    <p>Call this function when not in a layout or repaint
+  phase to dump the rendering tree to the console.
+  (Pressing <strong>t</strong> from <code class="language-plaintext highlighter-rouge">flutter run</code> calls this command.)
+  Search for “RepaintBoundary” to see diagnostics
+  on how useful a boundary is.</p>
+
+    </dd>
+<dt><a href="https://api.flutter.dev/flutter/rendering/debugPaintLayerBordersEnabled.html"><code class="language-plaintext highlighter-rouge">debugPaintLayerBordersEnabled</code></a></dt>
+    <dd>
+      <p>PENDING</p>
+      </dd>
+<dt><a href="https://api.flutter.dev/flutter/rendering/debugRepaintRainbowEnabled.html"><code class="language-plaintext highlighter-rouge">debugRepaintRainbowEnabled</code></a></dt>
+      <dd>
+        <p>You can enable this flag in the Flutter
+    inspector by selecting the <strong>Repaint Rainbow</strong> button.
+    If any static widgets are rotating through the colors of the rainbow
+    (for example, a static header), those areas are candidates for adding
+    repaint boundaries.</p>
+        </dd>
+<dt><a href="https://api.flutter.dev/flutter/rendering/debugPrintMarkNeedsLayoutStacks.html"><code class="language-plaintext highlighter-rouge">debugPrintMarkNeedsLayoutStacks</code></a></dt>
+        <dd>
+          <p>Enable this flag if you’re seeing more layouts
+    than you expect (for example, on the timeline, on a profile,
+    or from a <code class="language-plaintext highlighter-rouge">print</code> statement inside a layout method).
+    Once enabled, the console is flooded with stack traces
+    showing why each render object is being marked dirty for
+    layout. You can use the <code class="language-plaintext highlighter-rouge">debugPrintStack()</code> method from the
+    <code class="language-plaintext highlighter-rouge">services</code> library to print your own stack traces on demand,
+    if this kind of approach is useful to you.</p>
+          </dd>
+<dt><a href="https://api.flutter.dev/flutter/rendering/debugPrintMarkNeedsPaintStacks.html"><code class="language-plaintext highlighter-rouge">debugPrintMarkNeedsPaintStacks</code></a></dt>
+          <dd>
+            <p>Similar to <code class="language-plaintext highlighter-rouge">debugPrintMarkNeedsLayoutStacks</code>,
+    but for excess painting. You can use the <code class="language-plaintext highlighter-rouge">debugPrintStack()</code>
+    method from the <code class="language-plaintext highlighter-rouge">services</code> library to print your own stack
+    traces on demand, if this kind of approach is useful to you.</p>
+
+            <h3 id="tracing-dart-code-performance">
+<a class="anchor" href="#tracing-dart-code-performance" aria-hidden="true"><span class="octicon octicon-link"></span></a>Tracing Dart code performance</h3>
+
+            <aside class="alert alert-info" role="alert">
+              <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  You can use the DevTools <a href="/docs/development/tools/devtools/timeline">Timeline view</a> to perform traces.
+  You can also import and export trace files into the Timeline view,
+  but only files generated by DevTools.</p>
+            </aside>
+
+            <p>To perform custom performance traces programmatically and
+measure wall/CPU time of arbitrary segments of Dart code
+similar to what would be done on Android with <a href="https://developer.android.com/studio/profile/systrace">systrace</a>,
+use <code class="language-plaintext highlighter-rouge">dart:developer</code> <a href="https://api.dart.dev/stable/dart-developer/Timeline-class.html">Timeline</a> utilities to wrap the
+code you want to measure such as:</p>
+
+            <!-- skip -->
+            <div class="language-dart highlighter-rouge">
+<div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="s">'dart:developer'</span><span class="o">;</span>
+
+<span class="n">Timeline</span><span class="o">.</span><span class="na">startSync</span><span class="o">(</span><span class="s">'interesting function'</span><span class="o">);</span>
+<span class="c1">// iWonderHowLongThisTakes();</span>
+<span class="n">Timeline</span><span class="o">.</span><span class="na">finishSync</span><span class="o">();</span>
+</code></pre></div>            </div>
+
+            <p>Then open your app’s Observatory’s timeline page, check the ‘Dart’
+recording option and perform the function you want to measure.</p>
+
+            <p>Refreshing the page displays the chronological timeline records
+of your app in Chrome’s <a href="https://www.chromium.org/developers/how-tos/trace-event-profiling-tool">tracing tool</a>.</p>
+
+            <p>Be sure to run your app in <a href="/docs/testing/build-modes#profile">profile mode</a> to ensure that the
+runtime performance characteristics closely match that of your
+final product.</p>
+
+            <h2 id="performance-overlay">
+<a class="anchor" href="#performance-overlay" aria-hidden="true"><span class="octicon octicon-link"></span></a>Performance overlay</h2>
+
+            <aside class="alert alert-info" role="alert">
+              <p><i class="fas fa-info-circle"></i> <strong>Note:</strong>
+  You can toggle display of the performance overlay on
+  your app using the <strong>Performance Overlay</strong> button in the
+  <a href="/docs/development/tools/devtools/inspector">Flutter inspector</a>. If you prefer to do it in code,
+  use the following instructions.</p>
+            </aside>
+
+            <p>You can programmatically enable the PerformanceOverlay widget by
+setting the <code class="language-plaintext highlighter-rouge">showPerformanceOverlay</code> property to <code class="language-plaintext highlighter-rouge">true</code> on the
+<a href="https://api.flutter.dev/flutter/material/MaterialApp/MaterialApp.html"><code class="language-plaintext highlighter-rouge">MaterialApp</code></a>, <a href="https://api.flutter.dev/flutter/cupertino/CupertinoApp-class.html"><code class="language-plaintext highlighter-rouge">CupertinoApp</code></a>, or <a href="https://api.flutter.dev/flutter/widgets/WidgetsApp-class.html"><code class="language-plaintext highlighter-rouge">WidgetsApp</code></a>
+constructor:</p>
+
+            <!-- skip -->
+            <pre class="prettyprint lang-dart">class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      <span class="highlight">showPerformanceOverlay: true,</span>
+      title: 'My Awesome App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(title: 'My Awesome App'),
+    );
+  }
+}</pre>
+
+            <p>(If you’re not using <code class="language-plaintext highlighter-rouge">MaterialApp</code>, <code class="language-plaintext highlighter-rouge">CupertinoApp</code>,
+or <code class="language-plaintext highlighter-rouge">WidgetsApp</code>, you can get the same effect by wrapping your
+application in a stack and putting a widget on your stack that was
+created by calling <a href="https://api.flutter.dev/flutter/widgets/PerformanceOverlay/PerformanceOverlay.allEnabled.html"><code class="language-plaintext highlighter-rouge">PerformanceOverlay.allEnabled()</code></a>.)</p>
+
+            <p>For information on how to interpret the graphs in the overlay,
+see <a href="/docs/perf/rendering/ui-performance#the-performance-overlay">The performance overlay</a> in
+<a href="/docs/perf/rendering/ui-performance">Profiling Flutter performance</a>.</p>
+
+            <h2 id="widget-alignment-grid">
+<a class="anchor" href="#widget-alignment-grid" aria-hidden="true"><span class="octicon octicon-link"></span></a>Widget alignment grid</h2>
+
+            <p>You can programmatically overlay a
+<a href="https://material.io/design/layout/spacing-methods.html#baseline">Material Design baseline grid</a> on top of your app to
+help verify alignments by using the
+<code class="language-plaintext highlighter-rouge">debugShowMaterialGrid</code> argument in the
+<a href="https://api.flutter.dev/flutter/material/MaterialApp/MaterialApp.html"><code class="language-plaintext highlighter-rouge">MaterialApp</code> constructor</a>.</p>
+
+            <p>In non-Material applications, you can achieve a similar
+effect by using a <a href="https://api.flutter.dev/flutter/widgets/GridPaper-class.html"><code class="language-plaintext highlighter-rouge">GridPaper</code></a> widget directly.</p>
+
+          </dd>
+        
+      
+    
+  
+</dl>
+
+        
+      </div>
+    </main>
+  </div>
+</div>
+
+
+    <footer class="site-footer">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12 site-footer__wrapper">
+        <div class="site-footer__logo">
+          <img src="/images/flutter-mono-81x100.png" alt="Flutter Logo" width="81" height="100">
+        </div>
+        <div class="site-footer__content">
+          <ul class="site-footer__link-list">
+              <li><a href="https://groups.google.com/forum/#!forum/flutter-dev">flutter-dev@</a></li>
+              <li><a href="/tos">terms</a></li>
+              <li><a href="/brand">brand usage</a></li>
+              <li><a href="/security">security</a></li>
+              <li><a href="https://www.google.com/intl/en/policies/privacy">privacy</a></li>
+              <li><a href="https://esflutter.dev/">español</a></li>
+              <li><a href="https://flutter.cn" class="text-nowrap">社区中文资源</a></li> 
+              <li><a href="https://flutter-ko.dev/" class="text-nowrap">한국어</a></li>
+              <li><a href="https://blog.google/inside-google/company-announcements/standing-with-black-community">We stand in solidarity with the Black community. Black Lives Matter.</a></li>
+          </ul>
+
+          <p class="licenses">
+            Except as otherwise noted,
+            this work is licensed under a
+            <a rel="license" href="https://creativecommons.org/licenses/by/4.0">Creative
+            Commons Attribution 4.0 International License</a>,
+            and code samples are licensed under the BSD License.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+    
+    <script async="" defer="" src="//survey.g.doubleclick.net/async_survey?site=at3ul57xpub2vk3oxt2ytw365i"></script>
+  </body>
+</html>
